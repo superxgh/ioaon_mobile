@@ -1,6 +1,6 @@
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/models/language/Language.dart';
-import 'package:boilerplate/stores/error/error_store.dart';
+import 'package:ioaon_mobile/data/repository.dart';
+import 'package:ioaon_mobile/models/language/Language.dart';
+import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'language_store.g.dart';
@@ -18,9 +18,8 @@ abstract class _LanguageStore with Store {
 
   // supported languages
   List<Language> supportedLanguages = [
+    Language(code: 'TH', locale: 'th', language: 'Thai'),
     Language(code: 'US', locale: 'en', language: 'English'),
-    Language(code: 'DK', locale: 'da', language: 'Danish'),
-    Language(code: 'ES', locale: 'es', language: 'España'),
   ];
 
   // constructor:---------------------------------------------------------------
@@ -31,7 +30,7 @@ abstract class _LanguageStore with Store {
 
   // store variables:-----------------------------------------------------------
   @observable
-  String _locale = "en";
+  String _locale = "th";
 
   @computed
   String get locale => _locale;
@@ -49,12 +48,10 @@ abstract class _LanguageStore with Store {
   String getCode() {
     var code;
 
-    if (_locale == 'en') {
+    if (_locale == 'th') {
+      code = "TH";
+    }else if (_locale == 'en') {
       code = "US";
-    } else if (_locale == 'da') {
-      code = "DK";
-    } else if (_locale == 'es') {
-      code = "ES";
     }
 
     return code;

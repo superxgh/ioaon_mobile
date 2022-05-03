@@ -1,4 +1,4 @@
-import 'package:boilerplate/models/post/post.dart';
+import 'package:ioaon_mobile/models/post/post.dart';
 
 class PostList {
   final List<Post>? posts;

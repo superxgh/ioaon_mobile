@@ -1,6 +1,7 @@
-import 'package:boilerplate/ui/home/home.dart';
-import 'package:boilerplate/ui/login/login.dart';
-import 'package:boilerplate/ui/splash/splash.dart';
+import 'package:ioaon_mobile/ui/menu/accounting.dart';
+import 'package:ioaon_mobile/ui/menu/main.dart';
+import 'package:ioaon_mobile/ui/login/login.dart';
+import 'package:ioaon_mobile/ui/splash/splash.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
@@ -9,12 +10,14 @@ class Routes {
   //static variables
   static const String splash = '/splash';
   static const String login = '/login';
-  static const String home = '/home';
+  static const String mainMenu = '/mainMenu';
+  static const String accountingMenu = '/accountingMenu';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
-    home: (BuildContext context) => HomeScreen(),
+    mainMenu: (BuildContext context) => MainMenuScreen(),
+    accountingMenu: (BuildContext context) => AccountingMenuScreen(),
   };
 }
 

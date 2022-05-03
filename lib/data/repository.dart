@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
-import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
-import 'package:boilerplate/models/post/post.dart';
-import 'package:boilerplate/models/post/post_list.dart';
+import 'package:ioaon_mobile/data/local/datasources/post/post_datasource.dart';
+import 'package:ioaon_mobile/data/sharedpref/shared_preference_helper.dart';
+import 'package:ioaon_mobile/models/post/post.dart';
+import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
 import 'local/constants/db_constants.dart';

@@ -1,15 +1,15 @@
-import 'package:boilerplate/constants/app_theme.dart';
-import 'package:boilerplate/constants/strings.dart';
-import 'package:boilerplate/data/repository.dart';
-import 'package:boilerplate/di/components/service_locator.dart';
-import 'package:boilerplate/stores/language/language_store.dart';
-import 'package:boilerplate/stores/post/post_store.dart';
-import 'package:boilerplate/stores/theme/theme_store.dart';
-import 'package:boilerplate/stores/user/user_store.dart';
-import 'package:boilerplate/ui/home/home.dart';
-import 'package:boilerplate/ui/login/login.dart';
-import 'package:boilerplate/utils/locale/app_localization.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
+import 'package:ioaon_mobile/constants/app_theme.dart';
+import 'package:ioaon_mobile/constants/strings.dart';
+import 'package:ioaon_mobile/data/repository.dart';
+import 'package:ioaon_mobile/di/components/service_locator.dart';
+import 'package:ioaon_mobile/stores/language/language_store.dart';
+import 'package:ioaon_mobile/stores/post/post_store.dart';
+import 'package:ioaon_mobile/stores/theme/theme_store.dart';
+import 'package:ioaon_mobile/stores/user/user_store.dart';
+import 'package:ioaon_mobile/ui/menu/main.dart';
+import 'package:ioaon_mobile/ui/login/login.dart';
+import 'package:ioaon_mobile/utils/locale/app_localization.dart';
+import 'package:ioaon_mobile/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -35,6 +35,8 @@ class MyApp extends StatelessWidget {
       child: Observer(
         name: 'global-observer',
         builder: (context) {
+
+
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: _userStore.isLoggedIn ? HomeScreen() : LoginScreen(),
+            home: _userStore.isLoggedIn ? MainMenuScreen() : LoginScreen(),
           );
         },
       ),

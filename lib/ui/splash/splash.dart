@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:boilerplate/constants/assets.dart';
-import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
-import 'package:boilerplate/utils/routes/routes.dart';
-import 'package:boilerplate/widgets/app_icon_widget.dart';
+import 'package:ioaon_mobile/constants/assets.dart';
+import 'package:ioaon_mobile/data/sharedpref/constants/preferences.dart';
+import 'package:ioaon_mobile/utils/routes/routes.dart';
+import 'package:ioaon_mobile/widgets/app_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     if (preferences.getBool(Preferences.is_logged_in) ?? false) {
-      Navigator.of(context).pushReplacementNamed(Routes.home);
+      Navigator.of(context).pushReplacementNamed(Routes.mainMenu);
     } else {
       Navigator.of(context).pushReplacementNamed(Routes.login);
     }

@@ -225,7 +225,7 @@ This file contains all the routes for your application.
 ```dart
 import 'package:flutter/material.dart';
 
-import 'ui/home/home.dart';
+import 'ui/menu/menu.dart';
 import 'ui/login/login.dart';
 import 'ui/splash/splash.dart';
 
@@ -235,7 +235,7 @@ class Routes {
   //static variables
   static const String splash = '/splash';
   static const String login = '/login';
-  static const String home = '/home';
+  static const String home = '/menu';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -250,7 +250,7 @@ class Routes {
 This is the starting point of the application. All the application level configurations are defined in this file i.e, theme, routes, title, orientation etc.
 
 ```dart
-import 'package:boilerplate/routes.dart';
+import 'package:ioaon_mobile/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
