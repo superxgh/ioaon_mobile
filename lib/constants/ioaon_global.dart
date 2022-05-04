@@ -21,9 +21,15 @@ List<Map<String, dynamic>> mainMenu = [
 
 
 List<Map<String, dynamic>> accountingMenu = [
-  {"id": 1, "name": "Personal", "route": Routes.mainMenu },
+  {"id": 1, "name": "Personal", "route": Routes.accountingPersonal },
   {"id": 2, "name": "Family", "route": Routes.mainMenu },
   {"id": 3, "name": "Business", "route": Routes.mainMenu },
   {"id": 4, "name": "Report", "route": Routes.mainMenu },
   {"id": 5, "name": "RD Report", "route": Routes.mainMenu }
+];
+
+
+List<Map<String, dynamic>> accountingType = [
+  {"id": 1, "name": "Income"},
+  {"id": 2, "name": "Expenses"}
 ];

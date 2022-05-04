@@ -1,4 +1,10 @@
 {
+  "common_start": "Below are list of strings for common",
+  "common_save": "บันทึก",
+  "common_error": "ข้อผิดพลาด",
+  "common_please_fill_in_all_fields": "กรุณากรอกข้อมูลให้ครบ",
+  "common_end": "------------------------------------------------------------------------------------",
+
   "login_start": "Below are list of strings for login",
   "login_et_user_email": "Enter user email",
   "login_et_user_password": "Enter password",
@@ -14,8 +20,23 @@
   "main_menu_label": "เมนูหลัก",
   "main_menu_end": "-------------------------------------------------------------------------------------",
 
-  "accounting_menu_start": "Below are list of strings for main menu",
+  "accounting_menu_start": "Below are list of strings for accounting menu",
   "accounting_menu_label": "บัญชี",
-  "accounting_menu_end": "-------------------------------------------------------------------------------------"
+  "accounting_menu_end": "-------------------------------------------------------------------------------------",
+
+  "accounting_personal_start": "Below are list of strings for accounting personal",
+  "accounting_personal_label": "บัญชีรับจ่าย(ส่วนตัว)",
+  "accounting_personal_acc_type": "ประเภทบัญชี",
+  "accounting_personal_acc_amount": "จำนวนเงิน (บาท)",
+  "accounting_personal_end": "-------------------------------------------------------------------------------------",
+
+  "signup_start": "Below are list of strings for accounting personal",
+  "signup_header": "สมัครสมาชิก",
+  "signup_full_name": "ชื่อ",
+  "signup_mobile_number": "เบอร์โทร",
+  "signup_email": "อีเมล์",
+  "signup_password": "รหัสผ่าน",
+  "signup_confirm_password": "ยืนยันรหัสผ่าน",
+  "signup_end": "-------------------------------------------------------------------------------------"
 
 }

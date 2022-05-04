@@ -1,14 +1,13 @@
+import 'package:ioaon_mobile/stores/accounting/accounting_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
-
 import '../../data/repository.dart';
-import '../form/form_store.dart';
 
-part 'user_store.g.dart';
+part 'accounting_store.g.dart';
 
-class UserStore = _UserStore with _$UserStore;
+class AccountingStore = _AccountingStore with _$AccountingStore;
 
-abstract class _UserStore with Store {
+abstract class _AccountingStore with Store {
   // repository instance
   final Repository _repository;
 
@@ -18,19 +17,12 @@ abstract class _UserStore with Store {
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
 
-  // bool to check if current user is logged in
-  bool isLoggedIn = false;
-
   // constructor:---------------------------------------------------------------
-  _UserStore(Repository repository) : this._repository = repository {
+  _AccountingStore(Repository repository) : this._repository = repository {
 
     // setting up disposers
     _setupDisposers();
 
-    // checking if user is logged in
-    repository.isLoggedIn.then((value) {
-      this.isLoggedIn = value;
-    });
   }
 
   // disposers:-----------------------------------------------------------------
@@ -55,31 +47,13 @@ abstract class _UserStore with Store {
   @computed
   bool get isLoading => loginFuture.status == FutureStatus.pending;
 
+  @observable
+  String userEmail = '';
+
   // actions:-------------------------------------------------------------------
   @action
-  Future login(String email, String password) async {
-
-    final future = _repository.login(email, password);
-    loginFuture = ObservableFuture(future);
-    await future.then((value) async {
-      if (value) {
-        _repository.saveIsLoggedIn(true);
-        this.isLoggedIn = true;
-        this.success = true;
-      } else {
-        print('failed to login');
-      }
-    }).catchError((e) {
-      print(e);
-      this.isLoggedIn = false;
-      this.success = false;
-      throw e;
-    });
-  }
-
-  logout() {
-    this.isLoggedIn = false;
-    _repository.saveIsLoggedIn(false);
+  void setUserId(String value) {
+    userEmail = value;
   }
 
   // general methods:-----------------------------------------------------------
@@ -88,4 +62,5 @@ abstract class _UserStore with Store {
       d();
     }
   }
+
 }

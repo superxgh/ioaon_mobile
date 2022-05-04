@@ -2,6 +2,7 @@ import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:ioaon_mobile/stores/language/language_store.dart';
 import 'package:ioaon_mobile/stores/post/post_store.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
+import 'package:ioaon_mobile/ui/layout/app_layout.dart';
 import 'package:ioaon_mobile/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -43,34 +44,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
+    return AppLayout(
+        title: AppLocalizations.of(context).translate('main_menu_label'),
+        storeList: [_postStore],
+        body: _buildBody()
     );
   }
 
-  // app bar methods:-----------------------------------------------------------
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text(AppLocalizations.of(context).translate('main_menu_label')),
-      actions: [ThemeButtonWidget(), LogoutButtonWidget(), LanguageButtonWidget()],
-    );
-  }
-
-
-  // body methods:--------------------------------------------------------------
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        ErrorMessageViewer(store: _postStore),
-        _buildMainMenu(),
-      ],
-    );
-  }
-
-  Widget _buildMainMenu() {
-    return Observer(
-      builder: (context) {
         return GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -79,12 +60,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             ...mainMenu.map((e) => MenuButton(
               text: e['name'],
               onPressed: () {
-                gotoRoute(context, Routes.accountingMenu);
-                },)).toList()
+                gotoRoute(context, e['route']);
+                })).toList()
           ],
         );
-      },
-    );
   }
 
 }

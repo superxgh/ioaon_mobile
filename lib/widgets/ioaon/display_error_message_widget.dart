@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,6 +13,7 @@ class DisplayErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('message = $message');
     if (message.isNotEmpty) {
       Future.delayed(Duration(milliseconds: 0), () {
         if (message.isNotEmpty) {

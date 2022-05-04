@@ -18,12 +18,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ioaon_mobile/widgets/ioaon/display_error_message_widget.dart';
 import 'package:ioaon_mobile/widgets/ioaon/text_link_widget.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   //text controllers:-----------------------------------------------------------
   TextEditingController _userEmailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -156,7 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return TextLinkWidget(
         text: AppLocalizations.of(context).translate('login_btn_signup'),
         alignment: FractionalOffset.center,
-        onPressed: () {}
+        onPressed: () {
+          gotoRoute(context, Routes.signUp);
+        }
     );
   }
 

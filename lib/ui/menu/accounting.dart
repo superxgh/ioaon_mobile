@@ -15,6 +15,7 @@ import '../../widgets/ioaon/button/logout_button.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
 import '../../widgets/ioaon/button/theme_button.dart';
 import '../../widgets/ioaon/error_tool.dart';
+import '../layout/app_layout.dart';
 
 class AccountingMenuScreen extends StatefulWidget {
   const AccountingMenuScreen({Key? key}) : super(key: key);
@@ -47,48 +48,26 @@ class _AccountingMenuScreenState extends State<AccountingMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
+    return AppLayout(
+        route: Routes.mainMenu,
+        title: AppLocalizations.of(context).translate('accounting_menu_label'),
+        storeList: [_postStore],
+        body: _buildBody()
     );
   }
 
-  // app bar methods:-----------------------------------------------------------
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => gotoRoute(context, Routes.mainMenu),
-      ),
-      title: Text(AppLocalizations.of(context).translate('accounting_menu_label')),
-      actions: [ThemeButtonWidget(), LogoutButtonWidget(), LanguageButtonWidget()],
-    );
-  }
-
-
-  // body methods:--------------------------------------------------------------
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        ErrorMessageViewer(store: _postStore),
-        _buildMainMenu(),
-      ],
-    );
-  }
-
-  Widget _buildMainMenu() {
-    return Observer(
-      builder: (context) {
         return GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
           ),
           children: [
-            ...accountingMenu.map((e) => MenuButton(text: e['name'], onPressed: () {  },)).toList()
+            ...accountingMenu.map((e) => MenuButton(
+                text: e['name'], onPressed: () {
+              gotoRoute(context, e['route']);
+            })).toList()
           ],
         );
-      },
-    );
   }
 
 }
