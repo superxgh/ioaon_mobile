@@ -7,6 +7,8 @@ class Global {
   static const String appName = "Ioaon Financial Project";
 }
 
+enum AccountIEGroup { Income, Expense }
+
 List<Map<String, dynamic>> mainMenu = [
   {"id": 1, "code": "home_account_label", "name": "Account", "route": Routes.accountMenu },
   {"id": 2, "code": "home_loan_label", "name": "Loan", "route": Routes.mainMenu },

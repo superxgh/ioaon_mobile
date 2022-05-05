@@ -4,6 +4,8 @@
   "common_error": "ข้อผิดพลาด",
   "common_google": "กูเกิ้ล",
   "common_facebook": "เฟสบุ๊ค",
+  "common_income": "รายรับ",
+  "common_expense": "รายจ่าย",
   "common_end": "------------------------------------------------------------------------------------",
 
   "signin_start": "Below are list of strings for signin",

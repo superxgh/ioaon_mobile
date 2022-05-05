@@ -64,8 +64,6 @@ dependencies:
 
   google_fonts: ^2.3.2
 
-  dropdown_plus: ^0.0.9
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

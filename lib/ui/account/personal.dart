@@ -9,6 +9,7 @@ import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
 import '../../widgets/ioaon/card_widget.dart';
 import '../../widgets/ioaon/dropdown_widget.dart';
+import '../../widgets/ioaon/radio_account_ie_group_widget.dart';
 import '../../widgets/ioaon/text_input_widget.dart';
 import '../layout/app_layout.dart';
 
@@ -45,6 +46,9 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    log('AccountPersonalScreen build');
+
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_personal_label'),
@@ -67,10 +71,20 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     return CardWidget(
       child: Column(
         children: [
+          _buildAccountGroup(),
           _buildAccountType(),
           _buildAccountAmount()
         ],
       ),
+    );
+  }
+
+  Widget _buildAccountGroup() {
+    return RadioAccountIEGroupWidget(
+      initValue: AccountIEGroup.Income,
+      onChange: (String value) {
+        log('value = $value', name: '_buildAccountGroup');
+      },
     );
   }
 
@@ -79,8 +93,11 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
       label: 'Access',
       list: accountType,
       onChanged: (dynamic data) {
-        log('data = $data', name: '_buildAccountType');
+        log('onChanged data = $data', name: '_buildAccountType');
         _formStore.setAccountType(data['name']);
+      },
+      onEmptyActionPressed: (str) async {
+        log('onEmptyActionPressed Create new _buildAccountType str = $str');
       },
     );
   }
@@ -110,4 +127,5 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
       child: Text('Account List'),
     );
   }
+
 }
