@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../locale/app_localization.dart';
 
 Widget displayErrorMessage(BuildContext context, String message) {
+  log('message = $message', name: 'displayErrorMessage');
   if (message.isNotEmpty) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (message.isNotEmpty) {

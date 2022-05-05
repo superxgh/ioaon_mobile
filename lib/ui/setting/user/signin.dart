@@ -18,8 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ioaon_mobile/widgets/ioaon/display_error_message_widget.dart';
 import 'package:ioaon_mobile/widgets/ioaon/text_link_widget.dart';
 
-import '../../constants/ioaon_global.dart';
-import '../../widgets/ioaon/ioaon_logo.dart';
+import '../../../constants/ioaon_global.dart';
+import '../../../widgets/ioaon/ioaon_logo.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

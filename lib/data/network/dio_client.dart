@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 class DioClient {
@@ -50,7 +52,13 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      // log('post response data = ${response.data}', name: 'dioClient');
+      // log('post response headers = ${response.headers}', name: 'dioClient');
+      // log('post response requestOptions = ${response.requestOptions}', name: 'dioClient');
+      // log('post response statusCode = ${response.statusCode}', name: 'dioClient');
+      return {
+        "code": response.statusCode,
+        "data": response.data };
     } catch (e) {
       throw e;
     }

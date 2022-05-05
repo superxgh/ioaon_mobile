@@ -1,27 +1,23 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:ioaon_mobile/widgets/ioaon/ioaon_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../data/sharedpref/constants/preferences.dart';
-import '../../stores/theme/theme_store.dart';
-import '../../stores/user/signup_form.dart';
-import '../../utils/device/device_utils.dart';
-import '../../utils/errors/error_tools.dart';
-import '../../utils/locale/app_localization.dart';
-import '../../utils/navigator/navigator_tools.dart';
-import '../../utils/routes/routes.dart';
-import '../../widgets/app_icon_widget.dart';
-import '../../widgets/empty_app_bar_widget.dart';
-import '../../widgets/ioaon/button/button_ok_widget.dart';
-import '../../widgets/ioaon/display_error_message_widget.dart';
-import '../../widgets/ioaon/text_input_widget.dart';
-import '../../widgets/progress_indicator_widget.dart';
+import '../../../data/sharedpref/constants/preferences.dart';
+import '../../../models/user/user.dart';
+import '../../../stores/theme/theme_store.dart';
+import '../../../stores/user/signup_form.dart';
+import '../../../stores/user/user_store.dart';
+import '../../../utils/device/device_utils.dart';
+import '../../../utils/errors/error_tools.dart';
+import '../../../utils/locale/app_localization.dart';
+import '../../../utils/navigator/navigator_tools.dart';
+import '../../../utils/routes/routes.dart';
+import '../../../widgets/empty_app_bar_widget.dart';
+import '../../../widgets/ioaon/button/button_ok_widget.dart';
+import '../../../widgets/ioaon/text_input_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -40,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
+  late UserStore _userStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
@@ -57,6 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
@@ -221,15 +219,20 @@ class _SignUpScreenState extends State<SignUpScreen>  {
     return ButtonOkWidget(
       text: AppLocalizations.of(context).translate('common_save'),
       onPressed: () async {
-        log('_form.canSave = ${_form.canSave}');
+        log('_buildSignUpButton _form.canSave = ${_form.canSave}', name: 'SignUpScreen');
         if (_form.canSave) {
           DeviceUtils.hideKeyboard(context);
-          log('_form.userData = ${_form.userData}');
+          log('_form.userData = ${_form.userData}', name: 'SignUpScreen');
+          User user = User.fromCreateUserByEmailMap(_form.userData);
+          log('user.toCreateUserByEmailMap() = ${user.toCreateUserByEmailMap()}', name: 'SignUpScreen');
+          await _userStore.signup(user).catchError((e) {
+            displayErrorMessage(context, _userStore.errorStore.errorMessage);
+          });
           // _store.signin();
           // gotoRoute(context, Routes.mainMenu);
           //
         } else {
-          displayErrorMessage( context, 'common_please_fill_in_all_fields');
+          displayErrorMessage( context, 'error_please_fill_in_all_fields');
         }
       },
     );

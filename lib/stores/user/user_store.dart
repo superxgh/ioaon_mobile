@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../data/repository.dart';
+import '../../models/user/user.dart';
+import '../../utils/dio/dio_error_util.dart';
 import '../form/form_store.dart';
 
 part 'user_store.g.dart';
@@ -11,9 +15,6 @@ class UserStore = _UserStore with _$UserStore;
 abstract class _UserStore with Store {
   // repository instance
   final Repository _repository;
-
-  // store for handling form errors
-  final FormErrorStore formErrorStore = FormErrorStore();
 
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
@@ -49,18 +50,34 @@ abstract class _UserStore with Store {
   @observable
   bool success = false;
 
+
   @observable
-  ObservableFuture<bool> signinFuture = emptySigninResponse;
+  ObservableFuture<bool> fetchFuture = emptySigninResponse;
 
   @computed
-  bool get isLoading => signinFuture.status == FutureStatus.pending;
+  bool get isLoading => fetchFuture.status == FutureStatus.pending;
 
   // actions:-------------------------------------------------------------------
   @action
-  Future signin(String email, String password) async {
+  Future<void> signup(User user) async {
+
+    final future = _repository.signup(user);
+    fetchFuture = ObservableFuture(future);
+    await future.then((value) async {
+      log('signup value = $value', name: 'UserStore');
+    }).catchError((e) {
+      log(e.toString(), name: 'UserStore');
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+      log('errorStore.errorMessage = ${errorStore.errorMessage}', name: 'UserStore');
+      throw e;
+    });
+  }
+
+  @action
+  Future<void> signin(String email, String password) async {
 
     final future = _repository.signin(email, password);
-    signinFuture = ObservableFuture(future);
+    fetchFuture = ObservableFuture(future);
     await future.then((value) async {
       if (value) {
         _repository.saveIsLoggedIn(true);
@@ -77,7 +94,9 @@ abstract class _UserStore with Store {
     });
   }
 
-  logout() {
+
+
+  void logout() {
     this.isLoggedIn = false;
     _repository.saveIsLoggedIn(false);
   }

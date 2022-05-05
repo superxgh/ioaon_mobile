@@ -26,7 +26,7 @@ abstract class NetworkModule {
               RequestInterceptorHandler handler) async {
             // getting token
             var token = await sharedPrefHelper.authToken;
-
+            // var token = "CREATE USER";
             if (token != null) {
               options.headers.putIfAbsent('Authorization', () => token);
             } else {

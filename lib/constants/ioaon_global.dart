@@ -17,17 +17,21 @@ List<Map<String, dynamic>> mainMenu = [
   {"id": 5, "code": "home_insurance_label", "name": "Insurance", "route": Routes.mainMenu },
   {"id": 6, "code": "home_trans_and_pays_label", "name": "Trans & Pays", "route": Routes.mainMenu },
   {"id": 7, "code": "home_reports_label", "name": "Reports", "route": Routes.mainMenu },
-  {"id": 8, "code": "home_setting_label", "name": "Setting", "route": Routes.mainMenu },
+  {"id": 8, "code": "home_setting_label", "name": "Setting", "route": Routes.settingMenu },
   {"id": 9, "code": "home_todos_label", "name": "Todos", "route": Routes.mainMenu }
 ];
 
 
 List<Map<String, dynamic>> accountMenu = [
   {"id": 1, "code": "account_personal_menu_label", "name": "Personal", "route": Routes.accountPersonal },
-  {"id": 2, "code": "account_family_label", "name": "Family", "route": Routes.mainMenu },
-  {"id": 3, "code": "account_business_label", "name": "Business", "route": Routes.mainMenu },
+  {"id": 2, "code": "account_family_menu_label", "name": "Family", "route": Routes.accountFamily },
+  {"id": 3, "code": "account_business_menu_label", "name": "Business", "route": Routes.accountBusiness },
   {"id": 4, "code": "account_reports_label", "name": "Report", "route": Routes.mainMenu },
   {"id": 5, "code": "account_rd_report_label", "name": "RD Report", "route": Routes.mainMenu }
+];
+
+List<Map<String, dynamic>> settingMenu = [
+  {"id": 1, "code": "setting_user_menu_label", "name": "User", "route": Routes.settingUser },
 ];
 
 

@@ -1,12 +1,16 @@
+import 'package:ioaon_mobile/ui/account/business.dart';
+import 'package:ioaon_mobile/ui/account/family.dart';
 import 'package:ioaon_mobile/ui/account/personal.dart';
 import 'package:ioaon_mobile/ui/menu/account.dart';
 import 'package:ioaon_mobile/ui/menu/main.dart';
-import 'package:ioaon_mobile/ui/user/forgot_password.dart';
-import 'package:ioaon_mobile/ui/user/signin.dart';
+import 'package:ioaon_mobile/ui/setting/user/user.dart';
+import 'package:ioaon_mobile/ui/setting/user/forgot_password.dart';
+import 'package:ioaon_mobile/ui/setting/user/signin.dart';
 import 'package:ioaon_mobile/ui/splash.dart';
 import 'package:flutter/material.dart';
 
-import '../../ui/user/signup.dart';
+import '../../ui/menu/setting.dart';
+import '../../ui/setting/user/signup.dart';
 
 class Routes {
   Routes._();
@@ -18,7 +22,15 @@ class Routes {
   static const String signUp = '/signUp';
   static const String mainMenu = '/mainMenu';
   static const String accountMenu = '/accountMenu';
+  static const String settingMenu = '/settingMenu';
+
+  // ACCOUNT
   static const String accountPersonal = '/accountPersonal';
+  static const String accountFamily = '/accountFamily';
+  static const String accountBusiness = '/accountBusiness';
+
+  // ACCOUNT
+  static const String settingUser = '/settingUser';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -26,8 +38,16 @@ class Routes {
     forgotPassword: (BuildContext context) => ForgotPasswordScreen(),
     signUp: (BuildContext context) => SignUpScreen(),
     mainMenu: (BuildContext context) => MainMenuScreen(),
+
+    // ACCOUNT
     accountMenu: (BuildContext context) => AccountMenuScreen(),
     accountPersonal: (BuildContext context) => AccountPersonalScreen(),
+    accountFamily: (BuildContext context) => AccountFamilyScreen(),
+    accountBusiness: (BuildContext context) => AccountBusinessScreen(),
+
+    // SETTING
+    settingMenu: (BuildContext context) => SettingMenuScreen(),
+    settingUser: (BuildContext context) => SettingUserScreen(),
   };
 }
 

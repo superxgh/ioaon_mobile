@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/locale/app_localization.dart';
+
 class CardWidget extends StatefulWidget {
 
   final Widget child;
@@ -50,12 +52,12 @@ class _CardWidgetState extends State<CardWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context).translate('common_save')),
                 onPressed: widget.onOkPressed ?? () {/* ... */},
               ),
               const SizedBox(width: 8),
               TextButton(
-                child: const Text('RESET'),
+                child: Text(AppLocalizations.of(context).translate('common_reset')),
                 onPressed: widget.onResetPressed ?? () {/* ... */},
               ),
               const SizedBox(width: 8),

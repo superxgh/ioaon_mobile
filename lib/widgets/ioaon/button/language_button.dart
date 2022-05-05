@@ -50,7 +50,7 @@ class _LanguageButtonWidgetState extends State<LanguageButtonWidget> {
         borderRadius: 5.0,
         enableFullWidth: true,
         title: Text(
-          AppLocalizations.of(context).translate('home_tv_choose_language'),
+          AppLocalizations.of(context).translate('common_choose_language'),
           style: TextStyle(
             color: Colors.white,
             fontSize: 16.0,

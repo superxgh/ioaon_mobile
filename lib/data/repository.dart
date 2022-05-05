@@ -6,8 +6,10 @@ import 'package:ioaon_mobile/models/post/post.dart';
 import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
+import '../models/user/user.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/posts/post_api.dart';
+import 'network/apis/users/user_api.dart';
 
 class Repository {
   // data source object
@@ -15,12 +17,17 @@ class Repository {
 
   // api objects
   final PostApi _postApi;
+  final UserApi _userApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(
+      this._postApi,
+      this._sharedPrefsHelper,
+      this._postDataSource,
+      this._userApi);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
@@ -67,9 +74,15 @@ class Repository {
       .catchError((error) => throw error);
 
 
-  // Signin:---------------------------------------------------------------------
+  // User:---------------------------------------------------------------------
   Future<bool> signin(String email, String password) async {
     return await Future.delayed(Duration(seconds: 2), ()=> true);
+  }
+
+  Future<bool> signup(User user) async {
+    return await _userApi.createUser(user).then((res) {
+      return true;
+    }).catchError((error) => throw error);
   }
 
   Future<void> saveIsLoggedIn(bool value) =>

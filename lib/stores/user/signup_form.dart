@@ -60,8 +60,7 @@ abstract class _SignUpForm with Store {
     "fullName": fullName,
     "mobileNumber": mobileNumber,
     "email": email,
-    "password": password,
-    "confirmPassword": confirmPassword,
+    "password": password
   };
   // actions:-------------------------------------------------------------------
   @action

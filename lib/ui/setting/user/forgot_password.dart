@@ -4,17 +4,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../constants/ioaon_global.dart';
-import '../../data/sharedpref/constants/preferences.dart';
-import '../../stores/theme/theme_store.dart';
-import '../../stores/user/forgot_password_form.dart';
-import '../../utils/locale/app_localization.dart';
-import '../../utils/navigator/navigator_tools.dart';
-import '../../utils/routes/routes.dart';
-import '../../widgets/empty_app_bar_widget.dart';
-import '../../widgets/ioaon/button/button_ok_widget.dart';
-import '../../widgets/ioaon/ioaon_logo.dart';
-import '../../widgets/ioaon/text_input_widget.dart';
+import '../../../constants/ioaon_global.dart';
+import '../../../data/sharedpref/constants/preferences.dart';
+import '../../../stores/theme/theme_store.dart';
+import '../../../stores/user/forgot_password_form.dart';
+import '../../../utils/locale/app_localization.dart';
+import '../../../utils/navigator/navigator_tools.dart';
+import '../../../utils/routes/routes.dart';
+import '../../../widgets/empty_app_bar_widget.dart';
+import '../../../widgets/ioaon/button/button_ok_widget.dart';
+import '../../../widgets/ioaon/ioaon_logo.dart';
+import '../../../widgets/ioaon/text_input_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
