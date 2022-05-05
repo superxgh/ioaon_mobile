@@ -63,7 +63,8 @@ class _AccountingMenuScreenState extends State<AccountingMenuScreen> {
           ),
           children: [
             ...accountingMenu.map((e) => MenuButton(
-                text: e['name'], onPressed: () {
+                text: AppLocalizations.of(context).translate(e['code']),
+                onPressed: () {
               gotoRoute(context, e['route']);
             })).toList()
           ],

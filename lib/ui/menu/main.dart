@@ -45,7 +45,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   @override
   Widget build(BuildContext context) {
     return AppLayout(
-        title: AppLocalizations.of(context).translate('main_menu_label'),
+        title: AppLocalizations.of(context).translate('home_label'),
         storeList: [_postStore],
         body: _buildBody()
     );
@@ -57,11 +57,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             crossAxisCount: 3,
           ),
           children: [
-            ...mainMenu.map((e) => MenuButton(
-              text: e['name'],
-              onPressed: () {
-                gotoRoute(context, e['route']);
-                })).toList()
+            ...mainMenu.map((e) => Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: MenuButton(
+                text: AppLocalizations.of(context).translate(e['code']),
+                onPressed: () {
+                  gotoRoute(context, e['route']);
+                  }),
+            )).toList()
           ],
         );
   }

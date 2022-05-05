@@ -18,6 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ioaon_mobile/widgets/ioaon/display_error_message_widget.dart';
 import 'package:ioaon_mobile/widgets/ioaon/text_link_widget.dart';
 
+import '../../constants/ioaon_global.dart';
+import '../../widgets/ioaon/ioaon_logo.dart';
+
 class SignInScreen extends StatefulWidget {
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -93,7 +96,10 @@ class _SignInScreenState extends State<SignInScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            IconOnTabWidget(
+              imagePath: ioaonConfig['logo'],
+              onTap: () { } ,
+            ),
             SizedBox(height: 24.0),
             _buildUserIdField(),
             _buildPasswordField(),
@@ -116,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Observer(
       builder: (context) {
         return TextInputWidget(
-              hint: AppLocalizations.of(context).translate('login_et_user_email'),
+              hint: AppLocalizations.of(context).translate('signin_et_user_email'),
               inputType: TextInputType.emailAddress,
               icon: Icons.person,
               isDarkMode: _themeStore.darkMode,
@@ -137,7 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Observer(
       builder: (context) {
         return TextInputWidget(
-            hint: AppLocalizations.of(context).translate('login_et_user_password'),
+            hint: AppLocalizations.of(context).translate('signin_et_user_password'),
             inputType: TextInputType.emailAddress,
             icon: Icons.lock,
             isDarkMode: _themeStore.darkMode,
@@ -154,7 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildSignUpButton() {
     return TextLinkWidget(
-        text: AppLocalizations.of(context).translate('login_btn_signup'),
+        text: AppLocalizations.of(context).translate('signin_btn_signup'),
         alignment: FractionalOffset.center,
         onPressed: () {
           gotoRoute(context, Routes.signUp);
@@ -164,15 +170,17 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildForgotPasswordButton() {
     return TextLinkWidget(
-        text: AppLocalizations.of(context).translate('login_btn_forgot_password'),
+        text: AppLocalizations.of(context).translate('signin_btn_forgot_password'),
         alignment: FractionalOffset.center,
-        onPressed: () {}
+        onPressed: () {
+          gotoRoute(context, Routes.forgotPassword);
+        }
     );
   }
 
   Widget _buildSignInButton() {
     return ButtonOkWidget(
-      text: AppLocalizations.of(context).translate('login_btn_sign_in'),
+      text: AppLocalizations.of(context).translate('signin_btn_sign_in'),
       onPressed: () async {
         gotoRoute(context, Routes.mainMenu);
         // if (_store.canLogin) {
@@ -187,7 +195,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildGoogleSignInButton() {
     return ButtonOkWidget(
-      text: AppLocalizations.of(context).translate('login_btn_google_sign_in'),
+      text: AppLocalizations.of(context).translate('common_google'),
       onPressed: () async {
         if (_store.canLogin) {
           DeviceUtils.hideKeyboard(context);
@@ -201,7 +209,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Widget _buildFacebookSignInButton() {
     return ButtonOkWidget(
-      text: AppLocalizations.of(context).translate('login_btn_facebook_sign_in'),
+      text: AppLocalizations.of(context).translate('common_facebook'),
       onPressed: () async {
         if (_store.canLogin) {
           DeviceUtils.hideKeyboard(context);

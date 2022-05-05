@@ -13,7 +13,6 @@ class DisplayErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('message = $message');
     if (message.isNotEmpty) {
       Future.delayed(Duration(milliseconds: 0), () {
         if (message.isNotEmpty) {

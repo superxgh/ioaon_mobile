@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:ioaon_mobile/constants/ioaon_global.dart';
+import 'package:ioaon_mobile/widgets/ioaon/ioaon_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,6 +85,11 @@ class _SignUpScreenState extends State<SignUpScreen>  {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 24.0),
+            IconOnTabWidget(
+              imagePath: ioaonConfig['logo'],
+              onTap: () { gotoRoute(context, Routes.login); } ,
+            ),
+            SizedBox(height: 10.0),
             Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -97,7 +104,8 @@ class _SignUpScreenState extends State<SignUpScreen>  {
             _buildPasswordField(),
             _buildConfirmPasswordField(),
             SizedBox(height: 24.0),
-            _buildSignUpButton()
+            _buildSignUpButton(),
+            _buildSignUpWithGoogleButton()
           ],
         ),
       ),
@@ -223,6 +231,14 @@ class _SignUpScreenState extends State<SignUpScreen>  {
         } else {
           displayErrorMessage( context, 'common_please_fill_in_all_fields');
         }
+      },
+    );
+  }
+
+  Widget _buildSignUpWithGoogleButton() {
+    return ButtonOkWidget(
+      text: AppLocalizations.of(context).translate('common_google'),
+      onPressed: () async {
       },
     );
   }
