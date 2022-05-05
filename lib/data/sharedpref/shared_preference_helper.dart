@@ -24,7 +24,7 @@ class SharedPreferenceHelper {
     return _sharedPreference.remove(Preferences.auth_token);
   }
 
-  // Login:---------------------------------------------------------------------
+  // Signin:---------------------------------------------------------------------
   Future<bool> get isLoggedIn async {
     return _sharedPreference.getBool(Preferences.is_logged_in) ?? false;
   }

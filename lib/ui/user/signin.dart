@@ -183,9 +183,9 @@ class _SignInScreenState extends State<SignInScreen> {
       text: AppLocalizations.of(context).translate('signin_btn_sign_in'),
       onPressed: () async {
         gotoRoute(context, Routes.mainMenu);
-        // if (_store.canLogin) {
+        // if (_store.canSignin) {
         //   DeviceUtils.hideKeyboard(context);
-        //   _store.login();
+        //   _store.signin();
         // } else {
         //   DisplayErrorMessageWidget(message: 'Please fill in all fields');
         // }
@@ -197,9 +197,9 @@ class _SignInScreenState extends State<SignInScreen> {
     return ButtonOkWidget(
       text: AppLocalizations.of(context).translate('common_google'),
       onPressed: () async {
-        if (_store.canLogin) {
+        if (_store.canSignin) {
           DeviceUtils.hideKeyboard(context);
-          _store.login();
+          _store.signin();
         } else {
           DisplayErrorMessageWidget(message: 'Please fill in all fields');
         }
@@ -211,9 +211,9 @@ class _SignInScreenState extends State<SignInScreen> {
     return ButtonOkWidget(
       text: AppLocalizations.of(context).translate('common_facebook'),
       onPressed: () async {
-        if (_store.canLogin) {
+        if (_store.canSignin) {
           DeviceUtils.hideKeyboard(context);
-          _store.login();
+          _store.signin();
         } else {
           DisplayErrorMessageWidget(message: 'Please fill in all fields');
         }

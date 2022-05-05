@@ -29,7 +29,7 @@ class _CardWidgetState extends State<CardWidget> {
         children: <Widget>[
           ListTile(
               leading: Icon(Icons.album),
-              title: Text('Accounting Input Form'),
+              title: Text('Account Input Form'),
               trailing: IconButton(
                   icon: new Icon(
                     (_isEnabledForm) ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,

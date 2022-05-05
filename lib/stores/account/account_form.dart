@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 import '../error/error_store.dart';
 
-part 'accounting_form.g.dart';
+part 'account_form.g.dart';
 
 class FormStore = _FormStore with _$FormStore;
 
@@ -21,48 +21,48 @@ abstract class _FormStore with Store {
 
   void _setupValidations() {
     _disposers = [
-      reaction((_) => accountingType, validateAccountingType),
-      reaction((_) => accountingAmount, validateAccountingAmount)
+      reaction((_) => accountType, validateAccountType),
+      reaction((_) => accountAmount, validateAccountAmount)
     ];
   }
 
   // store variables:-----------------------------------------------------------
   @observable
-  String accountingType = '';
+  String accountType = '';
 
   @observable
-  double accountingAmount = 0.0;
+  double accountAmount = 0.0;
 
   @computed
   bool get canSave =>
-      !formErrorStore.hasErrorsInForm && accountingType.isNotEmpty && 0.0 == accountingAmount;
+      !formErrorStore.hasErrorsInForm && accountType.isNotEmpty && 0.0 == accountAmount;
 
   // actions:-------------------------------------------------------------------
   @action
-  void setAccountingType(String value) {
-    accountingType = value;
+  void setAccountType(String value) {
+    accountType = value;
   }
 
   @action
-  void setAccountingAmount(double value) {
-    accountingAmount = value;
+  void setAccountAmount(double value) {
+    accountAmount = value;
   }
 
   @action
-  void validateAccountingType(String value) {
+  void validateAccountType(String value) {
     if (value.isEmpty) {
-      formErrorStore.accountingType = "Accounting type can't be empty";
+      formErrorStore.accountType = "Account type can't be empty";
     } else {
-      formErrorStore.accountingType = null;
+      formErrorStore.accountType = null;
     }
   }
 
   @action
-  void validateAccountingAmount(double value) {
+  void validateAccountAmount(double value) {
     if (0.0 >= value) {
-      formErrorStore.accountingAmount = "Accounting amount can't be zero";
+      formErrorStore.accountAmount = "Account amount can't be zero";
     } else {
-      formErrorStore.accountingAmount = null;
+      formErrorStore.accountAmount = null;
     }
   }
 
@@ -74,8 +74,8 @@ abstract class _FormStore with Store {
   }
 
   void validateAll() {
-    validateAccountingType(accountingType);
-    validateAccountingAmount(accountingAmount);
+    validateAccountType(accountType);
+    validateAccountAmount(accountAmount);
   }
 }
 
@@ -84,12 +84,12 @@ class FormErrorStore = _FormErrorStore with _$FormErrorStore;
 abstract class _FormErrorStore with Store {
 
   @observable
-  String? accountingType;
+  String? accountType;
 
   @observable
-  String? accountingAmount;
+  String? accountAmount;
 
   @computed
-  bool get hasErrorsInForm => accountingType != null || accountingAmount != null;
+  bool get hasErrorsInForm => accountType != null || accountAmount != null;
 
 }

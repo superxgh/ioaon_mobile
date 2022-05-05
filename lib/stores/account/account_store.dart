@@ -1,13 +1,13 @@
-import 'package:ioaon_mobile/stores/accounting/accounting_form.dart';
+import 'package:ioaon_mobile/stores/account/account_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
 
-part 'accounting_store.g.dart';
+part 'account_store.g.dart';
 
-class AccountingStore = _AccountingStore with _$AccountingStore;
+class AccountStore = _AccountStore with _$AccountStore;
 
-abstract class _AccountingStore with Store {
+abstract class _AccountStore with Store {
   // repository instance
   final Repository _repository;
 
@@ -18,7 +18,7 @@ abstract class _AccountingStore with Store {
   final ErrorStore errorStore = ErrorStore();
 
   // constructor:---------------------------------------------------------------
-  _AccountingStore(Repository repository) : this._repository = repository {
+  _AccountStore(Repository repository) : this._repository = repository {
 
     // setting up disposers
     _setupDisposers();
@@ -35,17 +35,17 @@ abstract class _AccountingStore with Store {
   }
 
   // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptyLoginResponse = ObservableFuture.value(false);
+  static ObservableFuture<bool> emptySigninResponse = ObservableFuture.value(false);
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
   @observable
-  ObservableFuture<bool> loginFuture = emptyLoginResponse;
+  ObservableFuture<bool> signinFuture = emptySigninResponse;
 
   @computed
-  bool get isLoading => loginFuture.status == FutureStatus.pending;
+  bool get isLoading => signinFuture.status == FutureStatus.pending;
 
   @observable
   String userEmail = '';

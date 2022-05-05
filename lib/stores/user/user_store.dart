@@ -43,31 +43,31 @@ abstract class _UserStore with Store {
   }
 
   // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptyLoginResponse = ObservableFuture.value(false);
+  static ObservableFuture<bool> emptySigninResponse = ObservableFuture.value(false);
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
   @observable
-  ObservableFuture<bool> loginFuture = emptyLoginResponse;
+  ObservableFuture<bool> signinFuture = emptySigninResponse;
 
   @computed
-  bool get isLoading => loginFuture.status == FutureStatus.pending;
+  bool get isLoading => signinFuture.status == FutureStatus.pending;
 
   // actions:-------------------------------------------------------------------
   @action
-  Future login(String email, String password) async {
+  Future signin(String email, String password) async {
 
-    final future = _repository.login(email, password);
-    loginFuture = ObservableFuture(future);
+    final future = _repository.signin(email, password);
+    signinFuture = ObservableFuture(future);
     await future.then((value) async {
       if (value) {
         _repository.saveIsLoggedIn(true);
         this.isLoggedIn = true;
         this.success = true;
       } else {
-        print('failed to login');
+        print('failed to signin');
       }
     }).catchError((e) {
       print(e);

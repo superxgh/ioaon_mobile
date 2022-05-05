@@ -17,14 +17,14 @@ import '../../widgets/ioaon/button/theme_button.dart';
 import '../../widgets/ioaon/error_tool.dart';
 import '../layout/app_layout.dart';
 
-class AccountingMenuScreen extends StatefulWidget {
-  const AccountingMenuScreen({Key? key}) : super(key: key);
+class AccountMenuScreen extends StatefulWidget {
+  const AccountMenuScreen({Key? key}) : super(key: key);
 
   @override
-  State<AccountingMenuScreen> createState() => _AccountingMenuScreenState();
+  State<AccountMenuScreen> createState() => _AccountMenuScreenState();
 }
 
-class _AccountingMenuScreenState extends State<AccountingMenuScreen> {
+class _AccountMenuScreenState extends State<AccountMenuScreen> {
   //stores:---------------------------------------------------------------------
   late PostStore _postStore;
   late ThemeStore _themeStore;
@@ -50,7 +50,7 @@ class _AccountingMenuScreenState extends State<AccountingMenuScreen> {
   Widget build(BuildContext context) {
     return AppLayout(
         route: Routes.mainMenu,
-        title: AppLocalizations.of(context).translate('accounting_menu_label'),
+        title: AppLocalizations.of(context).translate('account_menu_label'),
         storeList: [_postStore],
         body: _buildBody()
     );
@@ -62,7 +62,7 @@ class _AccountingMenuScreenState extends State<AccountingMenuScreen> {
             crossAxisCount: 3,
           ),
           children: [
-            ...accountingMenu.map((e) => MenuButton(
+            ...accountMenu.map((e) => MenuButton(
                 text: AppLocalizations.of(context).translate(e['code']),
                 onPressed: () {
               gotoRoute(context, e['route']);

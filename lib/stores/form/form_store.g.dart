@@ -9,11 +9,11 @@ part of 'form_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FormStore on _FormStore, Store {
-  Computed<bool>? _$canLoginComputed;
+  Computed<bool>? _$canSigninComputed;
 
   @override
-  bool get canLogin => (_$canLoginComputed ??=
-          Computed<bool>(() => super.canLogin, name: '_FormStore.canLogin'))
+  bool get canSignin => (_$canSigninComputed ??=
+          Computed<bool>(() => super.canSignin, name: '_FormStore.canSignin'))
       .value;
   Computed<bool>? _$canRegisterComputed;
 
@@ -112,11 +112,11 @@ mixin _$FormStore on _FormStore, Store {
     return _$registerAsyncAction.run(() => super.register());
   }
 
-  final _$loginAsyncAction = AsyncAction('_FormStore.login');
+  final _$signinAsyncAction = AsyncAction('_FormStore.signin');
 
   @override
-  Future<dynamic> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<dynamic> signin() {
+    return _$signinAsyncAction.run(() => super.signin());
   }
 
   final _$forgotPasswordAsyncAction = AsyncAction('_FormStore.forgotPassword');
@@ -209,7 +209,7 @@ password: ${password},
 confirmPassword: ${confirmPassword},
 success: ${success},
 loading: ${loading},
-canLogin: ${canLogin},
+canSignin: ${canSignin},
 canRegister: ${canRegister},
 canForgetPassword: ${canForgetPassword}
     ''';
@@ -217,12 +217,12 @@ canForgetPassword: ${canForgetPassword}
 }
 
 mixin _$FormErrorStore on _FormErrorStore, Store {
-  Computed<bool>? _$hasErrorsInLoginComputed;
+  Computed<bool>? _$hasErrorsInSigninComputed;
 
   @override
-  bool get hasErrorsInLogin => (_$hasErrorsInLoginComputed ??= Computed<bool>(
-          () => super.hasErrorsInLogin,
-          name: '_FormErrorStore.hasErrorsInLogin'))
+  bool get hasErrorsInSignin => (_$hasErrorsInSigninComputed ??= Computed<bool>(
+          () => super.hasErrorsInSignin,
+          name: '_FormErrorStore.hasErrorsInSignin'))
       .value;
   Computed<bool>? _$hasErrorsInRegisterComputed;
 
@@ -290,7 +290,7 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
 userEmail: ${userEmail},
 password: ${password},
 confirmPassword: ${confirmPassword},
-hasErrorsInLogin: ${hasErrorsInLogin},
+hasErrorsInSignin: ${hasErrorsInSignin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword}
     ''';

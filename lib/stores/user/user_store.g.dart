@@ -31,33 +31,33 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
-  final _$loginFutureAtom = Atom(name: '_UserStore.loginFuture');
+  final _$signinFutureAtom = Atom(name: '_UserStore.signinFuture');
 
   @override
-  ObservableFuture<bool> get loginFuture {
-    _$loginFutureAtom.reportRead();
-    return super.loginFuture;
+  ObservableFuture<bool> get signinFuture {
+    _$signinFutureAtom.reportRead();
+    return super.signinFuture;
   }
 
   @override
-  set loginFuture(ObservableFuture<bool> value) {
-    _$loginFutureAtom.reportWrite(value, super.loginFuture, () {
-      super.loginFuture = value;
+  set signinFuture(ObservableFuture<bool> value) {
+    _$signinFutureAtom.reportWrite(value, super.signinFuture, () {
+      super.signinFuture = value;
     });
   }
 
-  final _$loginAsyncAction = AsyncAction('_UserStore.login');
+  final _$signinAsyncAction = AsyncAction('_UserStore.signin');
 
   @override
-  Future<dynamic> login(String email, String password) {
-    return _$loginAsyncAction.run(() => super.login(email, password));
+  Future<dynamic> signin(String email, String password) {
+    return _$signinAsyncAction.run(() => super.signin(email, password));
   }
 
   @override
   String toString() {
     return '''
 success: ${success},
-loginFuture: ${loginFuture},
+signinFuture: ${signinFuture},
 isLoading: ${isLoading}
     ''';
   }

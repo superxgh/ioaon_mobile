@@ -45,8 +45,8 @@ abstract class _FormStore with Store {
   bool loading = false;
 
   @computed
-  bool get canLogin =>
-      !formErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
+  bool get canSignin =>
+      !formErrorStore.hasErrorsInSignin && userEmail.isNotEmpty && password.isNotEmpty;
 
   @computed
   bool get canRegister =>
@@ -114,7 +114,7 @@ abstract class _FormStore with Store {
   }
 
   @action
-  Future login() async {
+  Future signin() async {
     loading = true;
 
     Future.delayed(Duration(milliseconds: 2000)).then((future) {
@@ -166,7 +166,7 @@ abstract class _FormErrorStore with Store {
   String? confirmPassword;
 
   @computed
-  bool get hasErrorsInLogin => userEmail != null || password != null;
+  bool get hasErrorsInSignin => userEmail != null || password != null;
 
   @computed
   bool get hasErrorsInRegister =>

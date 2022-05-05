@@ -77,7 +77,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             SizedBox(height: 24.0),
             IconOnTabWidget(
               imagePath: ioaonConfig['logo'],
-              onTap: () { gotoRoute(context, Routes.login); } ,
+              onTap: () { gotoRoute(context, Routes.signin); } ,
             ),
             SizedBox(height: 10.0),
             Align(

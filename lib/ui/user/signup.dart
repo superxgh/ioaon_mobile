@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
             SizedBox(height: 24.0),
             IconOnTabWidget(
               imagePath: ioaonConfig['logo'],
-              onTap: () { gotoRoute(context, Routes.login); } ,
+              onTap: () { gotoRoute(context, Routes.signin); } ,
             ),
             SizedBox(height: 10.0),
             Align(
@@ -225,7 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
         if (_form.canSave) {
           DeviceUtils.hideKeyboard(context);
           log('_form.userData = ${_form.userData}');
-          // _store.login();
+          // _store.signin();
           // gotoRoute(context, Routes.mainMenu);
           //
         } else {

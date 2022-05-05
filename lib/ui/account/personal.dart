@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
-import 'package:ioaon_mobile/stores/accounting/accounting_store.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:provider/provider.dart';
-import '../../stores/accounting/accounting_form.dart';
+import '../../stores/account/account_form.dart';
+import '../../stores/account/account_store.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
 import '../../widgets/ioaon/card_widget.dart';
@@ -12,17 +12,17 @@ import '../../widgets/ioaon/dropdown_widget.dart';
 import '../../widgets/ioaon/text_input_widget.dart';
 import '../layout/app_layout.dart';
 
-class AccountingPersonalScreen extends StatefulWidget {
+class AccountPersonalScreen extends StatefulWidget {
 
-  const AccountingPersonalScreen({Key? key}) : super(key: key);
+  const AccountPersonalScreen({Key? key}) : super(key: key);
 
   @override
-  State<AccountingPersonalScreen> createState() => _AccountingPersonalScreenState();
+  State<AccountPersonalScreen> createState() => _AccountPersonalScreenState();
 }
 
-class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
+class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
 
-  late AccountingStore _accountingStore;
+  late AccountStore _accountStore;
   late ThemeStore _themeStore;
   TextEditingController _accAmountController = TextEditingController();
   FormStore _formStore = FormStore();
@@ -38,7 +38,7 @@ class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
     super.didChangeDependencies();
 
     // initializing stores
-    _accountingStore = Provider.of<AccountingStore>(context);
+    _accountStore = Provider.of<AccountStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
 
   }
@@ -46,9 +46,9 @@ class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
   @override
   Widget build(BuildContext context) {
     return AppLayout(
-        route: Routes.accountingMenu,
-        title: AppLocalizations.of(context).translate('accounting_personal_label'),
-        storeList: [_accountingStore],
+        route: Routes.accountMenu,
+        title: AppLocalizations.of(context).translate('account_personal_label'),
+        storeList: [_accountStore],
         body: _buildBody()
     );
   }
@@ -58,7 +58,7 @@ class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
     return  Column(
       children: [
         _buildInputForm(),
-        _buildAccountingList()
+        _buildAccountList()
       ],
     );
   }
@@ -67,36 +67,36 @@ class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
     return CardWidget(
       child: Column(
         children: [
-          _buildAccountingType(),
-          _buildAccountingAmount()
+          _buildAccountType(),
+          _buildAccountAmount()
         ],
       ),
     );
   }
 
-  Widget _buildAccountingType() {
+  Widget _buildAccountType() {
     return DropdownWidget(
       label: 'Access',
-      list: accountingType,
+      list: accountType,
       onChanged: (dynamic data) {
-        log('data = $data', name: '_buildAccountingType');
-        _formStore.setAccountingType(data['name']);
+        log('data = $data', name: '_buildAccountType');
+        _formStore.setAccountType(data['name']);
       },
     );
   }
 
 
-  Widget _buildAccountingAmount() {
+  Widget _buildAccountAmount() {
     return TextInputWidget(
-        hint: AppLocalizations.of(context).translate('accounting_personal_acc_amount'),
+        hint: AppLocalizations.of(context).translate('account_personal_acc_amount'),
         inputType: TextInputType.number,
         icon: Icons.attach_money,
         isDarkMode: _themeStore.darkMode,
         textController: _accAmountController,
         inputAction: TextInputAction.next,
         onChanged: (data) {
-          log('data = $data', name: '_buildAccountingAmount');
-          _formStore.setAccountingAmount(double.parse(data));
+          log('data = $data', name: '_buildAccountAmount');
+          _formStore.setAccountAmount(double.parse(data));
         },
         onFieldSubmitted: (value) {
           // FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -105,9 +105,9 @@ class _AccountingPersonalScreenState extends State<AccountingPersonalScreen> {
   }
 
 
-  Widget _buildAccountingList() {
+  Widget _buildAccountList() {
     return Container(
-      child: Text('Accounting List'),
+      child: Text('Account List'),
     );
   }
 }

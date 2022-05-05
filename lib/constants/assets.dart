@@ -4,7 +4,7 @@ class Assets {
   // splash screen assets
   static const String appLogo = "assets/icons/ic_appicon.png";
 
-  // login screen assets
-  static const String carBackground = "assets/images/img_login.jpg";
+  // signin screen assets
+  static const String carBackground = "assets/images/img_signin.jpg";
 
 }

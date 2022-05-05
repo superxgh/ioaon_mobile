@@ -67,8 +67,8 @@ class Repository {
       .catchError((error) => throw error);
 
 
-  // Login:---------------------------------------------------------------------
-  Future<bool> login(String email, String password) async {
+  // Signin:---------------------------------------------------------------------
+  Future<bool> signin(String email, String password) async {
     return await Future.delayed(Duration(seconds: 2), ()=> true);
   }
 

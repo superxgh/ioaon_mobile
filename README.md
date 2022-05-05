@@ -59,7 +59,7 @@ In Visual Studio Code, navigate to `Preferences` -> `Settings` and search for `F
 ## Boilerplate Features:
 
 * Splash
-* Login
+* Signin
 * Home
 * Routing
 * Theme
@@ -177,8 +177,8 @@ The store is where all your application state lives in flutter. The Store is bas
 
 ```
 stores/
-|- login/
-    |- login_store.dart
+|- signin/
+    |- signin_store.dart
     |- form_validator.dart
 ```
 
@@ -188,11 +188,11 @@ This directory contains all the ui of your application. Each screen is located i
 
 ```
 ui/
-|- login
-   |- login_screen.dart
+|- signin
+   |- signin_screen.dart
    |- widgets
-      |- login_form.dart
-      |- login_button.dart
+      |- signin_form.dart
+      |- signin_button.dart
 ```
 
 ### Utils
@@ -226,7 +226,7 @@ This file contains all the routes for your application.
 import 'package:flutter/material.dart';
 
 import 'ui/menu/menu.dart';
-import 'ui/login/signin.dart';
+import 'ui/signin/signin.dart';
 import 'ui/splash/splash.dart';
 
 class Routes {
@@ -234,12 +234,12 @@ class Routes {
 
   //static variables
   static const String splash = '/splash';
-  static const String login = '/login';
+  static const String signin = '/signin';
   static const String home = '/menu';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
-    login: (BuildContext context) => LoginScreen(),
+    signin: (BuildContext context) => SigninScreen(),
     home: (BuildContext context) => HomeScreen(),
   };
 }

@@ -15,7 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-import '../stores/accounting/accounting_store.dart';
+import '../stores/account/account_store.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   final PostStore _postStore = PostStore(getIt<Repository>());
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
   final UserStore _userStore = UserStore(getIt<Repository>());
-  final AccountingStore _accountingStore = AccountingStore(getIt<Repository>());
+  final AccountStore _accountStore = AccountStore(getIt<Repository>());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<PostStore>(create: (_) => _postStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
-        Provider<AccountingStore>(create: (_) => _accountingStore),
+        Provider<AccountStore>(create: (_) => _accountStore),
       ],
       child: Observer(
         name: 'global-observer',

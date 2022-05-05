@@ -8,7 +8,7 @@ class Global {
 }
 
 List<Map<String, dynamic>> mainMenu = [
-  {"id": 1, "code": "home_accounting_label", "name": "Accounting", "route": Routes.accountingMenu },
+  {"id": 1, "code": "home_account_label", "name": "Account", "route": Routes.accountMenu },
   {"id": 2, "code": "home_loan_label", "name": "Loan", "route": Routes.mainMenu },
   {"id": 3, "code": "home_rotating_savings_label", "name": "Rotating Savings", "route": Routes.mainMenu },
   {"id": 4, "code": "home_credit_card_label", "name": "Credit Card", "route": Routes.mainMenu },
@@ -20,16 +20,16 @@ List<Map<String, dynamic>> mainMenu = [
 ];
 
 
-List<Map<String, dynamic>> accountingMenu = [
-  {"id": 1, "code": "accounting_personal_menu_label", "name": "Personal", "route": Routes.accountingPersonal },
-  {"id": 2, "code": "accounting_family_label", "name": "Family", "route": Routes.mainMenu },
-  {"id": 3, "code": "accounting_business_label", "name": "Business", "route": Routes.mainMenu },
-  {"id": 4, "code": "accounting_reports_label", "name": "Report", "route": Routes.mainMenu },
-  {"id": 5, "code": "accounting_rd_report_label", "name": "RD Report", "route": Routes.mainMenu }
+List<Map<String, dynamic>> accountMenu = [
+  {"id": 1, "code": "account_personal_menu_label", "name": "Personal", "route": Routes.accountPersonal },
+  {"id": 2, "code": "account_family_label", "name": "Family", "route": Routes.mainMenu },
+  {"id": 3, "code": "account_business_label", "name": "Business", "route": Routes.mainMenu },
+  {"id": 4, "code": "account_reports_label", "name": "Report", "route": Routes.mainMenu },
+  {"id": 5, "code": "account_rd_report_label", "name": "RD Report", "route": Routes.mainMenu }
 ];
 
 
-List<Map<String, dynamic>> accountingType = [
+List<Map<String, dynamic>> accountType = [
   {"id": 1, "name": "Income"},
   {"id": 2, "name": "Expenses"}
 ];
