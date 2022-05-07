@@ -56,8 +56,8 @@ mixin _$UserStore on _UserStore, Store {
   final _$signinAsyncAction = AsyncAction('_UserStore.signin');
 
   @override
-  Future<void> signin(String email, String password) {
-    return _$signinAsyncAction.run(() => super.signin(email, password));
+  Future<void> signin(dynamic data) {
+    return _$signinAsyncAction.run(() => super.signin(data));
   }
 
   @override

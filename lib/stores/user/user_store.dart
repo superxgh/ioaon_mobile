@@ -4,6 +4,7 @@ import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../data/repository.dart';
+import '../../utils/tools/logging.dart';
 import '../../models/user/user.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../form/form_store.dart';
@@ -13,6 +14,8 @@ part 'user_store.g.dart';
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
+  
+  final log = logger(UserStore);
   // repository instance
   final Repository _repository;
 
@@ -24,7 +27,7 @@ abstract class _UserStore with Store {
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
-
+    log.i('constructor()');
     // setting up disposers
     _setupDisposers();
 
@@ -38,45 +41,47 @@ abstract class _UserStore with Store {
   late List<ReactionDisposer> _disposers;
 
   void _setupDisposers() {
+    log.i('_setupDisposers');
     _disposers = [
       reaction((_) => success, (_) => success = false, delay: 200),
     ];
   }
 
   // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptySigninResponse = ObservableFuture.value(false);
+  static ObservableFuture<bool> emptyResponse = ObservableFuture.value(false);
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
-
   @observable
-  ObservableFuture<bool> fetchFuture = emptySigninResponse;
+  ObservableFuture<bool> fetchFuture = emptyResponse;
 
   @computed
   bool get isLoading => fetchFuture.status == FutureStatus.pending;
-
   // actions:-------------------------------------------------------------------
   @action
   Future<void> signup(User user) async {
-
+    log.i('signup()');
     final future = _repository.signup(user);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
-      log('signup value = $value', name: 'UserStore');
+      log.d('signup value = $value');
+      this.success = true;
+      log.d('signup() success = $success');
     }).catchError((e) {
-      log(e.toString(), name: 'UserStore');
+      log.e(e.toString());
       errorStore.errorMessage = DioErrorUtil.handleError(e);
-      log('errorStore.errorMessage = ${errorStore.errorMessage}', name: 'UserStore');
+      log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
       throw e;
     });
   }
 
   @action
-  Future<void> signin(String email, String password) async {
-
-    final future = _repository.signin(email, password);
+  Future<void> signin(dynamic data) async {
+    log.i('signin()');
+    log.d('signin() data = $data');
+    final future = _repository.signin(data);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
       if (value) {
@@ -97,12 +102,14 @@ abstract class _UserStore with Store {
 
 
   void logout() {
+    log.i('logout()');
     this.isLoggedIn = false;
     _repository.saveIsLoggedIn(false);
   }
 
   // general methods:-----------------------------------------------------------
   void dispose() {
+    log.i('dispose()');
     for (final d in _disposers) {
       d();
     }

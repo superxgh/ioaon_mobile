@@ -1,4 +1,4 @@
-import 'package:ioaon_mobile/stores/account/account_form.dart';
+import 'package:ioaon_mobile/stores/account/input_account_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';

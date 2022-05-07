@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomProgressIndicatorWidget extends StatelessWidget {
+
+  final String? text;
+
   const CustomProgressIndicatorWidget({
-    Key? key,
+    Key? key, this.text,
   }) : super(key: key);
 
   @override
@@ -15,15 +18,20 @@ class CustomProgressIndicatorWidget extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.none,
           child: SizedBox(
-            height: 100,
+            height: 150,
             width: 100,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: CircularProgressIndicator(),
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+            child: Column(
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                ),
+                if (text != null) Text(text!)
+              ],
             ),
           ),
         ),

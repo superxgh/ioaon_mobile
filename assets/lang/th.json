@@ -58,20 +58,14 @@
 
   "account_personal_start": "Below are list of strings for account personal",
   "account_personal_label": "บัญชีรับจ่าย(ส่วนตัว)",
-  "account_personal_acc_type": "ประเภทบัญชี",
-  "account_personal_acc_amount": "จำนวนเงิน (บาท)",
   "account_personal_end": "-------------------------------------------------------------------------------------",
 
   "account_family_start": "Below are list of strings for account personal",
   "account_family_label": "บัญชีรับจ่าย(ครอบครัว)",
-  "account_family_acc_type": "ประเภทบัญชี",
-  "account_family_acc_amount": "จำนวนเงิน (บาท)",
   "account_family_end": "-------------------------------------------------------------------------------------",
 
   "account_business_start": "Below are list of strings for account personal",
   "account_business_label": "บัญชีรับจ่าย(กิจการ)",
-  "account_business_acc_type": "ประเภทบัญชี",
-  "account_business_acc_amount": "จำนวนเงิน (บาท)",
   "account_business_end": "-------------------------------------------------------------------------------------",
 
   "setting_menu_start": "Below are list of strings for setting menu",
@@ -84,8 +78,16 @@
   "setting_user_end": "-------------------------------------------------------------------------------------",
 
   "error_start": "Below are list of strings for error",
-  "error_please_fill_in_all_fields": "กรุณากรอกข้อมูลให้ครบ",
+  "Please fill in all fields": "กรุณากรอกข้อมูลให้ครบ",
   "Received invalid status code: 404": "ได้รับข้อผิดพลาดรหัส 404",
-  "error_end": "-------------------------------------------------------------------------------------"
+  "Connection timeout with API server": "หมดกำหนดเวลาติดต่อ API Server",
+  "error_end": "-------------------------------------------------------------------------------------",
+
+  "account_input_start": "Below are list of strings for account personal",
+  "account_input_form": "บันทึกรายการรับจ่าย",
+  "account_input_acc_type": "ประเภทบัญชี",
+  "account_input_acc": "บัญชี",
+  "account_input_acc_amount": "จำนวนเงิน (บาท)",
+  "account_input_end": "-------------------------------------------------------------------------------------"
 
 }

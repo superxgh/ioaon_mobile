@@ -6,12 +6,16 @@ import 'package:ioaon_mobile/models/post/post.dart';
 import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
+import '../utils/tools/logging.dart';
 import '../models/user/user.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/posts/post_api.dart';
 import 'network/apis/users/user_api.dart';
 
 class Repository {
+
+  final log = logger(Repository);
+
   // data source object
   final PostDataSource _postDataSource;
 
@@ -75,8 +79,11 @@ class Repository {
 
 
   // User:---------------------------------------------------------------------
-  Future<bool> signin(String email, String password) async {
+  Future<bool> signin(dynamic data) async {
+    log.i('signin()');
+    log.d('signin() data = $data');
     return await Future.delayed(Duration(seconds: 2), ()=> true);
+
   }
 
   Future<bool> signup(User user) async {

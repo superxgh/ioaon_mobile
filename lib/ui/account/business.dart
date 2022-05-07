@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:provider/provider.dart';
-import '../../stores/account/account_form.dart';
+import '../../stores/account/input_account_form.dart';
 import '../../stores/account/account_store.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
@@ -26,7 +26,14 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
   late AccountStore _accountStore;
   late ThemeStore _themeStore;
   TextEditingController _accAmountController = TextEditingController();
-  FormStore _formStore = FormStore();
+  InputAccountForm _formStore = InputAccountForm();
+
+  List<Map<String, dynamic>> accountList  = [
+    {"id": 1, "name": "เงินเดือน" },
+    {"id": 2, "name": "ค่ำน้ำ" },
+    {"id": 3, "name": "ค่ำไฟ" },
+    {"id": 4, "name": "ค่ำโทรศัพท์" },
+  ];
 
   @override
   void initState() {
@@ -69,6 +76,7 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
 
   Widget _buildInputForm() {
     return CardWidget(
+      onOkPressed: () {  },
       child: Column(
         children: [
           _buildAccountGroup(),
@@ -80,8 +88,8 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
   }
 
   Widget _buildAccountGroup() {
-    return RadioAccountIEGroupWidget(
-      initValue: AccountIEGroup.Income,
+    return RadioAccountIETypeWidget(
+      initValue: AccountIEType.Income,
       onChange: (String value) {
         log('value = $value', name: '_buildAccountGroup');
       },
@@ -91,7 +99,7 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
   Widget _buildAccountType() {
     return DropdownWidget(
       label: 'Access',
-      list: accountType,
+      list: accountList,
       onChanged: (dynamic data) {
         log('onChanged data = $data', name: '_buildAccountType');
         _formStore.setAccountType(data['name']);

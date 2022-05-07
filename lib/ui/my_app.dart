@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ioaon_mobile/constants/app_theme.dart';
 import 'package:ioaon_mobile/constants/strings.dart';
 import 'package:ioaon_mobile/data/repository.dart';
@@ -15,12 +17,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/tools/logging.dart';
 import '../stores/account/account_store.dart';
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  // Create your store as a final variable in a base Widget. This works better
-  // with Hot Reload than creating it directly in the `build` function.
+  final log = logger(MyApp);
   final ThemeStore _themeStore = ThemeStore(getIt<Repository>());
   final PostStore _postStore = PostStore(getIt<Repository>());
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log.i('build()');
     return MultiProvider(
       providers: [
         Provider<ThemeStore>(create: (_) => _themeStore),
@@ -40,8 +42,6 @@ class MyApp extends StatelessWidget {
       child: Observer(
         name: 'global-observer',
         builder: (context) {
-
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Strings.appName,

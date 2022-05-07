@@ -1,18 +1,18 @@
 import 'package:mobx/mobx.dart';
 import '../error/error_store.dart';
 
-part 'account_form.g.dart';
+part 'input_account_form.g.dart';
 
-class FormStore = _FormStore with _$FormStore;
+class InputAccountForm = _InputAccountForm with _$InputAccountForm;
 
-abstract class _FormStore with Store {
+abstract class _InputAccountForm with Store {
   // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
 
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
 
-  _FormStore() {
+  _InputAccountForm() {
     _setupValidations();
   }
 
@@ -31,16 +31,31 @@ abstract class _FormStore with Store {
   String accountType = '';
 
   @observable
+  int accountCode = 0;
+
+  @observable
   double accountAmount = 0.0;
 
   @computed
   bool get canSave =>
-      !formErrorStore.hasErrorsInForm && accountType.isNotEmpty && 0.0 == accountAmount;
+      !formErrorStore.hasErrorsInForm && accountType.isNotEmpty && 0 < accountCode && 0.0 < accountAmount;
+
+  @computed
+  Map<String, dynamic> get data => {
+    "accType": accountType,
+    "accCode": accountCode,
+    "amount": accountAmount
+  };
 
   // actions:-------------------------------------------------------------------
   @action
   void setAccountType(String value) {
     accountType = value;
+  }
+
+  @action
+  void setAccountCode(int value) {
+    accountCode = value;
   }
 
   @action
@@ -54,6 +69,15 @@ abstract class _FormStore with Store {
       formErrorStore.accountType = "Account type can't be empty";
     } else {
       formErrorStore.accountType = null;
+    }
+  }
+
+  @action
+  void validateAccountCode(int value) {
+    if (0 < value) {
+      formErrorStore.accountCode = "Account code can't be zero";
+    } else {
+      formErrorStore.accountCode = null;
     }
   }
 
@@ -75,6 +99,7 @@ abstract class _FormStore with Store {
 
   void validateAll() {
     validateAccountType(accountType);
+    validateAccountCode(accountCode);
     validateAccountAmount(accountAmount);
   }
 }
@@ -87,9 +112,12 @@ abstract class _FormErrorStore with Store {
   String? accountType;
 
   @observable
+  String? accountCode;
+
+  @observable
   String? accountAmount;
 
   @computed
-  bool get hasErrorsInForm => accountType != null || accountAmount != null;
+  bool get hasErrorsInForm => accountType != null ||  accountCode != null || accountAmount != null;
 
 }

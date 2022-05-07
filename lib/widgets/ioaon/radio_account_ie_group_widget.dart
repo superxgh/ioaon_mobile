@@ -3,18 +3,18 @@ import 'package:ioaon_mobile/constants/ioaon_global.dart';
 
 import '../../utils/locale/app_localization.dart';
 
-class RadioAccountIEGroupWidget extends StatefulWidget {
-  final AccountIEGroup? initValue;
+class RadioAccountIETypeWidget extends StatefulWidget {
+  final AccountIEType? initValue;
   final Function(String)? onChange;
 
-  const RadioAccountIEGroupWidget({Key? key, this.onChange, this.initValue}) : super(key: key);
+  const RadioAccountIETypeWidget({Key? key, this.onChange, this.initValue}) : super(key: key);
 
   @override
-  State<RadioAccountIEGroupWidget> createState() => _RadioAccountIEGroupWidgetState();
+  State<RadioAccountIETypeWidget> createState() => _RadioAccountIETypeWidgetState();
 }
 
-class _RadioAccountIEGroupWidgetState extends State<RadioAccountIEGroupWidget> {
-  AccountIEGroup? _group;
+class _RadioAccountIETypeWidgetState extends State<RadioAccountIETypeWidget> {
+  AccountIEType? _group;
 
   @override
   void didChangeDependencies() {
@@ -28,14 +28,14 @@ class _RadioAccountIEGroupWidgetState extends State<RadioAccountIEGroupWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ...AccountIEGroup.values
+        ...AccountIEType.values
             .map((e) => Expanded(
               flex: 1,
-              child: RadioListTile<AccountIEGroup>(
+              child: RadioListTile<AccountIEType>(
                     title: Text(AppLocalizations.of(context).translate('common_${e.name.toLowerCase()}')),
                     value: e,
                     groupValue: _group,
-                    onChanged: (AccountIEGroup? value) {
+                    onChanged: (AccountIEType? value) {
                       if (widget.onChange != null && value != null) {
                         widget.onChange!(value.name);
                       }

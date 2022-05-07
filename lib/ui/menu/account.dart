@@ -1,20 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ioaon_mobile/utils/navigator/navigator_tools.dart';
 import 'package:provider/provider.dart';
-
 import '../../constants/ioaon_global.dart';
+import '../../utils/tools/logging.dart';
 import '../../stores/language/language_store.dart';
 import '../../stores/post/post_store.dart';
 import '../../stores/theme/theme_store.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
-import '../../widgets/ioaon/button/language_button.dart';
-import '../../widgets/ioaon/button/logout_button.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
-import '../../widgets/ioaon/button/theme_button.dart';
-import '../../widgets/ioaon/error_tool.dart';
 import '../layout/app_layout.dart';
 
 class AccountMenuScreen extends StatefulWidget {
@@ -25,6 +20,9 @@ class AccountMenuScreen extends StatefulWidget {
 }
 
 class _AccountMenuScreenState extends State<AccountMenuScreen> {
+
+  final log = logger(AccountMenuScreen);
+
   //stores:---------------------------------------------------------------------
   late PostStore _postStore;
   late ThemeStore _themeStore;
@@ -33,11 +31,13 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
   @override
   void initState() {
     super.initState();
+    log.i('initState()');
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    log.i('didChangeDependencies()');
 
     // initializing stores
     _languageStore = Provider.of<LanguageStore>(context);
@@ -48,6 +48,7 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log.i('build()');
     return AppLayout(
         route: Routes.mainMenu,
         title: AppLocalizations.of(context).translate('account_menu_label'),
@@ -57,6 +58,7 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
   }
 
   Widget _buildBody() {
+    log.i('_buildBody()');
         return GridView(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -65,8 +67,9 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
             ...accountMenu.map((e) => MenuButton(
                 text: AppLocalizations.of(context).translate(e['code']),
                 onPressed: () {
-              gotoRoute(context, e['route']);
-            })).toList()
+                  log.d('_buildBody() goto ${e['route']}');
+                  gotoRoute(context, e['route']);
+                })).toList()
           ],
         );
   }

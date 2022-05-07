@@ -7,7 +7,9 @@ class Global {
   static const String appName = "Ioaon Financial Project";
 }
 
-enum AccountIEGroup { Income, Expense }
+String myLogFileName = "MyLogFile";
+
+enum AccountIEType { Income, Expense }
 
 List<Map<String, dynamic>> mainMenu = [
   {"id": 1, "code": "home_account_label", "name": "Account", "route": Routes.accountMenu },
@@ -33,13 +35,6 @@ List<Map<String, dynamic>> accountMenu = [
 List<Map<String, dynamic>> settingMenu = [
   {"id": 1, "code": "setting_user_menu_label", "name": "User", "route": Routes.settingUser },
 ];
-
-
-List<Map<String, dynamic>> accountType = [
-  {"id": 1, "name": "Income"},
-  {"id": 2, "name": "Expenses"}
-];
-
 
 Map<String, dynamic> ioaonConfig = {
   "logo": "assets/icons/ic_appicon.png"

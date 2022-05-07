@@ -58,20 +58,14 @@
 
   "account_personal_start": "Below are list of strings for account personal",
   "account_personal_label": "Personal account",
-  "account_personal_acc_type": "Account type",
-  "account_personal_acc_amount": "Amount",
   "account_personal_end": "-------------------------------------------------------------------------------------",
 
   "account_family_start": "Below are list of strings for account personal",
   "account_family_label": "Family account",
-  "account_family_acc_type": "Account type",
-  "account_family_acc_amount": "Amount",
   "account_family_end": "-------------------------------------------------------------------------------------",
 
   "account_business_start": "Below are list of strings for account personal",
   "account_business_label": "Business account",
-  "account_business_acc_type": "Account type",
-  "account_business_acc_amount": "Amount",
   "account_business_end": "-------------------------------------------------------------------------------------",
 
   "setting_menu_start": "Below are list of strings for setting menu",
@@ -84,8 +78,17 @@
   "setting_user_end": "-------------------------------------------------------------------------------------",
 
   "error_start": "Below are list of strings for error",
-  "error_please_fill_in_all_fields": "Please fill in all fields",
+  "Please fill in all fields": "Please fill in all fields",
   "Received invalid status code: 404": "Received invalid status code: 404",
-  "error_end": "-------------------------------------------------------------------------------------"
+  "Connection timeout with API server": "Connection timeout with API server",
+  "error_end": "-------------------------------------------------------------------------------------",
+
+  "account_input_start": "Below are list of strings for account personal",
+  "account_input_form": "Account Input Form",
+  "account_input_acc_type": "Account type",
+  "account_input_acc": "Account",
+  "account_input_acc_amount": "Amount",
+  "account_input_end": "-------------------------------------------------------------------------------------"
+
 
 }

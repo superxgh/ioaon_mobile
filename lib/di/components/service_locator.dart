@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:ioaon_mobile/data/local/datasources/post/post_datasource.dart';
 import 'package:ioaon_mobile/data/network/apis/posts/post_api.dart';
 import 'package:ioaon_mobile/data/network/dio_client.dart';
@@ -23,6 +25,7 @@ import '../../data/network/apis/users/user_api.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
+  log('setupLocator()', name: 'ServiceLocator');
   // factories:-----------------------------------------------------------------
   getIt.registerFactory(() => ErrorStore());
   getIt.registerFactory(() => FormStore());
@@ -53,8 +56,8 @@ Future<void> setupLocator() async {
   ));
 
   // stores:--------------------------------------------------------------------
-  getIt.registerSingleton(LanguageStore(getIt<Repository>()));
-  getIt.registerSingleton(PostStore(getIt<Repository>()));
-  getIt.registerSingleton(ThemeStore(getIt<Repository>()));
-  getIt.registerSingleton(UserStore(getIt<Repository>()));
+  // getIt.registerSingleton(LanguageStore(getIt<Repository>()));
+  // getIt.registerSingleton(PostStore(getIt<Repository>()));
+  // getIt.registerSingleton(ThemeStore(getIt<Repository>()));
+  // getIt.registerSingleton(UserStore(getIt<Repository>()));
 }

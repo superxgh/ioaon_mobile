@@ -6,6 +6,7 @@ import 'package:ioaon_mobile/widgets/ioaon/ioaon_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/sharedpref/constants/preferences.dart';
+import '../../../utils/tools/logging.dart';
 import '../../../models/user/user.dart';
 import '../../../stores/theme/theme_store.dart';
 import '../../../stores/user/signup_form.dart';
@@ -18,6 +19,7 @@ import '../../../utils/routes/routes.dart';
 import '../../../widgets/empty_app_bar_widget.dart';
 import '../../../widgets/ioaon/button/button_ok_widget.dart';
 import '../../../widgets/ioaon/text_input_widget.dart';
+import '../../../widgets/progress_indicator_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -27,6 +29,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen>  {
+  
+  final log = logger(SignUpScreen);
+  
   //text controllers:-----------------------------------------------------------
   TextEditingController _fullNameController = TextEditingController();
   TextEditingController _mobileNumberController = TextEditingController();
@@ -47,18 +52,23 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   @override
   void initState() {
     super.initState();
+    log.i('initState()');
     _passwordFocusNode = FocusNode();
   }
 
   @override
   void didChangeDependencies() {
+    log.i('didChangeDependencies()');
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
     _userStore = Provider.of<UserStore>(context);
+
+    log.i('didChangeDependencies() _userStore.success = ${_userStore.success}');
   }
 
   @override
   Widget build(BuildContext context) {
+    log.i('build()');
     return Scaffold(
       primary: true,
       appBar: EmptyAppBar(),
@@ -68,12 +78,34 @@ class _SignUpScreenState extends State<SignUpScreen>  {
 
   // body methods:--------------------------------------------------------------
   Widget _buildBody() {
+    log.i('_buildBody()');
     return Material(
-      child: _buildMobileLayout(),
+      child: Stack(
+        children: <Widget>[
+          Center(child: _buildMobileLayout()),
+          Observer(
+            builder: (context) {
+              log.d('_buildBody() _userStore.success = ${_userStore.success}');
+              return _userStore.success
+                  ? gotoRoute(context, Routes.signin)
+                  : displayErrorMessage(context,_userStore.errorStore.errorMessage);
+            },
+          ),
+          Observer(
+            builder: (context) {
+              return Visibility(
+                visible: _userStore.isLoading,
+                child: CustomProgressIndicatorWidget(text: 'Connect to backend.',),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 
   Widget _buildMobileLayout() {
+    log.i('_buildMobileLayout()');
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -103,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
             _buildConfirmPasswordField(),
             SizedBox(height: 24.0),
             _buildSignUpButton(),
-            _buildSignUpWithGoogleButton()
+            // _buildSignUpWithGoogleButton()
           ],
         ),
       ),
@@ -111,6 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildFullNameField() {
+    log.i('_buildFullNameField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
@@ -132,6 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildMobileNumberField() {
+    log.i('_buildMobileNumberField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
@@ -153,6 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildEmailField() {
+    log.i('_buildEmailField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
@@ -174,6 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildPasswordField() {
+    log.i('_buildPasswordField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
@@ -195,6 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildConfirmPasswordField() {
+    log.i('_buildConfirmPasswordField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
@@ -216,29 +253,28 @@ class _SignUpScreenState extends State<SignUpScreen>  {
   }
 
   Widget _buildSignUpButton() {
+    log.i('_buildSignUpButton()');
     return ButtonOkWidget(
-      text: AppLocalizations.of(context).translate('common_save'),
-      onPressed: () async {
-        log('_buildSignUpButton _form.canSave = ${_form.canSave}', name: 'SignUpScreen');
-        if (_form.canSave) {
-          DeviceUtils.hideKeyboard(context);
-          log('_form.userData = ${_form.userData}', name: 'SignUpScreen');
-          User user = User.fromCreateUserByEmailMap(_form.userData);
-          log('user.toCreateUserByEmailMap() = ${user.toCreateUserByEmailMap()}', name: 'SignUpScreen');
-          await _userStore.signup(user).catchError((e) {
-            displayErrorMessage(context, _userStore.errorStore.errorMessage);
-          });
-          // _store.signin();
-          // gotoRoute(context, Routes.mainMenu);
-          //
-        } else {
-          displayErrorMessage( context, 'error_please_fill_in_all_fields');
-        }
-      },
-    );
+          text: AppLocalizations.of(context).translate('common_save'),
+          onPressed: () async {
+            log.d('_buildSignUpButton _form.canSave = ${_form.canSave}');
+            if (_form.canSave) {
+              DeviceUtils.hideKeyboard(context);
+              log.d('_form.userData = ${_form.userData}');
+              User user = User.fromCreateUserByEmailMap(_form.userData);
+              log.d('user.toCreateUserByEmailMap() = ${user.toCreateUserByEmailMap()}');
+              await _userStore.signup(user).catchError((e) {
+                displayErrorMessage(context, _userStore.errorStore.errorMessage);
+              });
+            } else {
+              displayErrorMessage( context, 'error_please_fill_in_all_fields');
+            }
+          },
+        );
   }
 
   Widget _buildSignUpWithGoogleButton() {
+    log.i('_buildSignUpWithGoogleButton()');
     return ButtonOkWidget(
       text: AppLocalizations.of(context).translate('common_google'),
       onPressed: () async {
@@ -246,24 +282,14 @@ class _SignUpScreenState extends State<SignUpScreen>  {
     );
   }
 
-  Widget navigate(BuildContext context) {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
-    });
-
-    Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.mainMenu, (Route<dynamic> route) => false);
-    });
-
-    return Container();
-  }
-
 
   // dispose:-------------------------------------------------------------------
   @override
   void dispose() {
+    log.i('dispose()');
     // Clean up the controller when the Widget is removed from the Widget tree
+    _form.dispose();
+    _userStore.dispose();
     _fullNameController.dispose();
     super.dispose();
   }

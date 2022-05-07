@@ -14,7 +14,6 @@ import '../../widgets/ioaon/button/language_button.dart';
 import '../../widgets/ioaon/button/logout_button.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
 import '../../widgets/ioaon/button/theme_button.dart';
-import '../../widgets/ioaon/error_tool.dart';
 import '../layout/app_layout.dart';
 
 class SettingMenuScreen extends StatefulWidget {

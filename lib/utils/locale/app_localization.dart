@@ -4,7 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../tools/logging.dart';
+
 class AppLocalizations {
+
+  final log = logger(AppLocalizations);
+
   // localization variables
   final Locale locale;
   late Map<String, String> localizedStrings;
@@ -26,6 +31,7 @@ class AppLocalizations {
   // present in lang folder
   Future<bool> load() async {
     // Load the language JSON file from the "lang" folder
+    log.i('assets/lang/${locale.languageCode}.json');
     String jsonString =
     await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);

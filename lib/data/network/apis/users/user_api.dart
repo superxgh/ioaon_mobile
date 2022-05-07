@@ -21,7 +21,7 @@ class UserApi {
   /// Returns list of post in response
   Future<bool> createUser(User user) async {
     try {
-      final res = await _dioClient.post(Endpoints.postCreateUser, data: user.toCreateUserByEmailMap());
+      final res = await _dioClient.post(Endpoints.createUser, data: user.toCreateUserByEmailMap());
       log('createUser res = $res', name: 'UserApi');
       // log('createUser res = ${res.data}', name: 'UserApi');
       // log('createUser res = ${res.headers}', name: 'UserApi');

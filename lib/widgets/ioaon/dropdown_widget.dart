@@ -38,7 +38,6 @@ class DropdownWidget<T> extends StatelessWidget {
         return list;
       },
       selectedFn: (dynamic item1, dynamic item2) {
-        log('item1 = $item1, item2 = $item2');
         if (item1 != null && item2 != null) {
           return item1['name'] == item2['name'];
         }
