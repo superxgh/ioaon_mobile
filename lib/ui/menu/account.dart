@@ -52,7 +52,7 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
     return AppLayout(
         route: Routes.mainMenu,
         title: AppLocalizations.of(context).translate('account_menu_label'),
-        storeList: [_postStore],
+        errorList: [_postStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

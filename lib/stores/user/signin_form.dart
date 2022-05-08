@@ -28,7 +28,7 @@ abstract class _SignInForm with Store {
   }
 
   get userEmailAndPassword => {
-    "userEmail": userEmail,
+    "email": userEmail,
     "password": password
   };
   // store variables:-----------------------------------------------------------

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:material_dialog/material_dialog.dart';
 import 'package:provider/provider.dart';
 
-import '../../../stores/language/language_store.dart';
-import '../../../stores/theme/theme_store.dart';
-import '../../../utils/locale/app_localization.dart';
+import '../../stores/language/language_store.dart';
+import '../../stores/theme/theme_store.dart';
+import '../../utils/locale/app_localization.dart';
 
 class LanguageButtonWidget extends StatefulWidget {
   const LanguageButtonWidget({Key? key}) : super(key: key);

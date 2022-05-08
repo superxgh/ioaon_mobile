@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
+import '../../utils/errors/error_tools.dart';
 import '../../utils/navigator/navigator_tools.dart';
-import '../../utils/routes/routes.dart';
-import '../../widgets/ioaon/button/language_button.dart';
-import '../../widgets/ioaon/button/logout_button.dart';
-import '../../widgets/ioaon/button/theme_button.dart';
-import '../../utils/tools/error_tool.dart';
+import '../../utils/tools/logging.dart';
+import 'language_button.dart';
+import 'logout_button.dart';
+import 'theme_button.dart';
 
 class AppLayout extends StatelessWidget {
 
   final String title;
-  final List<dynamic> storeList;
+  final List<String>? errorList;
   final Widget body;
   final String? route;
 
   const AppLayout({
     Key? key,
     required this.title,
-    required this.storeList,
+    this.errorList,
     required this.body,
     this.route}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
+    final log = logger(AppLayout);
+    log.i('build()');
     return Scaffold(
       appBar: _buildAppBar(context, route),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
@@ -45,10 +47,10 @@ class AppLayout extends StatelessWidget {
 
 
   // body methods:--------------------------------------------------------------
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return Stack(
       children: <Widget>[
-        ...storeList.map((e) =>  ErrorMessageViewer(store: e)).toList(),
+        if(errorList != null) ...errorList!.map((e) =>  displayErrorMessage(context, e)).toList(),
         body,
       ],
     );

@@ -10,10 +10,10 @@ import '../../stores/post/post_store.dart';
 import '../../stores/theme/theme_store.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
-import '../../widgets/ioaon/button/language_button.dart';
-import '../../widgets/ioaon/button/logout_button.dart';
+import '../layout/language_button.dart';
+import '../layout/logout_button.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
-import '../../widgets/ioaon/button/theme_button.dart';
+import '../layout/theme_button.dart';
 import '../layout/app_layout.dart';
 
 class SettingMenuScreen extends StatefulWidget {
@@ -50,7 +50,7 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
     return AppLayout(
         route: Routes.mainMenu,
         title: AppLocalizations.of(context).translate('setting_menu_label'),
-        storeList: [_postStore],
+        errorList: [_postStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

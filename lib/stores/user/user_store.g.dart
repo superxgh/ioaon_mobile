@@ -34,15 +34,30 @@ mixin _$UserStore on _UserStore, Store {
   final _$fetchFutureAtom = Atom(name: '_UserStore.fetchFuture');
 
   @override
-  ObservableFuture<bool> get fetchFuture {
+  ObservableFuture<dynamic> get fetchFuture {
     _$fetchFutureAtom.reportRead();
     return super.fetchFuture;
   }
 
   @override
-  set fetchFuture(ObservableFuture<bool> value) {
+  set fetchFuture(ObservableFuture<dynamic> value) {
     _$fetchFutureAtom.reportWrite(value, super.fetchFuture, () {
       super.fetchFuture = value;
+    });
+  }
+
+  final _$currentUserAtom = Atom(name: '_UserStore.currentUser');
+
+  @override
+  User get currentUser {
+    _$currentUserAtom.reportRead();
+    return super.currentUser;
+  }
+
+  @override
+  set currentUser(User value) {
+    _$currentUserAtom.reportWrite(value, super.currentUser, () {
+      super.currentUser = value;
     });
   }
 
@@ -65,6 +80,7 @@ mixin _$UserStore on _UserStore, Store {
     return '''
 success: ${success},
 fetchFuture: ${fetchFuture},
+currentUser: ${currentUser},
 isLoading: ${isLoading}
     ''';
   }

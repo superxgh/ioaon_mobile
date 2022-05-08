@@ -7,8 +7,12 @@ import 'package:ioaon_mobile/data/network/dio_client.dart';
 import 'package:ioaon_mobile/data/network/rest_client.dart';
 
 import '../../../../models/user/user.dart';
+import '../../../../utils/tools/logging.dart';
 
 class UserApi {
+
+  final log = logger(UserApi);
+
   // dio instance
   final DioClient _dioClient;
 
@@ -18,20 +22,37 @@ class UserApi {
   // injecting dio instance
   UserApi(this._dioClient, this._restClient);
 
-  /// Returns list of post in response
   Future<bool> createUser(User user) async {
     try {
       final res = await _dioClient.post(Endpoints.createUser, data: user.toCreateUserByEmailMap());
-      log('createUser res = $res', name: 'UserApi');
-      // log('createUser res = ${res.data}', name: 'UserApi');
-      // log('createUser res = ${res.headers}', name: 'UserApi');
-      // log('createUser res = ${res.requestOptions}', name: 'UserApi');
-      // log('createUser res = ${res.statusCode}', name: 'UserApi');
-      return true;
+      return res;
     } catch (e) {
       print(e.toString());
       throw e;
     }
   }
+
+  Future<dynamic> emailSignIn(data) async {
+    try {
+      final res = await _dioClient.post(Endpoints.emailSignInUser, data: data);
+      log.i('res = $res');
+      return res;
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
+
+  Future<dynamic> getUserByToken() async {
+    try {
+      final res = await _dioClient.get(Endpoints.getUserByToken);
+      log.i('res = $res');
+      return res;
+    } catch (e) {
+      print(e.toString());
+      throw e;
+    }
+  }
+
 
 }

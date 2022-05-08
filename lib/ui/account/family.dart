@@ -58,7 +58,7 @@ class _AccountFamilyScreenState extends State<AccountFamilyScreen> {
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_family_label'),
-        storeList: [_accountStore],
+        errorList: [_accountStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

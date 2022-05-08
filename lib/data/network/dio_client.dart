@@ -25,7 +25,7 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } catch (e) {
       print(e.toString());
       throw e;
@@ -52,13 +52,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      // log('post response data = ${response.data}', name: 'dioClient');
-      // log('post response headers = ${response.headers}', name: 'dioClient');
-      // log('post response requestOptions = ${response.requestOptions}', name: 'dioClient');
-      // log('post response statusCode = ${response.statusCode}', name: 'dioClient');
-      return {
-        "code": response.statusCode,
-        "data": response.data };
+      return response;
     } catch (e) {
       throw e;
     }
@@ -84,7 +78,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response.data;
+      return response;
     } catch (e) {
       throw e;
     }
@@ -108,7 +102,7 @@ class DioClient {
         options: options,
         cancelToken: cancelToken,
       );
-      return response.data;
+      return response;
     } catch (e) {
       throw e;
     }

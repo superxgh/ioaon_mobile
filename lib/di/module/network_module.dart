@@ -28,7 +28,7 @@ abstract class NetworkModule {
             var token = await sharedPrefHelper.authToken;
             // var token = "CREATE USER";
             if (token != null) {
-              options.headers.putIfAbsent('Authorization', () => token);
+              options.headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
             } else {
               print('Auth token is null');
             }

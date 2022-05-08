@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:provider/provider.dart';
+import '../../stores/user/user_store.dart';
 import '../../utils/tools/logging.dart';
 import '../../stores/account/input_account_form.dart';
 import '../../stores/account/account_store.dart';
@@ -28,6 +29,8 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
   
   late AccountStore _accountStore;
   late ThemeStore _themeStore;
+  late UserStore _userStore;
+
   TextEditingController _accAmountController = TextEditingController();
   InputAccountForm _formStore = InputAccountForm();
   List<Map<String, dynamic>> accountList  = [
@@ -52,6 +55,9 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     // initializing stores
     _accountStore = Provider.of<AccountStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
+    _userStore = Provider.of<UserStore>(context);
+
+    log.w('currentUser = ${_userStore.currentUser}');
 
     log.w('load account type by language');
     log.w('language = ${AppLocalizations.of(context).locale}');
@@ -69,7 +75,7 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_personal_label'),
-        storeList: [_accountStore],
+        errorList: [_accountStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-import '../../../stores/theme/theme_store.dart';
+import '../../stores/theme/theme_store.dart';
 
 class ThemeButtonWidget extends StatefulWidget {
   const ThemeButtonWidget({Key? key}) : super(key: key);

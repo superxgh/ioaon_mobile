@@ -24,16 +24,24 @@ abstract class _UserStore with Store {
 
   // bool to check if current user is logged in
   bool isLoggedIn = false;
+  String authToken = '';
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
     log.i('constructor()');
-    // setting up disposers
     _setupDisposers();
-
-    // checking if user is logged in
     repository.isLoggedIn.then((value) {
       this.isLoggedIn = value;
+      if (this.isLoggedIn) {
+        repository.authToken.then((token) {
+          if((token ?? '') != '') {
+            this.authToken = token!;
+            _getUserByToken();
+          } else {
+            repository.saveIsLoggedIn(false);
+          }
+        });
+      }
     });
   }
 
@@ -47,18 +55,19 @@ abstract class _UserStore with Store {
     ];
   }
 
-  // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptyResponse = ObservableFuture.value(false);
-
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
   @observable
-  ObservableFuture<bool> fetchFuture = emptyResponse;
+  ObservableFuture<dynamic> fetchFuture = ObservableFuture.value(null);
 
   @computed
   bool get isLoading => fetchFuture.status == FutureStatus.pending;
+
+  @observable
+  User currentUser = User.empty();
+
   // actions:-------------------------------------------------------------------
   @action
   Future<void> signup(User user) async {
@@ -66,9 +75,9 @@ abstract class _UserStore with Store {
     final future = _repository.signup(user);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
-      log.d('signup value = $value');
+      log.w('signup value = $value');
       this.success = true;
-      log.d('signup() success = $success');
+      log.w('signup() success = $success');
     }).catchError((e) {
       log.e(e.toString());
       errorStore.errorMessage = DioErrorUtil.handleError(e);
@@ -79,27 +88,30 @@ abstract class _UserStore with Store {
 
   @action
   Future<void> signin(dynamic data) async {
-    log.i('signin()');
-    log.d('signin() data = $data');
-    final future = _repository.signin(data);
+    log.w('>>>>> signin()');
+    log.w('data = $data');
+    final future = _repository.emailSignin(data);
     fetchFuture = ObservableFuture(future);
-    await future.then((value) async {
-      if (value) {
-        _repository.saveIsLoggedIn(true);
-        this.isLoggedIn = true;
-        this.success = true;
-      } else {
-        print('failed to signin');
-      }
+    await future.then((user) async {
+      // Set user to user in UserStore
+      this.currentUser = user;
+      _repository.saveIsLoggedIn(true);
+      _repository.saveAuthToken(this.currentUser.token!);
+      this.isLoggedIn = true;
+      this.success = true;
+      log.w('this.currentUser = $this.currentUser');
+      log.w('saveIsLoggedIn(true) , success = true');
+
     }).catchError((e) {
-      print(e);
       this.isLoggedIn = false;
       this.success = false;
+      log.w('saveIsLoggedIn(true) , success = false');
+      log.e(e.toString());
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+      log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
       throw e;
     });
   }
-
-
 
   void logout() {
     log.i('logout()');
@@ -107,6 +119,23 @@ abstract class _UserStore with Store {
     _repository.saveIsLoggedIn(false);
   }
 
+  Future<void> _getUserByToken() async {
+    log.w('>>>>> _getUserByToken()');
+    log.w('this.isLoggedIn = ${this.isLoggedIn}');
+    log.w('this.authToken = ${this.authToken}');
+
+    final future = _repository.getUserByToken();
+    fetchFuture = ObservableFuture(future);
+    await future.then((user) async {
+
+    }).catchError((e) {
+      log.e(e.toString());
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+      log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
+      throw e;
+    });
+
+  }
   // general methods:-----------------------------------------------------------
   void dispose() {
     log.i('dispose()');

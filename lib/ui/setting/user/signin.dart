@@ -18,6 +18,7 @@ import '../../../utils/tools/logging.dart';
 import '../../../stores/user/signin_form.dart';
 import '../../../utils/errors/error_tools.dart';
 import '../../../widgets/ioaon/ioaon_logo.dart';
+import '../../../widgets/progress_indicator_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -77,16 +78,16 @@ class _SignInScreenState extends State<SignInScreen> {
               return _userStore.success
                   ? navigate(context)
                   :  displayErrorMessage(context,_userStore.errorStore.errorMessage);
-            },
+            }
           ),
-          // Observer(
-          //   builder: (context) {
-          //     return Visibility(
-          //       visible: _form.loading,
-          //       child: CustomProgressIndicatorWidget(),
-          //     );
-          //   },
-          // )
+          Observer(
+            builder: (context) {
+              return Visibility(
+                visible: _userStore.isLoading,
+                child: CustomProgressIndicatorWidget(text: 'Connect to backend.',),
+              );
+            },
+          )
         ],
       ),
     );
@@ -116,8 +117,8 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             ),
             _buildSignInButton(),
-            _buildGoogleSignInButton(),
-            _buildFacebookSignInButton()
+            // _buildGoogleSignInButton(),
+            // _buildFacebookSignInButton()
           ],
         ),
       ),
@@ -194,11 +195,18 @@ class _SignInScreenState extends State<SignInScreen> {
       text: AppLocalizations.of(context).translate('signin_btn_sign_in'),
       onPressed: () async {
         // gotoRoute(context, Routes.mainMenu);
-        log.i('_buildSignInButton() _form.canSignin = ${_form.canSignin}');
+        log.w('_buildSignInButton() _form.canSignin = ${_form.canSignin}');
         if (_form.canSignin) {
           DeviceUtils.hideKeyboard(context);
-          log.i('_buildSignInButton() _form.userEmailAndPassword = ${_form.userEmailAndPassword}');
-          _userStore.signin(_form.userEmailAndPassword);
+          log.w('_buildSignInButton() _form.userEmailAndPassword = ${_form.userEmailAndPassword}');
+          await _userStore.signin(_form.userEmailAndPassword)
+              .then((res) {
+                log.w('_buildSignInButton() signin - success');
+              })
+              .catchError((e) {
+                log.w('_buildSignInButton() error = ${_userStore.errorStore.errorMessage}');
+                displayErrorMessage(context,_userStore.errorStore.errorMessage);
+              });
         } else {
           displayErrorMessage(context,'Please fill in all fields');
         }
@@ -242,7 +250,7 @@ class _SignInScreenState extends State<SignInScreen> {
       prefs.setBool(Preferences.is_logged_in, true);
     });
 
-    log.d('goto main menu');
+    log.w('goto main menu');
     Future.delayed(Duration(milliseconds: 0), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.mainMenu, (Route<dynamic> route) => false);

@@ -18,10 +18,6 @@ class MainMenuScreen extends StatefulWidget {
 class _MainMenuScreenState extends State<MainMenuScreen> {
 
   final log = logger(MainMenuScreen);
-  //stores:---------------------------------------------------------------------
-  late PostStore _postStore;
-  late ThemeStore _themeStore;
-  late LanguageStore _languageStore;
 
   @override
   void initState() {
@@ -32,11 +28,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     log.i('didChangeDependencies()');
-    // initializing stores
-    _languageStore = Provider.of<LanguageStore>(context);
-    _themeStore = Provider.of<ThemeStore>(context);
-    _postStore = Provider.of<PostStore>(context);
-
   }
 
   @override
@@ -44,7 +35,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     log.i('build()');
     return AppLayout(
         title: AppLocalizations.of(context).translate('home_label'),
-        storeList: [_postStore],
         body: _buildBody()
     );
   }
