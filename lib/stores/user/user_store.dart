@@ -96,7 +96,7 @@ abstract class _UserStore with Store {
       // Set user to user in UserStore
       this.currentUser = user;
       _repository.saveIsLoggedIn(true);
-      _repository.saveAuthToken(this.currentUser.token!);
+      _repository.saveAuthToken(this.currentUser.authToken!);
       this.isLoggedIn = true;
       this.success = true;
       log.w('this.currentUser = $this.currentUser');
@@ -127,7 +127,8 @@ abstract class _UserStore with Store {
     final future = _repository.getUserByToken();
     fetchFuture = ObservableFuture(future);
     await future.then((user) async {
-
+      log.w('user = $user');
+      this.currentUser = user;
     }).catchError((e) {
       log.e(e.toString());
       errorStore.errorMessage = DioErrorUtil.handleError(e);

@@ -13,7 +13,7 @@ class Endpoints {
   // users
   static const String createUser = baseUrl + "/users";
   static const String emailSignInUser = baseUrl + "/users/emailsignin";
-  static const String getUserByToken = baseUrl + "/users/token";
+  static const String getUserByAuthToken = baseUrl + "/users/authToken";
 
   // booking endpoints
   static const String getPosts = baseUrl + "/posts";

@@ -45,7 +45,7 @@ class UserApi {
 
   Future<dynamic> getUserByToken() async {
     try {
-      final res = await _dioClient.get(Endpoints.getUserByToken);
+      final res = await _dioClient.get(Endpoints.getUserByAuthToken);
       log.i('res = $res');
       return res;
     } catch (e) {

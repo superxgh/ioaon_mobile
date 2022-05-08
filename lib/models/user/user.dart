@@ -8,7 +8,7 @@ class User {
   dynamic facebookData;
   String? role;
   String? permissions;
-  String? token;
+  String? authToken;
 
   User({
     this.fullName,
@@ -19,7 +19,7 @@ class User {
     this.facebookData,
     this.role,
     this.permissions,
-    this.token
+    this.authToken
   });
 
   factory User.empty() =>
@@ -31,7 +31,7 @@ class User {
           facebookData: null,
           role: '',
           permissions: '',
-          token: ''
+          authToken: ''
       );
 
   factory User.fromBackEndUser(Map<String, dynamic> json) =>
@@ -43,7 +43,7 @@ class User {
           facebookData: json["facebookData"],
           role: json["role"],
           permissions: json["permissions"],
-          token: json["token"]
+          authToken: json["authToken"]
       );
 
   factory User.fromCreateUserByEmailMap(Map<String, dynamic> json) =>
@@ -74,7 +74,7 @@ class User {
     facebookData: $facebookData,
     role: $role,
     permissions: $permissions,
-    token: $token
+    authToken: $authToken
   }
 ''';
 
