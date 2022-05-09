@@ -50,7 +50,6 @@ class _SettingMenuScreenState extends State<SettingMenuScreen> {
     return AppLayout(
         route: Routes.mainMenu,
         title: AppLocalizations.of(context).translate('setting_menu_label'),
-        errorList: [_postStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

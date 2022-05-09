@@ -59,7 +59,6 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_business_label'),
-        errorList: [_accountStore.errorStore.errorMessage],
         body: _buildBody()
     );
   }

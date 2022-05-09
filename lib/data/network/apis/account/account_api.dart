@@ -6,12 +6,14 @@ import 'package:ioaon_mobile/data/network/constants/endpoints.dart';
 import 'package:ioaon_mobile/data/network/dio_client.dart';
 import 'package:ioaon_mobile/data/network/rest_client.dart';
 
+import '../../../../constants/ioaon_global.dart';
+import '../../../../models/account/account.dart';
 import '../../../../models/user/user.dart';
 import '../../../../utils/tools/logging.dart';
 
-class ReferenceApi {
+class AccountApi {
 
-  final log = logger(ReferenceApi);
+  final log = logger(AccountApi);
 
   // dio instance
   final DioClient _dioClient;
@@ -20,24 +22,18 @@ class ReferenceApi {
   final RestClient _restClient;
 
   // injecting dio instance
-  ReferenceApi(this._dioClient, this._restClient);
+  AccountApi(this._dioClient, this._restClient);
 
-  Future<dynamic> getAccountTypes() async {
+  Future<bool> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
+    log.w('createAccountItem()');
     try {
-      final res = await _dioClient.get(Endpoints.getAccountTypes);
+      final res = await _dioClient.post(Endpoints.createAccountItem, data: {
+        "type": accountGroup.name,
+        "data": accountItem
+      });
       return res;
     } catch (e) {
-      print(e.toString());
-      throw e;
-    }
-  }
-
-  Future<dynamic> getAccountCodes() async {
-    try {
-      final res = await _dioClient.get(Endpoints.getAccountCodes);
-      return res;
-    } catch (e) {
-      print(e.toString());
+      log.w('createAccountItem() error = ${e.toString()}');
       throw e;
     }
   }

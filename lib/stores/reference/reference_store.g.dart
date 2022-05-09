@@ -62,13 +62,35 @@ mixin _$ReferenceStore on _ReferenceStore, Store {
     });
   }
 
-  final _$getAccountTypeListAsyncAction =
-      AsyncAction('_ReferenceStore.getAccountTypeList');
+  final _$accountCodeListAtom = Atom(name: '_ReferenceStore.accountCodeList');
 
   @override
-  Future<dynamic> getAccountTypeList() {
-    return _$getAccountTypeListAsyncAction
-        .run(() => super.getAccountTypeList());
+  AccountCodeList get accountCodeList {
+    _$accountCodeListAtom.reportRead();
+    return super.accountCodeList;
+  }
+
+  @override
+  set accountCodeList(AccountCodeList value) {
+    _$accountCodeListAtom.reportWrite(value, super.accountCodeList, () {
+      super.accountCodeList = value;
+    });
+  }
+
+  final _$getAccountTypesAsyncAction =
+      AsyncAction('_ReferenceStore.getAccountTypes');
+
+  @override
+  Future<dynamic> getAccountTypes() {
+    return _$getAccountTypesAsyncAction.run(() => super.getAccountTypes());
+  }
+
+  final _$getAccountCodesAsyncAction =
+      AsyncAction('_ReferenceStore.getAccountCodes');
+
+  @override
+  Future<dynamic> getAccountCodes() {
+    return _$getAccountCodesAsyncAction.run(() => super.getAccountCodes());
   }
 
   @override
@@ -77,6 +99,7 @@ mixin _$ReferenceStore on _ReferenceStore, Store {
 success: ${success},
 fetchFuture: ${fetchFuture},
 accountTypeList: ${accountTypeList},
+accountCodeList: ${accountCodeList},
 isLoading: ${isLoading}
     ''';
   }

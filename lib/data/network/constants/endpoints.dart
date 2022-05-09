@@ -16,7 +16,11 @@ class Endpoints {
   static const String getUserByAuthToken = baseUrl + "/users/authToken";
 
   // reference
-  static const String getAccountTypeList = baseUrl + "/referenceData/getAllSmallAccountType";
+  static const String getAccountTypes = baseUrl + "/referenceData/getAllSmallAccountType";
+  static const String getAccountCodes = baseUrl + "/referenceData/getAllSmallAccountCode";
+
+  // account
+  static const String createAccountItem = baseUrl + "/accounts/";
 
   // booking endpoints
   static const String getPosts = baseUrl + "/posts";

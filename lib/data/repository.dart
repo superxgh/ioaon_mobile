@@ -6,10 +6,14 @@ import 'package:ioaon_mobile/models/post/post.dart';
 import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
+import '../constants/ioaon_global.dart';
+import '../models/account/account.dart';
+import '../models/reference/account_code_list.dart';
 import '../models/reference/account_type_list.dart';
 import '../utils/tools/logging.dart';
 import '../models/user/user.dart';
 import 'local/constants/db_constants.dart';
+import 'network/apis/account/account_api.dart';
 import 'network/apis/posts/post_api.dart';
 import 'network/apis/reference/reference_api.dart';
 import 'network/apis/users/user_api.dart';
@@ -25,6 +29,7 @@ class Repository {
   final PostApi _postApi;
   final UserApi _userApi;
   final ReferenceApi _referenceApi;
+  final AccountApi _accountApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
@@ -35,7 +40,8 @@ class Repository {
       this._sharedPrefsHelper,
       this._postDataSource,
       this._userApi,
-      this._referenceApi);
+      this._referenceApi,
+      this._accountApi);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
@@ -122,6 +128,18 @@ class Repository {
     }).catchError((error) => throw error);
   }
 
+
+  // Account:---------------------------------------------------------------------
+  Future<dynamic> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
+    log.e('>>>> createAccountItem()');
+    log.e('accountGroup = $accountGroup');
+    log.e('accountItem = $accountItem');
+    await _accountApi.createAccountItem(accountGroup, accountItem).then((res) {
+      log.e('res = $res');
+      return res;
+    }).catchError((error) => throw error);
+  }
+
   Future<void> saveIsLoggedIn(bool value) =>
       _sharedPrefsHelper.saveIsLoggedIn(value);
 
@@ -159,6 +177,24 @@ class Repository {
         AccountTypeList accountTypeList = AccountTypeList.fromJson(res.data['data']);
         log.e('getAccountTypes() accountTypeList = $accountTypeList');
         return accountTypeList;  //res['data'];
+      } else {
+        throw Exception('Have no data.');
+      }
+    }).catchError((error) => throw error);
+  }
+
+  Future<AccountCodeList> getAccountCodes() async {
+    log.e('>>>> getAccountCodes()');
+    return await _referenceApi.getAccountCodes().then((res) {
+      // accountCodesList.accountCodes?.forEach((accountCode) {
+      //   _accountCodeDataSource.insert(accountCode);
+      // });
+      log.e('getAccountCodes() res = $res');
+      if (res.statusCode == 200) {
+        log.e('getAccountCodes() res[data] = ${res.data['data']}');
+        AccountCodeList accountCodeList = AccountCodeList.fromJson(res.data['data']);
+        log.e('getAccountCodes() accountCodeList = $accountCodeList');
+        return accountCodeList;  //res['data'];
       } else {
         throw Exception('Have no data.');
       }

@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import '../../models/account/account.dart';
 import '../error/error_store.dart';
 
 part 'input_account_form.g.dart';
@@ -28,7 +29,7 @@ abstract class _InputAccountForm with Store {
 
   // store variables:-----------------------------------------------------------
   @observable
-  String accountType = '';
+  int accountType = 0;
 
   @observable
   int accountCode = 0;
@@ -38,18 +39,18 @@ abstract class _InputAccountForm with Store {
 
   @computed
   bool get canSave =>
-      !formErrorStore.hasErrorsInForm && accountType.isNotEmpty && 0 < accountCode && 0.0 < accountAmount;
+      !formErrorStore.hasErrorsInForm && 0 < accountType && 0 < accountCode && 0.0 < accountAmount;
 
   @computed
-  Map<String, dynamic> get data => {
-    "accType": accountType,
-    "accCode": accountCode,
-    "amount": accountAmount
-  };
+  AccountItem get toAccountItem => AccountItem(
+    type: accountType,
+    code: accountCode,
+    amount: accountAmount
+  );
 
   // actions:-------------------------------------------------------------------
   @action
-  void setAccountType(String value) {
+  void setAccountType(int value) {
     accountType = value;
   }
 
@@ -64,9 +65,9 @@ abstract class _InputAccountForm with Store {
   }
 
   @action
-  void validateAccountType(String value) {
-    if (value.isEmpty) {
-      formErrorStore.accountType = "Account type can't be empty";
+  void validateAccountType(int value) {
+    if (0 == value) {
+      formErrorStore.accountType = "Account type can't be zero";
     } else {
       formErrorStore.accountType = null;
     }
@@ -74,7 +75,7 @@ abstract class _InputAccountForm with Store {
 
   @action
   void validateAccountCode(int value) {
-    if (0 < value) {
+    if (0 == value) {
       formErrorStore.accountCode = "Account code can't be zero";
     } else {
       formErrorStore.accountCode = null;

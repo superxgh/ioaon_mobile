@@ -1,13 +1,20 @@
+import 'package:ioaon_mobile/constants/ioaon_global.dart';
+import 'package:ioaon_mobile/models/account/account.dart';
 import 'package:ioaon_mobile/stores/account/input_account_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
+import '../../utils/dio/dio_error_util.dart';
+import '../../utils/tools/logging.dart';
 
 part 'account_store.g.dart';
 
 class AccountStore = _AccountStore with _$AccountStore;
 
 abstract class _AccountStore with Store {
+
+  final log = logger(AccountStore);
+
   // repository instance
   final Repository _repository;
 
@@ -35,20 +42,41 @@ abstract class _AccountStore with Store {
   }
 
   // empty responses:-----------------------------------------------------------
-  static ObservableFuture<bool> emptySigninResponse = ObservableFuture.value(false);
+  static ObservableFuture<dynamic> emptySigninResponse = ObservableFuture.value(null);
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
 
   @observable
-  ObservableFuture<bool> signinFuture = emptySigninResponse;
+  ObservableFuture<dynamic> fetchFuture = emptySigninResponse;
 
   @computed
-  bool get isLoading => signinFuture.status == FutureStatus.pending;
+  bool get isLoading => fetchFuture.status == FutureStatus.pending;
 
   @observable
   String userEmail = '';
+
+  // business logic:-------------------------------------------------------------------
+  @action
+  Future<void> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
+    log.w('>>>>> addAccountItem()');
+    log.w('accountGroup = $accountGroup');
+    log.w('accountItem = $accountItem');
+
+    final future = _repository.createAccountItem(accountGroup, accountItem);
+    fetchFuture = ObservableFuture(future);
+    await future.then((value) async {
+      log.w('value = $value');
+      this.success = true;
+    }).catchError((e) {
+      log.e('createAccountItem() error = ${e.toString()}');
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+      log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
+      throw e;
+    });
+
+  }
 
   // actions:-------------------------------------------------------------------
   @action

@@ -32,18 +32,18 @@ mixin _$AccountStore on _AccountStore, Store {
     });
   }
 
-  final _$signinFutureAtom = Atom(name: '_AccountStore.signinFuture');
+  final _$fetchFutureAtom = Atom(name: '_AccountStore.fetchFuture');
 
   @override
-  ObservableFuture<bool> get signinFuture {
-    _$signinFutureAtom.reportRead();
-    return super.signinFuture;
+  ObservableFuture<dynamic> get fetchFuture {
+    _$fetchFutureAtom.reportRead();
+    return super.fetchFuture;
   }
 
   @override
-  set signinFuture(ObservableFuture<bool> value) {
-    _$signinFutureAtom.reportWrite(value, super.signinFuture, () {
-      super.signinFuture = value;
+  set fetchFuture(ObservableFuture<dynamic> value) {
+    _$fetchFutureAtom.reportWrite(value, super.fetchFuture, () {
+      super.fetchFuture = value;
     });
   }
 
@@ -60,6 +60,16 @@ mixin _$AccountStore on _AccountStore, Store {
     _$userEmailAtom.reportWrite(value, super.userEmail, () {
       super.userEmail = value;
     });
+  }
+
+  final _$createAccountItemAsyncAction =
+      AsyncAction('_AccountStore.createAccountItem');
+
+  @override
+  Future<void> createAccountItem(
+      AccountGroup accountGroup, AccountItem accountItem) {
+    return _$createAccountItemAsyncAction
+        .run(() => super.createAccountItem(accountGroup, accountItem));
   }
 
   final _$_AccountStoreActionController =
@@ -80,7 +90,7 @@ mixin _$AccountStore on _AccountStore, Store {
   String toString() {
     return '''
 success: ${success},
-signinFuture: ${signinFuture},
+fetchFuture: ${fetchFuture},
 userEmail: ${userEmail},
 isLoading: ${isLoading}
     ''';

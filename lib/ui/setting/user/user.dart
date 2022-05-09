@@ -24,7 +24,6 @@ class _SettingUserScreenState extends State<SettingUserScreen> {
     return AppLayout(
         route: Routes.mainMenu,
         title: AppLocalizations.of(context).translate('setting_user_label'),
-        errorList: [],
         body: _buildBody()
     );
   }

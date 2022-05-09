@@ -11,15 +11,12 @@ import 'package:ioaon_mobile/di/module/local_module.dart';
 import 'package:ioaon_mobile/di/module/network_module.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:ioaon_mobile/stores/form/form_store.dart';
-import 'package:ioaon_mobile/stores/language/language_store.dart';
-import 'package:ioaon_mobile/stores/post/post_store.dart';
-import 'package:ioaon_mobile/stores/theme/theme_store.dart';
-import 'package:ioaon_mobile/stores/user/user_store.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/network/apis/account/account_api.dart';
 import '../../data/network/apis/reference/reference_api.dart';
 import '../../data/network/apis/users/user_api.dart';
 
@@ -45,6 +42,7 @@ Future<void> setupLocator() async {
   getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
   getIt.registerSingleton(UserApi(getIt<DioClient>(), getIt<RestClient>()));
   getIt.registerSingleton(ReferenceApi(getIt<DioClient>(), getIt<RestClient>()));
+  getIt.registerSingleton(AccountApi(getIt<DioClient>(), getIt<RestClient>()));
 
   // data sources
   getIt.registerSingleton(PostDataSource(await getIt.getAsync<Database>()));
@@ -56,6 +54,7 @@ Future<void> setupLocator() async {
     getIt<PostDataSource>(),
     getIt<UserApi>(),
     getIt<ReferenceApi>(),
+    getIt<AccountApi>(),
   ));
 
   // stores:--------------------------------------------------------------------

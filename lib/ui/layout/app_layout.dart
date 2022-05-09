@@ -10,18 +10,14 @@ import 'theme_button.dart';
 class AppLayout extends StatelessWidget {
 
   final String title;
-  final List<String>? errorList;
-  final List<dynamic>? errorStoreList;
   final Widget body;
   final String? route;
 
   const AppLayout({
     Key? key,
     required this.title,
-    this.errorList,
     required this.body,
-    this.route,
-    this.errorStoreList}) : super(key: key);
+    this.route}) : super(key: key);
 
 
   @override
@@ -51,21 +47,7 @@ class AppLayout extends StatelessWidget {
 
   // body methods:--------------------------------------------------------------
   Widget _buildBody(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        if(errorStoreList != null)
-          ...errorStoreList!.map((store) =>
-              Observer(
-                builder: (context) {
-                  final log = logger(AppLayout);
-                  log.i('_buildBody() store.errorStore.errorMessage = ${store.errorStore.errorMessage}');
-                  return displayErrorMessage(context, store.errorStore.errorMessage);
-                }
-              )
-          ).toList(),
-        body,
-      ],
-    );
+    return body;
   }
 
 }

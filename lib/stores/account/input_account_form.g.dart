@@ -15,24 +15,24 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
   bool get canSave => (_$canSaveComputed ??= Computed<bool>(() => super.canSave,
           name: '_InputAccountForm.canSave'))
       .value;
-  Computed<Map<String, dynamic>>? _$dataComputed;
+  Computed<AccountItem>? _$toAccountItemComputed;
 
   @override
-  Map<String, dynamic> get data =>
-      (_$dataComputed ??= Computed<Map<String, dynamic>>(() => super.data,
-              name: '_InputAccountForm.data'))
-          .value;
+  AccountItem get toAccountItem => (_$toAccountItemComputed ??=
+          Computed<AccountItem>(() => super.toAccountItem,
+              name: '_InputAccountForm.toAccountItem'))
+      .value;
 
   final _$accountTypeAtom = Atom(name: '_InputAccountForm.accountType');
 
   @override
-  String get accountType {
+  int get accountType {
     _$accountTypeAtom.reportRead();
     return super.accountType;
   }
 
   @override
-  set accountType(String value) {
+  set accountType(int value) {
     _$accountTypeAtom.reportWrite(value, super.accountType, () {
       super.accountType = value;
     });
@@ -72,7 +72,7 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
       ActionController(name: '_InputAccountForm');
 
   @override
-  void setAccountType(String value) {
+  void setAccountType(int value) {
     final _$actionInfo = _$_InputAccountFormActionController.startAction(
         name: '_InputAccountForm.setAccountType');
     try {
@@ -105,7 +105,7 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
   }
 
   @override
-  void validateAccountType(String value) {
+  void validateAccountType(int value) {
     final _$actionInfo = _$_InputAccountFormActionController.startAction(
         name: '_InputAccountForm.validateAccountType');
     try {
@@ -144,7 +144,7 @@ accountType: ${accountType},
 accountCode: ${accountCode},
 accountAmount: ${accountAmount},
 canSave: ${canSave},
-data: ${data}
+toAccountItem: ${toAccountItem}
     ''';
   }
 }

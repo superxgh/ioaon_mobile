@@ -81,6 +81,7 @@
   "Please fill in all fields": "Please fill in all fields",
   "Received invalid status code: 404": "Received invalid status code: 404",
   "Connection timeout with API server": "Connection timeout with API server",
+  "Connection to API server failed due to internet connection": "Connection to API server failed due to internet connection",
   "error_end": "-------------------------------------------------------------------------------------",
 
   "account_input_start": "Below are list of strings for account personal",

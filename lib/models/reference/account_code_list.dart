@@ -23,4 +23,25 @@ class AccountCodeList {
     );
   }
 
+  @override
+  String toString() {
+    String ret =   '\naccountCodes length = ${(accountCodes ?? []).length}';
+    (accountCodes ?? []).forEach((e) {
+      ret += '\n id = ${e.code},  nameTh = ${e.nameTh},  nameEn = ${e.nameEn}  ';
+    });
+    return ret;
+  }
+
+  List<Map<String,dynamic>> toDropDownList(String? language) {
+    List<Map<String,dynamic>> list = [];
+    if (accountCodes == null) return [];
+    list = accountCodes!
+        .map((e) => {
+          "code": e.code,
+          "name":  ((language ?? 'th_TH') == 'th_TH') ? e.nameTh : e.nameEn
+        }).toList();
+
+    return list;
+  }
+
 }

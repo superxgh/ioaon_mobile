@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:ioaon_mobile/stores/reference/reference_store.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
+import 'package:ioaon_mobile/widgets/progress_indicator_widget.dart';
 import 'package:provider/provider.dart';
 import '../../models/reference/account_type.dart';
 import '../../stores/user/user_store.dart';
@@ -36,12 +38,7 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
 
   TextEditingController _accAmountController = TextEditingController();
   InputAccountForm _formStore = InputAccountForm();
-  List<Map<String, dynamic>> accountList  = [
-    {"id": 1, "name": "เงินเดือน" },
-    {"id": 2, "name": "ค่ำน้ำ" },
-    {"id": 3, "name": "ค่ำไฟ" },
-    {"id": 4, "name": "ค่ำโทรศัพท์" },
-  ];
+  List<Map<String, dynamic>> accountList  = [];
 
   @override
   void initState() {
@@ -66,11 +63,29 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     log.w('load account type by language');
     log.w('language = ${AppLocalizations.of(context).locale}');
     log.w('accountTypeList = ${_referenceStore.accountTypeList}');
+    log.w('accountCodeList = ${_referenceStore.accountCodeList}');
 
 
 
   }
 
+  /*
+  return Stack(
+      children: <Widget>[
+        if(errorStoreList != null)
+          ...errorStoreList!.map((store) =>
+              Observer(
+                builder: (context) {
+                  final log = logger(AppLayout);
+                  log.i('_buildBody() store.errorStore.errorMessage = ${store.errorStore.errorMessage}');
+                  return displayErrorMessage(context, store.errorStore.errorMessage);
+                }
+              )
+          ).toList(),
+        body,
+      ],
+    );
+   */
   @override
   Widget build(BuildContext context) {
     log.i('build()');
@@ -78,8 +93,19 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_personal_label'),
-        errorList: [_accountStore.errorStore.errorMessage],
-        body: _buildBody()
+        body: Stack(
+          children: [
+            _buildBody(),
+            Observer(
+              builder: (context) {
+                return Visibility(
+                  visible: _accountStore.isLoading,
+                  child: CustomProgressIndicatorWidget(),
+                );
+              },
+            )
+          ],
+        )
     );
   }
 
@@ -97,34 +123,48 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
   Widget _buildInputForm() {
     log.i('_buildInputForm()');
     return CardWidget(
-      title: AppLocalizations.of(context).translate('account_input_form'),
-      child: Column(
-        children: [
-          _buildAccountType(),
-          _buildAccountCode(),
-          _buildAccountAmount()
-        ],
-      ),
-      onOkPressed: () {
-        log.w('_buildInputForm() onOkPressed');
-        log.w('_formStore.canSave = ${_formStore.canSave}');
-        if (_formStore.canSave) {
-          log.w('_formStore.data = ${_formStore.data}');
+          title: AppLocalizations.of(context).translate('account_input_form'),
+          child: Column(
+            children: [
+              _buildAccountType(),
+              _buildAccountCode(),
+              _buildAccountAmount()
+            ],
+          ),
+          onOkPressed: () async {
+            log.w('_buildInputForm() onOkPressed');
 
-        } else {
-          displayErrorMessage(context,'Please fill in all fields');
-        }
-      }
-    );
+            _formStore.validateAll();
+
+            log.w('error hasErrorsInForm = ${_formStore.formErrorStore.hasErrorsInForm}');
+            log.w('error accountType = ${_formStore.formErrorStore.accountType}');
+            log.w('error accountCode = ${_formStore.formErrorStore.accountCode}');
+            log.w('error accountAmount = ${_formStore.formErrorStore.accountAmount}');
+            log.w('_formStore.canSave = ${_formStore.canSave}');
+            log.w('_formStore.data = ${_formStore.toAccountItem}');
+
+            if (_formStore.canSave) {
+              await _accountStore.createAccountItem(AccountGroup.Personal, _formStore.toAccountItem)
+              .catchError((e) {
+                log.w('e = ${e.toString()}');
+                log.w('_accountStore.errorStore.errorMessage = ${_accountStore.errorStore.errorMessage}');
+                displayErrorMessage(context,_accountStore.errorStore.errorMessage);
+              });
+            } else {
+              displayErrorMessage(context,'Please fill in all fields');
+            }
+          }
+        );
   }
 
   Widget _buildAccountType() {
     log.i('_buildAccountType()');
     return RadioDisplayWidget(
-      initValue: _referenceStore.accountTypeList.accountTypes!.first,
+      // initValue: _referenceStore.accountTypeList.accountTypes!.first,
       list: _referenceStore.accountTypeList.accountTypes,
-      onChange: ( value) {
-        log.w('value = $value');
+      onChange: ( dynamic data) {
+        log.w('RadioDisplayWidget onChange data.id = ${data.id}');
+        _formStore.setAccountType(data.id);
       },
     );
   }
@@ -133,10 +173,10 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     log.i('_buildAccountType()');
     return DropdownWidget(
       label: AppLocalizations.of(context).translate('account_input_acc_type'),
-      list: accountList,
+      list: _referenceStore.accountCodeList.toDropDownList(AppLocalizations.of(context).locale.toString()),
       onChanged: (dynamic data) {
-        log.w('onChanged data = $data');
-        _formStore.setAccountCode(data['id']);
+        log.w('data = $data');
+        _formStore.setAccountCode(data['code']);
       },
       onEmptyActionPressed: (str) async {
         log.w('onEmptyActionPressed Create new _buildAccountType str = $str');

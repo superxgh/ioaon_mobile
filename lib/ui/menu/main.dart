@@ -39,9 +39,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     return AppLayout(
         title: AppLocalizations.of(context).translate('home_label'),
         body: _buildBody(),
-        errorStoreList: [
-          _userStore
-      ],
     );
   }
 

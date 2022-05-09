@@ -1,7 +1,7 @@
-import 'package:ioaon_mobile/stores/account/input_account_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
+import '../../models/reference/account_code_list.dart';
 import '../../models/reference/account_type_list.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../../utils/tools/logging.dart';
@@ -44,7 +44,8 @@ abstract class _ReferenceStore with Store {
   Future<void> _loadReferenceData() async {
     log.i('_loadReferenceData()');
 
-    await getAccountTypeList();
+    await getAccountTypes();
+    await getAccountCodes();
 
   }
 
@@ -64,15 +65,31 @@ abstract class _ReferenceStore with Store {
   @observable
   AccountTypeList accountTypeList = AccountTypeList.empty();
 
+  @observable
+  AccountCodeList accountCodeList = AccountCodeList.empty();
+
   // business logic:-------------------------------------------------------------------
   @action
-  Future getAccountTypeList() async {
-    log.i('>>>>> getAccountTypeList()');
+  Future getAccountTypes() async {
+    log.i('>>>>> getAccountTypes()');
     final future = _repository.getAccountTypes();
     fetchFuture = ObservableFuture(future);
     future.then((accountTypeList) {
       this.accountTypeList = accountTypeList;
       log.w('this.accountTypeList = ${this.accountTypeList}');
+    }).catchError((error) {
+      errorStore.errorMessage = DioErrorUtil.handleError(error);
+    });
+  }
+
+  @action
+  Future getAccountCodes() async {
+    log.i('>>>>> getAccountCodes()');
+    final future = _repository.getAccountCodes();
+    fetchFuture = ObservableFuture(future);
+    future.then((accountCodeList) {
+      this.accountCodeList = accountCodeList;
+      log.w('this.accountCodeList = ${this.accountCodeList}');
     }).catchError((error) {
       errorStore.errorMessage = DioErrorUtil.handleError(error);
     });

@@ -81,6 +81,7 @@
   "Please fill in all fields": "กรุณากรอกข้อมูลให้ครบ",
   "Received invalid status code: 404": "ได้รับข้อผิดพลาดรหัส 404",
   "Connection timeout with API server": "หมดกำหนดเวลาติดต่อ API Server",
+  "Connection to API server failed due to internet connection": "ไม่สามารถติดต่อ เซิรฟ์เวอร์ได้",
   "error_end": "-------------------------------------------------------------------------------------",
 
   "account_input_start": "Below are list of strings for account personal",
