@@ -6,10 +6,12 @@ import 'package:ioaon_mobile/models/post/post.dart';
 import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
 
+import '../models/reference/account_type_list.dart';
 import '../utils/tools/logging.dart';
 import '../models/user/user.dart';
 import 'local/constants/db_constants.dart';
 import 'network/apis/posts/post_api.dart';
+import 'network/apis/reference/reference_api.dart';
 import 'network/apis/users/user_api.dart';
 
 class Repository {
@@ -22,6 +24,7 @@ class Repository {
   // api objects
   final PostApi _postApi;
   final UserApi _userApi;
+  final ReferenceApi _referenceApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
@@ -31,7 +34,8 @@ class Repository {
       this._postApi,
       this._sharedPrefsHelper,
       this._postDataSource,
-      this._userApi);
+      this._userApi,
+      this._referenceApi);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
@@ -142,5 +146,23 @@ class Repository {
 
   // Private: -----------------------------------------------------------------
 
+  // Reference: -----------------------------------------------------------------
+  Future<AccountTypeList> getAccountTypes() async {
+    log.e('>>>> getAccountTypes()');
+    return await _referenceApi.getAccountTypes().then((res) {
+      // accountTypesList.accountTypes?.forEach((accountType) {
+      //   _accountTypeDataSource.insert(accountType);
+      // });
+      log.e('getAccountTypes() res = $res');
+      if (res.statusCode == 200) {
+        log.e('getAccountTypes() res[data] = ${res.data['data']}');
+        AccountTypeList accountTypeList = AccountTypeList.fromJson(res.data['data']);
+        log.e('getAccountTypes() accountTypeList = $accountTypeList');
+        return accountTypeList;  //res['data'];
+      } else {
+        throw Exception('Have no data.');
+      }
+    }).catchError((error) => throw error);
+  }
 
 }

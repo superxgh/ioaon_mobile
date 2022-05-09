@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
+import 'package:ioaon_mobile/stores/reference/reference_store.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:provider/provider.dart';
+import '../../models/reference/account_type.dart';
 import '../../stores/user/user_store.dart';
 import '../../utils/tools/logging.dart';
 import '../../stores/account/input_account_form.dart';
@@ -30,6 +32,7 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
   late AccountStore _accountStore;
   late ThemeStore _themeStore;
   late UserStore _userStore;
+  late ReferenceStore _referenceStore;
 
   TextEditingController _accAmountController = TextEditingController();
   InputAccountForm _formStore = InputAccountForm();
@@ -56,14 +59,14 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     _accountStore = Provider.of<AccountStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
     _userStore = Provider.of<UserStore>(context);
+    _referenceStore = Provider.of<ReferenceStore>(context);
 
     log.w('currentUser = ${_userStore.currentUser}');
 
     log.w('load account type by language');
     log.w('language = ${AppLocalizations.of(context).locale}');
+    log.w('accountTypeList = ${_referenceStore.accountTypeList}');
 
-    _formStore.setAccountType(AccountIEType.Income.name);
-    log.w('AccountIEType = ${_formStore.accountType}');
 
 
   }
@@ -104,11 +107,11 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
       ),
       onOkPressed: () {
         log.w('_buildInputForm() onOkPressed');
-        log.w('_buildInputForm() _formStore.canSave = ${_formStore.canSave}');
+        log.w('_formStore.canSave = ${_formStore.canSave}');
         if (_formStore.canSave) {
-          log.w('_buildInputForm() _formStore.data = ${_formStore.data}');
+          log.w('_formStore.data = ${_formStore.data}');
+
         } else {
-          log.w('_buildInputForm() _formStore.data = ${_formStore.data}');
           displayErrorMessage(context,'Please fill in all fields');
         }
       }
@@ -117,11 +120,11 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
 
   Widget _buildAccountType() {
     log.i('_buildAccountType()');
-    return RadioAccountIETypeWidget(
-      initValue: AccountIEType.Income,
-      onChange: (String value) {
+    return RadioDisplayWidget(
+      initValue: _referenceStore.accountTypeList.accountTypes!.first,
+      list: _referenceStore.accountTypeList.accountTypes,
+      onChange: ( value) {
         log.w('value = $value');
-        _formStore.setAccountType(value);
       },
     );
   }

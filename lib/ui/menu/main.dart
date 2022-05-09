@@ -7,6 +7,7 @@ import 'package:ioaon_mobile/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/utils/navigator/navigator_tools.dart';
 import 'package:provider/provider.dart';
+import '../../stores/user/user_store.dart';
 import '../../utils/tools/logging.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
 
@@ -18,6 +19,7 @@ class MainMenuScreen extends StatefulWidget {
 class _MainMenuScreenState extends State<MainMenuScreen> {
 
   final log = logger(MainMenuScreen);
+  late UserStore _userStore;
 
   @override
   void initState() {
@@ -28,6 +30,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     log.i('didChangeDependencies()');
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
@@ -35,7 +38,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     log.i('build()');
     return AppLayout(
         title: AppLocalizations.of(context).translate('home_label'),
-        body: _buildBody()
+        body: _buildBody(),
+        errorStoreList: [
+          _userStore
+      ],
     );
   }
 

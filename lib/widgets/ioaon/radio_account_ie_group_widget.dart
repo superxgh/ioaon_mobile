@@ -2,23 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
 
 import '../../utils/locale/app_localization.dart';
+import '../../utils/tools/logging.dart';
 
-class RadioAccountIETypeWidget extends StatefulWidget {
-  final AccountIEType? initValue;
-  final Function(String)? onChange;
+class RadioDisplayWidget<T> extends StatefulWidget {
+  final T? initValue;
+  final List<T>? list;
+  final Function(T)? onChange;
 
-  const RadioAccountIETypeWidget({Key? key, this.onChange, this.initValue}) : super(key: key);
+  const RadioDisplayWidget({
+    Key? key,
+    this.onChange,
+    this.initValue,
+    this.list}) : super(key: key);
 
   @override
-  State<RadioAccountIETypeWidget> createState() => _RadioAccountIETypeWidgetState();
+  State<RadioDisplayWidget> createState() => _RadioDisplayWidgetState();
 }
 
-class _RadioAccountIETypeWidgetState extends State<RadioAccountIETypeWidget> {
-  AccountIEType? _group;
+class _RadioDisplayWidgetState<T> extends State<RadioDisplayWidget> {
+  final log = logger(RadioDisplayWidget);
+  T? _group;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    log.w('>>>>> didChangeDependencies()');
+    log.w('widget.list = ${widget.list}');
 
     if (widget.initValue != null) _group = widget.initValue;
   }
@@ -28,16 +38,16 @@ class _RadioAccountIETypeWidgetState extends State<RadioAccountIETypeWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        ...AccountIEType.values
+        ...(widget.list ?? [])
             .map((e) => Expanded(
               flex: 1,
-              child: RadioListTile<AccountIEType>(
-                    title: Text(AppLocalizations.of(context).translate('common_${e.name.toLowerCase()}')),
+              child: RadioListTile<T>(
+                    title: Text(e.nameTh),
                     value: e,
                     groupValue: _group,
-                    onChanged: (AccountIEType? value) {
+                    onChanged: (T? value) {
                       if (widget.onChange != null && value != null) {
-                        widget.onChange!(value.name);
+                        widget.onChange!(value);
                       }
                       setState(() {
                         _group = value;

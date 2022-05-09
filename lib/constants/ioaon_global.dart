@@ -9,7 +9,6 @@ class Global {
 
 String myLogFileName = "MyLogFile";
 
-enum AccountIEType { Income, Expense }
 
 List<Map<String, dynamic>> mainMenu = [
   {"id": 1, "code": "home_account_label", "name": "Account", "route": Routes.accountMenu },

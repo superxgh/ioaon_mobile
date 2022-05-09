@@ -17,8 +17,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
+import '../stores/reference/reference_store.dart';
 import '../utils/tools/logging.dart';
 import '../stores/account/account_store.dart';
+import 'layout/display_text_message.dart';
 
 class MyApp extends StatelessWidget {
   final log = logger(MyApp);
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
   final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
   final UserStore _userStore = UserStore(getIt<Repository>());
   final AccountStore _accountStore = AccountStore(getIt<Repository>());
+  final ReferenceStore _referenceStore = ReferenceStore(getIt<Repository>());
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,7 @@ class MyApp extends StatelessWidget {
         Provider<LanguageStore>(create: (_) => _languageStore),
         Provider<AccountStore>(create: (_) => _accountStore),
         Provider<UserStore>(create: (_) => _userStore),
+        Provider<ReferenceStore>(create: (_) => _referenceStore),
       ],
       child: Observer(
         name: 'global-observer',
@@ -63,10 +67,32 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: _userStore.isLoggedIn ? MainMenuScreen() : SignInScreen(),
+            home: gotoTarget(
+                _userStore.isLoading,
+                _userStore.currentUser.mobileNumber,
+                _userStore.isLoggedIn)
           );
         },
       ),
     );
   }
+
+  Widget gotoTarget(bool isLoading, String? mobileNumber, bool isLoggedIn) {
+    log.i('gotoTarget()');
+    log.i('isLoading = $isLoading');
+    log.i('mobileNumber = $mobileNumber');
+    log.i('isLoggedIn = $isLoggedIn');
+
+    if (isLoading)
+      return DisplayTextScreen(text: 'Loading');
+    else if (mobileNumber == null)
+      return SignInScreen();
+    else if (mobileNumber == '')
+      return DisplayTextScreen(text: 'Can\'t connect to backend.', isShowLogo: true);
+    else if(isLoggedIn)
+      return  MainMenuScreen();
+    else
+      return SignInScreen();
+  }
+
 }

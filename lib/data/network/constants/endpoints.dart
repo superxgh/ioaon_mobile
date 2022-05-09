@@ -15,6 +15,9 @@ class Endpoints {
   static const String emailSignInUser = baseUrl + "/users/emailsignin";
   static const String getUserByAuthToken = baseUrl + "/users/authToken";
 
+  // reference
+  static const String getAccountTypeList = baseUrl + "/referenceData/getAllSmallAccountType";
+
   // booking endpoints
   static const String getPosts = baseUrl + "/posts";
 }

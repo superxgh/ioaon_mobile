@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../utils/errors/error_tools.dart';
 import '../../utils/navigator/navigator_tools.dart';
 import '../../utils/tools/logging.dart';
@@ -10,6 +11,7 @@ class AppLayout extends StatelessWidget {
 
   final String title;
   final List<String>? errorList;
+  final List<dynamic>? errorStoreList;
   final Widget body;
   final String? route;
 
@@ -18,7 +20,8 @@ class AppLayout extends StatelessWidget {
     required this.title,
     this.errorList,
     required this.body,
-    this.route}) : super(key: key);
+    this.route,
+    this.errorStoreList}) : super(key: key);
 
 
   @override
@@ -50,7 +53,16 @@ class AppLayout extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Stack(
       children: <Widget>[
-        if(errorList != null) ...errorList!.map((e) =>  displayErrorMessage(context, e)).toList(),
+        if(errorStoreList != null)
+          ...errorStoreList!.map((store) =>
+              Observer(
+                builder: (context) {
+                  final log = logger(AppLayout);
+                  log.i('_buildBody() store.errorStore.errorMessage = ${store.errorStore.errorMessage}');
+                  return displayErrorMessage(context, store.errorStore.errorMessage);
+                }
+              )
+          ).toList(),
         body,
       ],
     );
