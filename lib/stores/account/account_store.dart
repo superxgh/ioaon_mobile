@@ -57,17 +57,23 @@ abstract class _AccountStore with Store {
   @observable
   String userEmail = '';
 
+  @observable
+  int currentPage = 1;
+
+  @observable
+  bool nextPage = true;
+
   // business logic:-------------------------------------------------------------------
   @action
   Future<void> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
-    log.w('>>>>> addAccountItem()');
+    log.w('>>>>> createAccountItem()');
     log.w('accountGroup = $accountGroup');
     log.w('accountItem = $accountItem');
 
     final future = _repository.createAccountItem(accountGroup, accountItem);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
-      log.w('value = $value');
+      log.w('createAccountItem() value = $value');
       this.success = true;
     }).catchError((e) {
       log.e('createAccountItem() error = ${e.toString()}');
@@ -75,7 +81,27 @@ abstract class _AccountStore with Store {
       log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
       throw e;
     });
+  }
 
+  @action
+  Future<void> getAccountItemList({bool? first}) async {
+    log.w('>>>>> getAccountItemList()');
+    this.currentPage = (first ?? false) ? 1 : this.currentPage;
+    var data = {
+      "currentPage": this.currentPage,
+      "recordPerPage": recordPerPage,
+    };
+    final future = _repository.getAccountItemList(data);
+    fetchFuture = ObservableFuture(future);
+    await future.then((value) async {
+      log.w('getAccountItemList() value = $value');
+      this.success = true;
+    }).catchError((e) {
+      log.e('getAccountItemList() error = ${e.toString()}');
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+      log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
+      throw e;
+    });
   }
 
   // actions:-------------------------------------------------------------------

@@ -2,9 +2,12 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import '../../utils/tools/logging.dart';
+
 class DioClient {
   // dio instance
   final Dio _dio;
+  final log = logger(DioClient);
 
   // injecting dio instance
   DioClient(this._dio);
@@ -25,7 +28,7 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return response;
+      return responseFilter(response);
     } catch (e) {
       print(e.toString());
       throw e;
@@ -52,7 +55,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response;
+      return responseFilter(response);
     } catch (e) {
       throw e;
     }
@@ -78,7 +81,7 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return response;
+      return responseFilter(response);
     } catch (e) {
       throw e;
     }
@@ -102,9 +105,28 @@ class DioClient {
         options: options,
         cancelToken: cancelToken,
       );
-      return response;
+      return responseFilter(response);
     } catch (e) {
       throw e;
     }
   }
+
+  // Sender
+
+  dynamic responseFilter(Response response) {
+    try {
+      if (response.statusCode == 200 || response.statusCode == 201)
+        return response.data;
+      else
+        log.e('>>>>> responseFilter not 200 or 201');
+        log.e('response.statusCode = ${response.statusCode}');
+        log.e('response.data = ${response.data}');
+        log.e('response.statusMessage = ${response.statusMessage}');
+        throw Exception('has_error_${response.statusCode}_${response.statusMessage ?? ''}');
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 }

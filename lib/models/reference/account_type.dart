@@ -1,13 +1,15 @@
 class AccountType {
-  int? id;
-  String? nameTh;
-  String? nameEn;
+  int? _id;
+  String? _nameTh;
+  String? _nameEn;
 
   AccountType({
-    this.id,
-    this.nameTh,
-    this.nameEn,
-  });
+    required int? id,
+    required String? nameTh,
+    required String? nameEn,
+  })  : _id = id,
+        _nameTh = nameTh,
+        _nameEn = nameEn;
 
   factory AccountType.fromMap(Map<String, dynamic> json) => AccountType(
     id: json["id"],
@@ -16,9 +18,19 @@ class AccountType {
   );
 
   Map<String, dynamic> toMap() => {
-    "id": id,
-    "nameTh": nameTh,
-    "nameEn": nameEn,
+    "id": _id,
+    "nameTh": _nameTh,
+    "nameEn": _nameEn,
   };
 
+  int? get id => _id;
+
+  String? get nameEn => _nameEn;
+
+  String? get nameTh => _nameTh;
+
+  @override
+  String toString() {
+    return '\nAccountType{id: $_id, nameTh: $_nameTh, nameEn: $_nameEn}';
+  }
 }

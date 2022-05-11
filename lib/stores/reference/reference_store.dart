@@ -72,7 +72,7 @@ abstract class _ReferenceStore with Store {
   @action
   Future getAccountTypes() async {
     log.i('>>>>> getAccountTypes()');
-    final future = _repository.getAccountTypes();
+    final future = _repository.getAccountTypeList();
     fetchFuture = ObservableFuture(future);
     future.then((accountTypeList) {
       this.accountTypeList = accountTypeList;
@@ -85,7 +85,7 @@ abstract class _ReferenceStore with Store {
   @action
   Future getAccountCodes() async {
     log.i('>>>>> getAccountCodes()');
-    final future = _repository.getAccountCodes();
+    final future = _repository.getAccountCodeList();
     fetchFuture = ObservableFuture(future);
     future.then((accountCodeList) {
       this.accountCodeList = accountCodeList;

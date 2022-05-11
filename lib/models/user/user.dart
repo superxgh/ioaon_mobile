@@ -1,26 +1,33 @@
 
 class User {
-  String? fullName;
-  String? mobileNumber;
-  String? email;
-  String? password;
-  dynamic googleData;
-  dynamic facebookData;
-  String? role;
-  String? permissions;
-  String? authToken;
+  String? _fullName;
+  String? _mobileNumber;
+  String? _email;
+  String? _password;
+  dynamic _googleData;
+  dynamic _facebookData;
+  String? _role;
+  String? _permissions;
+  String? _authToken;
 
   User({
-    this.fullName,
-    this.mobileNumber,
-    this.email,
-    this.password,
-    this.googleData,
-    this.facebookData,
-    this.role,
-    this.permissions,
-    this.authToken
-  });
+    String? fullName,
+    String? mobileNumber,
+    String? email,
+    String? password,
+    dynamic googleData,
+    dynamic facebookData,
+    String? role,
+    String? permissions,
+    String? authToken,
+  })  : _fullName = fullName,
+        _mobileNumber = mobileNumber,
+        _email = email,
+        _googleData = googleData,
+        _facebookData = facebookData,
+        _role = role,
+        _permissions = permissions,
+        _authToken = authToken;
 
   factory User.empty() =>
       User(
@@ -56,26 +63,32 @@ class User {
 
   Map<String, dynamic> toCreateUserByEmailMap() =>
       {
-        "fullName": fullName,
-        "mobileNumber": mobileNumber,
-        "email": email,
-        "password": password
+        "fullName": _fullName,
+        "mobileNumber": _mobileNumber,
+        "email": _email,
+        "password": _password
       };
 
   @override
-  String toString() => '''
-  
-  User {
-    fullName: $fullName,
-    mobileNumber: $mobileNumber,
-    email: $email,
-    password: $password,
-    googleData: $googleData,
-    facebookData: $facebookData,
-    role: $role,
-    permissions: $permissions,
-    authToken: $authToken
+  String toString() {
+    return 'User{fullName: $_fullName, mobileNumber: $_mobileNumber, email: $_email, password: $_password, googleData: $_googleData, facebookData: $_facebookData, role: $_role, permissions: $_permissions, authToken: $_authToken}';
   }
-''';
 
+  String? get fullName => _fullName;
+
+  String? get authToken => _authToken;
+
+  String? get permissions => _permissions;
+
+  String? get role => _role;
+
+  dynamic get facebookData => _facebookData;
+
+  dynamic get googleData => _googleData;
+
+  String? get password => _password;
+
+  String? get email => _email;
+
+  String? get mobileNumber => _mobileNumber;
 }

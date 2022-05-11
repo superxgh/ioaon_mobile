@@ -2,11 +2,11 @@
 import 'account_code.dart';
 
 class AccountCodeList {
-  final List<AccountCode>? accountCodes;
+  final List<AccountCode>? _accountCodes;
 
   AccountCodeList({
-    this.accountCodes,
-  });
+    required List<AccountCode>? accountCodes,
+  }) : _accountCodes = accountCodes;
 
   factory AccountCodeList.fromJson(List<dynamic> json) {
     List<AccountCode> accountCodes = <AccountCode>[];
@@ -23,19 +23,12 @@ class AccountCodeList {
     );
   }
 
-  @override
-  String toString() {
-    String ret =   '\naccountCodes length = ${(accountCodes ?? []).length}';
-    (accountCodes ?? []).forEach((e) {
-      ret += '\n id = ${e.code},  nameTh = ${e.nameTh},  nameEn = ${e.nameEn}  ';
-    });
-    return ret;
-  }
+
 
   List<Map<String,dynamic>> toDropDownList(String? language) {
     List<Map<String,dynamic>> list = [];
-    if (accountCodes == null) return [];
-    list = accountCodes!
+    if (_accountCodes == null) return [];
+    list = _accountCodes!
         .map((e) => {
           "code": e.code,
           "name":  ((language ?? 'th_TH') == 'th_TH') ? e.nameTh : e.nameEn
@@ -44,4 +37,8 @@ class AccountCodeList {
     return list;
   }
 
+  @override
+  String toString() {
+    return 'AccountCodeList{_accountCodes: $_accountCodes}';
+  }
 }

@@ -9,6 +9,8 @@ class Global {
 
 String myLogFileName = "MyLogFile";
 
+int recordPerPage = 20;
+
 enum AccountGroup {Personal, Family, SmallBusiness}
 
 List<Map<String, dynamic>> mainMenu = [

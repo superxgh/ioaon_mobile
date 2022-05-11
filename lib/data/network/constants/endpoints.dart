@@ -20,7 +20,8 @@ class Endpoints {
   static const String getAccountCodes = baseUrl + "/referenceData/getAllSmallAccountCode";
 
   // account
-  static const String createAccountItem = baseUrl + "/accounts/";
+  static const String createAccountItem = baseUrl + "/accountData";
+  static const String getAccountItemList = baseUrl + "/accountData";
 
   // booking endpoints
   static const String getPosts = baseUrl + "/posts";

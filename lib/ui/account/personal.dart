@@ -65,6 +65,9 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     log.w('accountTypeList = ${_referenceStore.accountTypeList}');
     log.w('accountCodeList = ${_referenceStore.accountCodeList}');
 
+    // Get account data list
+    // _accountStore
+
 
 
   }

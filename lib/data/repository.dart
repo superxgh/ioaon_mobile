@@ -85,16 +85,9 @@ class Repository {
     log.e('>>>> Repository getUserByToken()');
 
     return await _userApi.getUserByToken().then((res) {
-      log.e('res = $res');
-      log.e('res.statusCode = ${res.statusCode}');
-      if (res.statusCode == 200) {
-        log.e('res[data] = ${res.data['data']}');
-        User user = User.fromBackEndUser(res.data['data']);
+        User user = User.fromBackEndUser(res['data']);
         log.e('user = $user');
         return user;  //res['data'];
-      } else {
-        throw Exception('Have no data.');
-      }
     }).catchError((error) {
       log.e('error = ${error.toString()}');
       throw error;
@@ -103,19 +96,10 @@ class Repository {
 
   Future<User> emailSignin(dynamic data) async {
     log.e('>>>> Repository emailSignin()');
-    log.e('data = $data');
-
     return await _userApi.emailSignIn(data).then((res) {
-      log.e('res = $res');
-      log.e('res.statusCode = ${res.statusCode}');
-      if (res.statusCode == 200) {
-        log.e('res[data] = ${res.data['data']}');
-        User user = User.fromBackEndUser(res.data['data']);
+        User user = User.fromBackEndUser(res['data']);
         log.e('user = $user');
         return user;  //res['data'];
-      } else {
-        throw Exception('Have no data.');
-      }
     }).catchError((error) {
       log.e('error = ${error.toString()}');
       throw error;
@@ -134,11 +118,23 @@ class Repository {
     log.e('>>>> createAccountItem()');
     log.e('accountGroup = $accountGroup');
     log.e('accountItem = $accountItem');
-    await _accountApi.createAccountItem(accountGroup, accountItem).then((res) {
-      log.e('res = $res');
-      return res;
+    return await _accountApi.createAccountItem(accountGroup, accountItem)
+        .then((res) {
+            AccountItem accountItem = AccountItem.fromMap(res['data']);
+            log.e('accountItem = $accountItem');
+            return accountItem;  //res['data'];
+        }).catchError((error) => throw error);
+  }
+
+  Future<AccountCodeList> getAccountItemList(dynamic data) async {
+    log.e('>>>> getAccountItemList()');
+    return await _accountApi.getAccountItemList(data).then((res) {
+        AccountCodeList accountCodeList = AccountCodeList.fromJson(res['data']);
+        log.e('getAccountItemList() accountCodeList = $accountCodeList');
+        return accountCodeList;  //res['data'];
     }).catchError((error) => throw error);
   }
+
 
   Future<void> saveIsLoggedIn(bool value) =>
       _sharedPrefsHelper.saveIsLoggedIn(value);
@@ -165,40 +161,23 @@ class Repository {
   // Private: -----------------------------------------------------------------
 
   // Reference: -----------------------------------------------------------------
-  Future<AccountTypeList> getAccountTypes() async {
+  Future<AccountTypeList> getAccountTypeList() async {
     log.e('>>>> getAccountTypes()');
-    return await _referenceApi.getAccountTypes().then((res) {
-      // accountTypesList.accountTypes?.forEach((accountType) {
-      //   _accountTypeDataSource.insert(accountType);
-      // });
-      log.e('getAccountTypes() res = $res');
-      if (res.statusCode == 200) {
-        log.e('getAccountTypes() res[data] = ${res.data['data']}');
-        AccountTypeList accountTypeList = AccountTypeList.fromJson(res.data['data']);
+    return await _referenceApi.getAccountTypeList().then((res) {
+        AccountTypeList accountTypeList = AccountTypeList.fromJson(res['data']);
         log.e('getAccountTypes() accountTypeList = $accountTypeList');
         return accountTypeList;  //res['data'];
-      } else {
-        throw Exception('Have no data.');
-      }
     }).catchError((error) => throw error);
   }
 
-  Future<AccountCodeList> getAccountCodes() async {
+  Future<AccountCodeList> getAccountCodeList() async {
     log.e('>>>> getAccountCodes()');
-    return await _referenceApi.getAccountCodes().then((res) {
-      // accountCodesList.accountCodes?.forEach((accountCode) {
-      //   _accountCodeDataSource.insert(accountCode);
-      // });
-      log.e('getAccountCodes() res = $res');
-      if (res.statusCode == 200) {
-        log.e('getAccountCodes() res[data] = ${res.data['data']}');
-        AccountCodeList accountCodeList = AccountCodeList.fromJson(res.data['data']);
+    return await _referenceApi.getAccountCodeList().then((res) {
+        AccountCodeList accountCodeList = AccountCodeList.fromJson(res['data']);
         log.e('getAccountCodes() accountCodeList = $accountCodeList');
         return accountCodeList;  //res['data'];
-      } else {
-        throw Exception('Have no data.');
-      }
     }).catchError((error) => throw error);
   }
+
 
 }

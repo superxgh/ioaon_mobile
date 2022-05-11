@@ -3,11 +3,11 @@
 import 'account_type.dart';
 
 class AccountTypeList {
-  final List<AccountType>? accountTypes;
+  List<AccountType>? _accountTypes;
 
   AccountTypeList({
-    this.accountTypes,
-  });
+    required List<AccountType>? accountTypes,
+  }) : _accountTypes = accountTypes;
 
   factory AccountTypeList.fromJson(List<dynamic> json) {
     List<AccountType> accountTypes = <AccountType>[];
@@ -26,11 +26,8 @@ class AccountTypeList {
 
   @override
   String toString() {
-    String ret =   '\naccountTypes length = ${(accountTypes ?? []).length}';
-    (accountTypes ?? []).forEach((e) {
-      ret += '\n id = ${e.id},  nameTh = ${e.nameTh},  nameEn = ${e.nameEn}  ';
-    });
-    return ret;
+    return 'AccountTypeList{accountTypes: $_accountTypes}';
   }
 
+  List<AccountType>? get accountTypes => _accountTypes;
 }

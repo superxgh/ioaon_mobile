@@ -24,16 +24,34 @@ class AccountApi {
   // injecting dio instance
   AccountApi(this._dioClient, this._restClient);
 
-  Future<bool> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
+  Future<dynamic> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
     log.w('createAccountItem()');
     try {
-      final res = await _dioClient.post(Endpoints.createAccountItem, data: {
-        "type": accountGroup.name,
-        "data": accountItem
-      });
+      var data = {
+        "group": accountGroup.name.toUpperCase(),
+        "smallAccountType": accountItem.type,
+        "smallAccountCode": accountItem.code,
+        "amount": accountItem.amount
+      };
+      log.w('data = $data');
+      final res = await _dioClient.post(Endpoints.createAccountItem, data: data);
+      log.w('res = $res');
       return res;
     } catch (e) {
       log.w('createAccountItem() error = ${e.toString()}');
+      throw e;
+    }
+  }
+
+ Future<dynamic> getAccountItemList(dynamic data) async {
+    log.w('getAccountItemList()');
+    try {
+      log.w('data = $data');
+      final res = await _dioClient.get('${Endpoints.getAccountItemList}/${data.currentPage}/${data.recordPerPage}');
+      log.w('res = $res');
+      return res;
+    } catch (e) {
+      log.w('getAccountItemList() error = ${e.toString()}');
       throw e;
     }
   }
