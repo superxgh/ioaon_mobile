@@ -158,7 +158,7 @@ class Repository {
 
   String? get currentLanguage => _sharedPrefsHelper.currentLanguage;
 
-  // Private: -----------------------------------------------------------------
+  // Private xxx -----------------------------------------------------------------
 
   // Reference: -----------------------------------------------------------------
   Future<AccountTypeList> getAccountTypeList() async {
