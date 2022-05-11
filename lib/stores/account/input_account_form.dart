@@ -1,19 +1,21 @@
+import 'package:ioaon_mobile/constants/ioaon_global.dart';
 import 'package:mobx/mobx.dart';
 import '../../models/account/account.dart';
+import '../../utils/tools/date_time.dart';
 import '../error/error_store.dart';
 
 part 'input_account_form.g.dart';
 
-class InputAccountForm = _InputAccountForm with _$InputAccountForm;
+class InputIEAccountForm = _InputIEAccountForm with _$InputIEAccountForm;
 
-abstract class _InputAccountForm with Store {
+abstract class _InputIEAccountForm with Store {
   // store for handling form errors
   final FormErrorStore formErrorStore = FormErrorStore();
 
   // store for handling error messages
   final ErrorStore errorStore = ErrorStore();
 
-  _InputAccountForm() {
+  _InputIEAccountForm() {
     _setupValidations();
   }
 
@@ -37,15 +39,21 @@ abstract class _InputAccountForm with Store {
   @observable
   double accountAmount = 0.0;
 
+  @observable
+  AccountGroup group = AccountGroup.Personal;
+
   @computed
   bool get canSave =>
       !formErrorStore.hasErrorsInForm && 0 < accountType && 0 < accountCode && 0.0 < accountAmount;
 
   @computed
   AccountItem get toAccountItem => AccountItem(
-    type: accountType,
-    code: accountCode,
-    amount: accountAmount
+      type: accountType,
+      code: accountCode,
+      amount: accountAmount,
+      group: group.name,
+      createDate: getCurrentDateTimeNow(),
+      status: AccountStatus.Created.name
   );
 
   // actions:-------------------------------------------------------------------

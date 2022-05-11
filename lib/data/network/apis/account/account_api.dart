@@ -44,10 +44,10 @@ class AccountApi {
   }
 
  Future<dynamic> getAccountItemList(dynamic data) async {
-    log.w('getAccountItemList()');
+    log.w('>>>>> getAccountItemList()');
     try {
       log.w('data = $data');
-      final res = await _dioClient.get('${Endpoints.getAccountItemList}/${data.currentPage}/${data.recordPerPage}');
+      final res = await _dioClient.get('${Endpoints.getAccountItemList}/${data['group']}/${data['currentPage']}/${data['recordPerPage']}');
       log.w('res = $res');
       return res;
     } catch (e) {

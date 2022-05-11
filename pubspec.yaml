@@ -66,6 +66,7 @@ dependencies:
   google_fonts: ^2.3.2
   date_time_format: ^2.0.1
   uuid: ^3.0.6
+  loadmore: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -62,6 +62,51 @@ mixin _$AccountStore on _AccountStore, Store {
     });
   }
 
+  final _$currentPageAtom = Atom(name: '_AccountStore.currentPage');
+
+  @override
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
+  }
+
+  @override
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
+    });
+  }
+
+  final _$nextPageAtom = Atom(name: '_AccountStore.nextPage');
+
+  @override
+  bool get nextPage {
+    _$nextPageAtom.reportRead();
+    return super.nextPage;
+  }
+
+  @override
+  set nextPage(bool value) {
+    _$nextPageAtom.reportWrite(value, super.nextPage, () {
+      super.nextPage = value;
+    });
+  }
+
+  final _$accountItemListAtom = Atom(name: '_AccountStore.accountItemList');
+
+  @override
+  ObservableList<AccountItem> get accountItemList {
+    _$accountItemListAtom.reportRead();
+    return super.accountItemList;
+  }
+
+  @override
+  set accountItemList(ObservableList<AccountItem> value) {
+    _$accountItemListAtom.reportWrite(value, super.accountItemList, () {
+      super.accountItemList = value;
+    });
+  }
+
   final _$createAccountItemAsyncAction =
       AsyncAction('_AccountStore.createAccountItem');
 
@@ -70,6 +115,15 @@ mixin _$AccountStore on _AccountStore, Store {
       AccountGroup accountGroup, AccountItem accountItem) {
     return _$createAccountItemAsyncAction
         .run(() => super.createAccountItem(accountGroup, accountItem));
+  }
+
+  final _$getAccountItemListAsyncAction =
+      AsyncAction('_AccountStore.getAccountItemList');
+
+  @override
+  Future<void> getAccountItemList({bool? first, required AccountGroup group}) {
+    return _$getAccountItemListAsyncAction
+        .run(() => super.getAccountItemList(first: first, group: group));
   }
 
   final _$_AccountStoreActionController =
@@ -92,6 +146,9 @@ mixin _$AccountStore on _AccountStore, Store {
 success: ${success},
 fetchFuture: ${fetchFuture},
 userEmail: ${userEmail},
+currentPage: ${currentPage},
+nextPage: ${nextPage},
+accountItemList: ${accountItemList},
 isLoading: ${isLoading}
     ''';
   }

@@ -16,6 +16,6 @@ class CustomerPrinter extends LogPrinter {
     final color = PrettyPrinter.levelColors[event.level];
     final emoji = PrettyPrinter.levelEmojis[event.level];
     final message = event.message;
-    return [color!('${getCurrentDateTimeNow()} $emoji $className: $message')];
+    return [color!('${getCurrentDateTxtTimeNow()} $emoji $className: $message')];
   }
 }

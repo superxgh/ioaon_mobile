@@ -12,6 +12,7 @@ String myLogFileName = "MyLogFile";
 int recordPerPage = 20;
 
 enum AccountGroup {Personal, Family, SmallBusiness}
+enum AccountStatus {Created, Updated, Delete}
 
 List<Map<String, dynamic>> mainMenu = [
   {"id": 1, "code": "home_account_label", "name": "Account", "route": Routes.accountMenu },

@@ -8,6 +8,7 @@ import 'package:sembast/sembast.dart';
 
 import '../constants/ioaon_global.dart';
 import '../models/account/account.dart';
+import '../models/account/account_list.dart';
 import '../models/reference/account_code_list.dart';
 import '../models/reference/account_type_list.dart';
 import '../utils/tools/logging.dart';
@@ -126,12 +127,14 @@ class Repository {
         }).catchError((error) => throw error);
   }
 
-  Future<AccountCodeList> getAccountItemList(dynamic data) async {
+  Future<List<AccountItem>> getAccountItemList(dynamic data) async {
     log.e('>>>> getAccountItemList()');
+    log.e('getAccountItemList() data = $data');
     return await _accountApi.getAccountItemList(data).then((res) {
-        AccountCodeList accountCodeList = AccountCodeList.fromJson(res['data']);
-        log.e('getAccountItemList() accountCodeList = $accountCodeList');
-        return accountCodeList;  //res['data'];
+        log.e('getAccountItemList() res[data] = ${res['data']}');
+        List<AccountItem> accountItemList = List.from(res['data']).map((e) => AccountItem.fromMap(e)).toList();
+        log.e('getAccountItemList() accountItemList = $accountItemList');
+        return accountItemList;  //res['data'];
     }).catchError((error) => throw error);
   }
 

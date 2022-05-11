@@ -4,6 +4,7 @@ import 'package:ioaon_mobile/stores/account/input_account_form.dart';
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
+import '../../models/account/account_list.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../../utils/tools/logging.dart';
 
@@ -63,6 +64,10 @@ abstract class _AccountStore with Store {
   @observable
   bool nextPage = true;
 
+  @observable
+  ObservableList<AccountItem> accountItemList = ObservableList.of([]);
+
+
   // business logic:-------------------------------------------------------------------
   @action
   Future<void> createAccountItem(AccountGroup accountGroup, AccountItem accountItem) async {
@@ -84,18 +89,28 @@ abstract class _AccountStore with Store {
   }
 
   @action
-  Future<void> getAccountItemList({bool? first}) async {
+  Future<void> getAccountItemList({bool? first, required AccountGroup group}) async {
     log.w('>>>>> getAccountItemList()');
-    this.currentPage = (first ?? false) ? 1 : this.currentPage;
+    if (first ?? false) {
+      this.nextPage = true;
+      this.currentPage = 1;
+      this.accountItemList.clear();
+    } else {
+      this.currentPage += 1;
+    }
     var data = {
+      "group": group.name.toUpperCase(),
       "currentPage": this.currentPage,
       "recordPerPage": recordPerPage,
     };
+    log.w('getAccountItemList() data = $data');
     final future = _repository.getAccountItemList(data);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
       log.w('getAccountItemList() value = $value');
-      this.success = true;
+      if (value.length < recordPerPage)
+          this.nextPage = false;
+      this.accountItemList.addAll(value);
     }).catchError((e) {
       log.e('getAccountItemList() error = ${e.toString()}');
       errorStore.errorMessage = DioErrorUtil.handleError(e);

@@ -26,7 +26,7 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
   late AccountStore _accountStore;
   late ThemeStore _themeStore;
   TextEditingController _accAmountController = TextEditingController();
-  InputAccountForm _formStore = InputAccountForm();
+  InputIEAccountForm _formStore = InputIEAccountForm();
 
   List<Map<String, dynamic>> accountList  = [
     {"id": 1, "name": "เงินเดือน" },
@@ -75,6 +75,7 @@ class _AccountBusinessScreenState extends State<AccountBusinessScreen> {
 
   Widget _buildInputForm() {
     return CardWidget(
+      isEnabledForm: true,
       onOkPressed: () {  },
       child: Column(
         children: [

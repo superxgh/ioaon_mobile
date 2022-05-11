@@ -24,6 +24,14 @@ or
 flutter packages pub run build_runner watch
 ```
 
+## Git error
+
+* How to fix Invocation failed Unexpected Response from Server: Unauthorized in Android studio
+
+Enabling credentials helper worked for me, using Android Studio 3.6.2 on Windows 10
+AndroidStudio -> File -> Settings -> Git ->  Use credential helper
+
+
 ## Hide Generated Files
 
 In-order to hide generated files, navigate to `Android Studio` -> `Preferences` -> `Editor` -> `File Types` and paste the below lines under `ignore files and folders` section:

@@ -1,21 +1,25 @@
 
 
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+
 import 'account.dart';
 
-class AccountList {
+class AccountItemList {
   List<AccountItem>? _accountItems;
 
 //<editor-fold desc="Data Methods">
 
 
-  AccountList({
+  AccountItemList({
     required List<AccountItem>? accountItems,
   }) : _accountItems = accountItems;
 
 // Ac@override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          (other is AccountList &&
+          (other is AccountItemList &&
               runtimeType == other.runtimeType &&
               _accountItems == other._accountItems
           );
@@ -34,10 +38,10 @@ class AccountList {
   }
 
 
-  AccountList copyWith({
+  AccountItemList copyWith({
     List<AccountItem>? accountItems,
   }) {
-    return AccountList(
+    return AccountItemList(
       accountItems: accountItems ?? this._accountItems,
     );
   }
@@ -49,12 +53,54 @@ class AccountList {
     };
   }
 
-  factory AccountList.fromMap(List<Map<String, dynamic>> map) {
+  factory AccountItemList.fromMap(List<dynamic> map) {
     List<AccountItem> accountItems = <AccountItem>[];
-    accountItems = map.map((accountItem) => AccountItem.fromMap(accountItem)).toList();
-    return AccountList(
-    accountItems: accountItems,
+    // log('map = ${map.length}');
+    accountItems = map.map((e) => AccountItem.fromMap(e)).toList();
+    // log('accountItems = ${accountItems.length}');
+    return AccountItemList(
+        accountItems: accountItems
     );
   }
+
+  factory AccountItemList.empty() {
+    return AccountItemList(
+        accountItems: []
+    );
+  }
+
+  List<AccountItem>? get accountItems => _accountItems;
+
+  List<DataColumn> get tableHeader => [
+    DataColumn(
+      label: Text(
+        'Date',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+    ),
+    DataColumn(
+      label: Text(
+        'Type',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+    ),
+    DataColumn(
+      label: Text(
+        'Code',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+    ),
+    DataColumn(
+      label: Text(
+        'Amount',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+    ),
+  ];
+
+  void append(AccountItemList accountItemList){
+    _accountItems!.addAll(accountItemList.accountItems!);
+  }
+
 
 }

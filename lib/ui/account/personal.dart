@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
-import 'package:ioaon_mobile/stores/reference/reference_store.dart';
-import 'package:ioaon_mobile/stores/theme/theme_store.dart';
-import 'package:ioaon_mobile/widgets/progress_indicator_widget.dart';
+import 'package:loadmore/loadmore.dart';
 import 'package:provider/provider.dart';
-import '../../models/reference/account_type.dart';
-import '../../stores/user/user_store.dart';
-import '../../utils/tools/logging.dart';
-import '../../stores/account/input_account_form.dart';
 import '../../stores/account/account_store.dart';
-import '../../utils/errors/error_tools.dart';
+import '../../utils/tools/logging.dart';
 import '../../utils/locale/app_localization.dart';
 import '../../utils/routes/routes.dart';
-import '../../widgets/ioaon/card_widget.dart';
-import '../../widgets/ioaon/dropdown_widget.dart';
-import '../../widgets/ioaon/radio_account_ie_group_widget.dart';
-import '../../widgets/ioaon/text_input_widget.dart';
+import '../../widgets/progress_indicator_widget.dart';
 import '../layout/app_layout.dart';
+import 'account_ie_input_form_widget.dart';
+import 'account_items_viewer_widget.dart';
 
 class AccountPersonalScreen extends StatefulWidget {
-
   const AccountPersonalScreen({Key? key}) : super(key: key);
 
   @override
@@ -28,190 +20,106 @@ class AccountPersonalScreen extends StatefulWidget {
 }
 
 class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
-
   final log = logger(AccountPersonalScreen);
-  
   late AccountStore _accountStore;
-  late ThemeStore _themeStore;
-  late UserStore _userStore;
-  late ReferenceStore _referenceStore;
-
-  TextEditingController _accAmountController = TextEditingController();
-  InputAccountForm _formStore = InputAccountForm();
-  List<Map<String, dynamic>> accountList  = [];
 
   @override
-  void initState() {
-    super.initState();
-    log.i('initState()');
-  }
-
-
-  @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    log.i('didChangeDependencies()');
-
-    // initializing stores
     _accountStore = Provider.of<AccountStore>(context);
-    _themeStore = Provider.of<ThemeStore>(context);
-    _userStore = Provider.of<UserStore>(context);
-    _referenceStore = Provider.of<ReferenceStore>(context);
 
-    log.w('currentUser = ${_userStore.currentUser}');
-
-    log.w('load account type by language');
-    log.w('language = ${AppLocalizations.of(context).locale}');
-    log.w('accountTypeList = ${_referenceStore.accountTypeList}');
-    log.w('accountCodeList = ${_referenceStore.accountCodeList}');
-
-    // Get account data list
-    // _accountStore
-
-
-
+    await _accountStore.getAccountItemList(first: true, group: AccountGroup.Personal);
+    log.w('accountItemList = ${_accountStore.accountItemList}');
   }
 
-  /*
-  return Stack(
-      children: <Widget>[
-        if(errorStoreList != null)
-          ...errorStoreList!.map((store) =>
-              Observer(
-                builder: (context) {
-                  final log = logger(AppLayout);
-                  log.i('_buildBody() store.errorStore.errorMessage = ${store.errorStore.errorMessage}');
-                  return displayErrorMessage(context, store.errorStore.errorMessage);
-                }
-              )
-          ).toList(),
-        body,
-      ],
-    );
-   */
   @override
   Widget build(BuildContext context) {
     log.i('build()');
-
     return AppLayout(
         route: Routes.accountMenu,
         title: AppLocalizations.of(context).translate('account_personal_label'),
         body: Stack(
           children: [
             _buildBody(),
-            Observer(
-              builder: (context) {
-                return Visibility(
-                  visible: _accountStore.isLoading,
-                  child: CustomProgressIndicatorWidget(),
-                );
-              },
-            )
+            // Observer(
+            //   builder: (context) {
+            //     return Visibility(
+            //       visible: _accountStore.isLoading,
+            //       child: CustomProgressIndicatorWidget(text: 'Connect to backend.',),
+            //     );
+            //   },
+            // )
           ],
         )
     );
   }
 
-
   Widget _buildBody() {
     log.i('_buildBody()');
-    return  Column(
-      children: [
-        _buildInputForm(),
-        _buildAccountList()
-      ],
+    return Container( //)SingleChildScrollView(
+      child: Column(
+        children: [
+          AccountIEInputFormWidget(),
+          _buildAccountItemList(),
+          // AccountItemViewerWidget(
+          //     tableHeader: _accountStore.accountItemList.tableHeader,
+          //     list: _accountStore.accountItemList.accountItems!
+          // )
+        ],
+      ),
     );
   }
 
-  Widget _buildInputForm() {
-    log.i('_buildInputForm()');
-    return CardWidget(
-          title: AppLocalizations.of(context).translate('account_input_form'),
-          child: Column(
-            children: [
-              _buildAccountType(),
-              _buildAccountCode(),
-              _buildAccountAmount()
-            ],
-          ),
-          onOkPressed: () async {
-            log.w('_buildInputForm() onOkPressed');
+  Future<void> load({bool? first}) async {
+    log.w(">>> load");
+      await _accountStore.getAccountItemList( first: first ?? false, group: AccountGroup.Personal);
+  }
 
-            _formStore.validateAll();
 
-            log.w('error hasErrorsInForm = ${_formStore.formErrorStore.hasErrorsInForm}');
-            log.w('error accountType = ${_formStore.formErrorStore.accountType}');
-            log.w('error accountCode = ${_formStore.formErrorStore.accountCode}');
-            log.w('error accountAmount = ${_formStore.formErrorStore.accountAmount}');
-            log.w('_formStore.canSave = ${_formStore.canSave}');
-            log.w('_formStore.data = ${_formStore.toAccountItem}');
+  Widget _buildAccountItemList() {
+    log.w('_buildAccountItemList()');
 
-            if (_formStore.canSave) {
-              await _accountStore.createAccountItem(AccountGroup.Personal, _formStore.toAccountItem)
-              .catchError((e) {
-                log.w('e = ${e.toString()}');
-                log.w('_accountStore.errorStore.errorMessage = ${_accountStore.errorStore.errorMessage}');
-                displayErrorMessage(context,_accountStore.errorStore.errorMessage);
-              });
-            } else {
-              displayErrorMessage(context,'Please fill in all fields');
-            }
+    return Observer(
+        builder: (_) {
+          return (_accountStore.accountItemList.length < 1 && _accountStore.isLoading)
+          ? Center(child: CircularProgressIndicator())
+          :Container(
+              height: 400.0,
+              child: RefreshIndicator(
+                child: ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    itemCount: _accountStore.accountItemList.length,
+                    itemBuilder: (_, int index) {
+                      log.w('index = $index, length = ${_accountStore.accountItemList.length}, nextPage = ${_accountStore.nextPage}');
+                      if ((index + 1) >= _accountStore.accountItemList.length && _accountStore.nextPage ) _loadMore();
+                      if (_accountStore.isLoading)
+                        return Center(child: CircularProgressIndicator());
+                      else if (_accountStore.accountItemList.length > 0)
+                        return Text('index = $index -> ${_accountStore.accountItemList[index].amount.toString()}',
+                                  style: TextStyle(
+                                      fontSize: 40.0
+                                  ),
+                                );
+                      else
+                        return Container();
+                    },
+                  ),
+                onRefresh: _refresh,
+              ),
+            );
           }
         );
   }
 
-  Widget _buildAccountType() {
-    log.i('_buildAccountType()');
-    return RadioDisplayWidget(
-      // initValue: _referenceStore.accountTypeList.accountTypes!.first,
-      list: _referenceStore.accountTypeList.accountTypes,
-      onChange: ( dynamic data) {
-        log.w('RadioDisplayWidget onChange data.id = ${data.id}');
-        _formStore.setAccountType(data.id);
-      },
-    );
+  Future<bool> _loadMore() async {
+    print("onLoadMore");
+    await Future.delayed(Duration(seconds: 0, milliseconds: 100));
+    load();
+    return true;
   }
 
-  Widget _buildAccountCode() {
-    log.i('_buildAccountType()');
-    return DropdownWidget(
-      label: AppLocalizations.of(context).translate('account_input_acc_type'),
-      list: _referenceStore.accountCodeList.toDropDownList(AppLocalizations.of(context).locale.toString()),
-      onChanged: (dynamic data) {
-        log.w('data = $data');
-        _formStore.setAccountCode(data['code']);
-      },
-      onEmptyActionPressed: (str) async {
-        log.w('onEmptyActionPressed Create new _buildAccountType str = $str');
-      },
-    );
+  Future<void> _refresh() async {
+    await Future.delayed(Duration(seconds: 0, milliseconds: 2000));
+    load(first: true);
   }
-
-
-  Widget _buildAccountAmount() {
-    log.i('_buildAccountAmount()');
-    return TextInputWidget(
-        hint: AppLocalizations.of(context).translate('account_input_acc_amount'),
-        inputType: TextInputType.number,
-        icon: Icons.attach_money,
-        isDarkMode: _themeStore.darkMode,
-        textController: _accAmountController,
-        inputAction: TextInputAction.next,
-        onChanged: (data) {
-          _formStore.setAccountAmount(double.parse('0'+data));
-        },
-        onFieldSubmitted: (value) {
-          // FocusScope.of(context).requestFocus(_passwordFocusNode);
-        },
-        errorText: ''); //_store.formErrorStore.userEmail);
-  }
-
-
-  Widget _buildAccountList() {
-    log.i('_buildAccountList()');
-    return Container(
-      child: Text('Account List'),
-    );
-  }
-
 }

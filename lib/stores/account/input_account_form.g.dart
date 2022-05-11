@@ -8,22 +8,22 @@ part of 'input_account_form.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$InputAccountForm on _InputAccountForm, Store {
+mixin _$InputIEAccountForm on _InputIEAccountForm, Store {
   Computed<bool>? _$canSaveComputed;
 
   @override
   bool get canSave => (_$canSaveComputed ??= Computed<bool>(() => super.canSave,
-          name: '_InputAccountForm.canSave'))
+          name: '_InputIEAccountForm.canSave'))
       .value;
   Computed<AccountItem>? _$toAccountItemComputed;
 
   @override
   AccountItem get toAccountItem => (_$toAccountItemComputed ??=
           Computed<AccountItem>(() => super.toAccountItem,
-              name: '_InputAccountForm.toAccountItem'))
+              name: '_InputIEAccountForm.toAccountItem'))
       .value;
 
-  final _$accountTypeAtom = Atom(name: '_InputAccountForm.accountType');
+  final _$accountTypeAtom = Atom(name: '_InputIEAccountForm.accountType');
 
   @override
   int get accountType {
@@ -38,7 +38,7 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
     });
   }
 
-  final _$accountCodeAtom = Atom(name: '_InputAccountForm.accountCode');
+  final _$accountCodeAtom = Atom(name: '_InputIEAccountForm.accountCode');
 
   @override
   int get accountCode {
@@ -53,7 +53,7 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
     });
   }
 
-  final _$accountAmountAtom = Atom(name: '_InputAccountForm.accountAmount');
+  final _$accountAmountAtom = Atom(name: '_InputIEAccountForm.accountAmount');
 
   @override
   double get accountAmount {
@@ -68,72 +68,87 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
     });
   }
 
-  final _$_InputAccountFormActionController =
-      ActionController(name: '_InputAccountForm');
+  final _$groupAtom = Atom(name: '_InputIEAccountForm.group');
+
+  @override
+  AccountGroup get group {
+    _$groupAtom.reportRead();
+    return super.group;
+  }
+
+  @override
+  set group(AccountGroup value) {
+    _$groupAtom.reportWrite(value, super.group, () {
+      super.group = value;
+    });
+  }
+
+  final _$_InputIEAccountFormActionController =
+      ActionController(name: '_InputIEAccountForm');
 
   @override
   void setAccountType(int value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.setAccountType');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.setAccountType');
     try {
       return super.setAccountType(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setAccountCode(int value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.setAccountCode');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.setAccountCode');
     try {
       return super.setAccountCode(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setAccountAmount(double value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.setAccountAmount');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.setAccountAmount');
     try {
       return super.setAccountAmount(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void validateAccountType(int value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.validateAccountType');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.validateAccountType');
     try {
       return super.validateAccountType(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void validateAccountCode(int value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.validateAccountCode');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.validateAccountCode');
     try {
       return super.validateAccountCode(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void validateAccountAmount(double value) {
-    final _$actionInfo = _$_InputAccountFormActionController.startAction(
-        name: '_InputAccountForm.validateAccountAmount');
+    final _$actionInfo = _$_InputIEAccountFormActionController.startAction(
+        name: '_InputIEAccountForm.validateAccountAmount');
     try {
       return super.validateAccountAmount(value);
     } finally {
-      _$_InputAccountFormActionController.endAction(_$actionInfo);
+      _$_InputIEAccountFormActionController.endAction(_$actionInfo);
     }
   }
 
@@ -143,6 +158,7 @@ mixin _$InputAccountForm on _InputAccountForm, Store {
 accountType: ${accountType},
 accountCode: ${accountCode},
 accountAmount: ${accountAmount},
+group: ${group},
 canSave: ${canSave},
 toAccountItem: ${toAccountItem}
     ''';

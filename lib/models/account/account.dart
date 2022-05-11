@@ -1,80 +1,118 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:ioaon_mobile/utils/tools/date_time.dart';
+
 class AccountItem {
-  int _type;
-  int _code;
-  double _amount;
+  String? _group;
+  int? _type;
+  int? _code;
+  double? _amount;
+  String? _status;
+  DateTime? _createDate;
 
 //<editor-fold desc="Data Methods">
 
   AccountItem({
-    required int type,
-    required int code,
-    required double amount,
-  })  : _type = type,
+    required String? group,
+    required int? type,
+    required int? code,
+    required double? amount,
+    required String? status,
+    required DateTime? createDate,
+  })  : _group = group,
+        _type = type,
         _code = code,
-        _amount = amount;
+        _amount = amount,
+        _status = status,
+        _createDate = createDate;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is AccountItem &&
           runtimeType == other.runtimeType &&
+          _group == other._group &&
           _type == other._type &&
           _code == other._code &&
-          _amount == other._amount);
+          _amount == other._amount &&
+          _status == other._status &&
+          _createDate == other._createDate);
 
   @override
-  int get hashCode => _type.hashCode ^ _code.hashCode ^ _amount.hashCode;
+  int get hashCode =>
+      _group.hashCode ^ _type.hashCode ^ _code.hashCode ^ _amount.hashCode ^ _status.hashCode ^ _createDate.hashCode;
 
   @override
   String toString() {
-    return 'AccountItem{' + ' type: $_type,' + ' code: $_code,' + ' amount: $_amount,' + '}';
+    return '\nAccountItem{' +
+        ' _group: $_group,' +
+        ' _type: $_type,' +
+        ' _code: $_code,' +
+        ' _amount: $_amount,' +
+        ' _status: $_status,' +
+        ' _createDate: $_createDate,' +
+        '}';
   }
 
   AccountItem copyWith({
+    String? group,
     int? type,
     int? code,
     double? amount,
+    String? status,
+    DateTime? createDate,
   }) {
     return AccountItem(
+      group: group ?? this._group,
       type: type ?? this._type,
       code: code ?? this._code,
       amount: amount ?? this._amount,
+      status: status ?? this._status,
+      createDate: createDate ?? this._createDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'type': this._type,
-      'code': this._code,
-      'amount': this._amount,
+      '_group': this._group,
+      '_type': this._type,
+      '_code': this._code,
+      '_amount': this._amount,
+      '_status': this._status,
+      '_createDate': this._createDate,
     };
   }
 
-  factory AccountItem.fromMap(Map<String, dynamic> map) {
+  factory AccountItem.fromMap(dynamic map) {
+    // log('AccountItem map = $map');
+    // log('AccountItem group = ${map['group']}');
+    // log('AccountItem smallAccountType = ${map['smallAccountType']}');
+    // log('AccountItem smallAccountCode = ${map['smallAccountCode']}');
+    // log('AccountItem amount = ${map['amount']}');
+    // log('AccountItem status = ${map['status']}');
+    // log('AccountItem createdAt = ${map['createdAt']}');
     return AccountItem(
-      type: map['type'] as int,
-      code: map['code'] as int,
-      amount: map['amount'] as double,
+      group: map['group'],
+      type: map['smallAccountType'],
+      code: map['smallAccountCode'],
+      amount: map['amount'].toDouble(),
+      status: map['status'],
+      createDate: strToDateTime(map['createdAt']),
     );
   }
 
-  int get type => _type;
+  String? get group => _group;
 
-  set type(int value) {
-    _type = value;
-  }
+  DateTime? get createDate => _createDate;
 
-  double get amount => _amount;
+  String? get status => _status;
 
-  set amount(double value) {
-    _amount = value;
-  }
+  double? get amount => _amount;
 
-  int get code => _code;
+  int? get code => _code;
 
-  set code(int value) {
-    _code = value;
-  }
+  int? get type => _type;
 
 //</editor-fold>
 }
