@@ -28,7 +28,7 @@ abstract class _ReferenceStore with Store {
     // setting up disposers
     _setupDisposers();
 
-    _loadReferenceData();
+    // _loadReferenceData();
 
   }
 
@@ -72,7 +72,7 @@ abstract class _ReferenceStore with Store {
   @action
   Future getAccountTypes() async {
     log.i('>>>>> getAccountTypes()');
-    final future = _repository.getAccountTypeList();
+    final future = _repository.getAccountTypes();
     fetchFuture = ObservableFuture(future);
     future.then((accountTypeList) {
       this.accountTypeList = accountTypeList;

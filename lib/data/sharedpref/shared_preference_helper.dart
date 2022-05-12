@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../utils/tools/logging.dart';
 import 'constants/preferences.dart';
 
 class SharedPreferenceHelper {
+  final log = logger(SharedPreferenceHelper);
   // shared pref instance
   final SharedPreferences _sharedPreference;
 
@@ -13,7 +15,8 @@ class SharedPreferenceHelper {
 
   // General Methods: ----------------------------------------------------------
   Future<String?> get authToken async {
-    return _sharedPreference.getString(Preferences.auth_token);
+    var res = _sharedPreference.getString(Preferences.auth_token);
+    return res;
   }
 
   Future<bool> saveAuthToken(String authToken) async {
@@ -26,7 +29,8 @@ class SharedPreferenceHelper {
 
   // Signin:---------------------------------------------------------------------
   Future<bool> get isLoggedIn async {
-    return _sharedPreference.getBool(Preferences.is_logged_in) ?? false;
+    var res = _sharedPreference.getBool(Preferences.is_logged_in) ?? false;
+    return res;
   }
 
   Future<bool> saveIsLoggedIn(bool value) async {

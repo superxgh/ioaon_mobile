@@ -22,17 +22,19 @@ class ReferenceApi {
   // injecting dio instance
   ReferenceApi(this._dioClient, this._restClient);
 
-  Future<dynamic> getAccountTypeList() async {
+  Future<dynamic> getAccountTypes() async {
+    log.w('getAccountTypes()');
     try {
       final res = await _dioClient.get(Endpoints.getAccountTypes);
+      log.w('res = $res');
       return res;
     } catch (e) {
-      print(e.toString());
+      log.w('d = ${e.toString()}');
       throw e;
     }
   }
 
-  Future<dynamic> getAccountCodeList() async {
+  Future<dynamic> getAccountCodes() async {
     try {
       final res = await _dioClient.get(Endpoints.getAccountCodes);
       return res;

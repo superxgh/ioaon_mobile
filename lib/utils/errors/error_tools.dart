@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../locale/app_localization.dart';
 
 Widget displayErrorMessage(BuildContext context, String? message) {
-    if((message ?? '') != '')
+    if((message ?? 'undefined') != '')
       FlushbarHelper.createError(
         message: AppLocalizations.of(context).translate(message!),
         title: AppLocalizations.of(context).translate('common_error'),

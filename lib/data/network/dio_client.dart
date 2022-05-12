@@ -28,9 +28,9 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      return responseFilter(response);
+      var res = responseFilter(response);
+      return res;
     } catch (e) {
-      print(e.toString());
       throw e;
     }
   }

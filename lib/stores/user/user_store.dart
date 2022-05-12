@@ -28,28 +28,17 @@ abstract class _UserStore with Store {
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
-    log.i('constructor()');
+    log.w('>>>>> constructor()');
     _setupDisposers();
-    repository.isLoggedIn.then((value) {
-      this.isLoggedIn = value;
-      if (this.isLoggedIn) {
-        repository.authToken.then((token) {
-          if((token ?? '') != '') {
-            this.authToken = token!;
-            _getUserByToken();
-          } else {
-            repository.saveIsLoggedIn(false);
-          }
-        });
-      }
-    });
+
+
   }
 
   // disposers:-----------------------------------------------------------------
   late List<ReactionDisposer> _disposers;
 
   void _setupDisposers() {
-    log.i('_setupDisposers');
+    log.w('>>>>> _setupDisposers()');
     _disposers = [
       reaction((_) => success, (_) => success = false, delay: 200),
     ];
@@ -70,14 +59,37 @@ abstract class _UserStore with Store {
 
   // actions:-------------------------------------------------------------------
   @action
-  Future<void> signup(User user) async {
-    log.i('signup()');
-    final future = _repository.signup(user);
+  Future<void> initIsLoggedInAndAuthToken() async {
+    log.w('>>>>> initIsLoggedInAndAuthToken()');
+    await _repository.isLoggedIn.then((value) async {
+      log.w('isLoggedIn = $value');
+      this.isLoggedIn = value;
+      if (this.isLoggedIn) {
+        await _repository.authToken.then((token) async {
+          log.w('token = $token');
+          if((token ?? '') != '') {
+            this.authToken = token!;
+            // _getUserByToken();
+          } else {
+            await _repository.saveIsLoggedIn(false);
+          }
+        })
+        .catchError((e) {
+          log.w('error = ${e.toString()}');
+        });
+      }
+    });
+  }
+
+  @action
+  Future<void> signup(dynamic data) async {
+    log.w('>>>>> signup()');
+    final future = _repository.signup(data);
     fetchFuture = ObservableFuture(future);
     await future.then((value) async {
-      log.w('signup value = $value');
+      log.w('value = $value');
       this.success = true;
-      log.w('signup() success = $success');
+      log.w('success = $success');
     }).catchError((e) {
       log.e(e.toString());
       errorStore.errorMessage = DioErrorUtil.handleError(e);
@@ -93,19 +105,19 @@ abstract class _UserStore with Store {
     final future = _repository.emailSignin(data);
     fetchFuture = ObservableFuture(future);
     await future.then((user) async {
-      // Set user to user in UserStore
+      // log.w('user = $user');
       this.currentUser = user;
-      _repository.saveIsLoggedIn(true);
-      _repository.saveAuthToken(this.currentUser.authToken!);
+      await _repository.saveIsLoggedIn(true);
+      await _repository.saveAuthToken(this.currentUser.authToken!);
       this.isLoggedIn = true;
       this.success = true;
-      log.w('this.currentUser = $this.currentUser');
+      log.w('this.currentUser = ${this.currentUser}');
       log.w('saveIsLoggedIn(true) , success = true');
-
-    }).catchError((e) {
+    }).catchError((e) async {
       this.isLoggedIn = false;
       this.success = false;
-      log.w('saveIsLoggedIn(true) , success = false');
+      await _repository.saveIsLoggedIn(false);
+      log.e('isLoggedIn = false , success = false');
       log.e(e.toString());
       errorStore.errorMessage = DioErrorUtil.handleError(e);
       log.e('errorStore.errorMessage = ${errorStore.errorMessage}');
@@ -114,12 +126,12 @@ abstract class _UserStore with Store {
   }
 
   void logout() {
-    log.i('logout()');
+    log.w('logout()');
     this.isLoggedIn = false;
     _repository.saveIsLoggedIn(false);
   }
 
-  Future<void> _getUserByToken() async {
+  Future<void> getUserByToken() async {
     log.w('>>>>> _getUserByToken()');
     log.w('this.isLoggedIn = ${this.isLoggedIn}');
     log.w('this.authToken = ${this.authToken}');
@@ -139,7 +151,7 @@ abstract class _UserStore with Store {
   }
   // general methods:-----------------------------------------------------------
   void dispose() {
-    log.i('dispose()');
+    log.w('dispose()');
     for (final d in _disposers) {
       d();
     }

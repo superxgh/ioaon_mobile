@@ -2,11 +2,15 @@ import 'package:ioaon_mobile/data/network/constants/endpoints.dart';
 import 'package:ioaon_mobile/data/sharedpref/shared_preference_helper.dart';
 import 'package:dio/dio.dart';
 
+import '../../utils/tools/logging.dart';
+
 abstract class NetworkModule {
   /// A singleton dio provider.
   ///
   /// Calling it multiple times will return the same instance.
   static Dio provideDio(SharedPreferenceHelper sharedPrefHelper) {
+    final log = logger(NetworkModule);
+    log.i('>>>>> provideDio()');
     final dio = Dio();
 
     dio
@@ -22,15 +26,16 @@ abstract class NetworkModule {
       ))
       ..interceptors.add(
         InterceptorsWrapper(
-          onRequest: (RequestOptions options,
-              RequestInterceptorHandler handler) async {
+          onRequest: (RequestOptions options, RequestInterceptorHandler handler) async {
+            log.e('onRequest()');
             // getting token
             var token = await sharedPrefHelper.authToken;
             // var token = "CREATE USER";
+            log.e('Auth token is $token');
             if (token != null) {
               options.headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
             } else {
-              print('Auth token is null');
+              log.e('Auth token is null');
             }
 
             return handler.next(options);

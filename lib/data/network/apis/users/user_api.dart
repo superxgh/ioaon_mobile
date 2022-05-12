@@ -22,9 +22,9 @@ class UserApi {
   // injecting dio instance
   UserApi(this._dioClient, this._restClient);
 
-  Future<bool> createUser(User user) async {
+  Future<dynamic> createUser(dynamic data) async {
     try {
-      final res = await _dioClient.post(Endpoints.createUser, data: user.toCreateUserByEmailMap());
+      final res = await _dioClient.post(Endpoints.createUser, data: data);
       return res;
     } catch (e) {
       print(e.toString());
@@ -33,6 +33,8 @@ class UserApi {
   }
 
   Future<dynamic> emailSignIn(data) async {
+    log.i('>>>>> emailSignIn()');
+    log.i('data = $data');
     try {
       final res = await _dioClient.post(Endpoints.emailSignInUser, data: data);
       log.i('res = $res');
@@ -44,12 +46,13 @@ class UserApi {
   }
 
   Future<dynamic> getUserByToken() async {
+    log.i('getUserByToken()');
     try {
       final res = await _dioClient.get(Endpoints.getUserByAuthToken);
       log.i('res = $res');
       return res;
     } catch (e) {
-      print(e.toString());
+      log.i('e = ${e.toString()}');
       throw e;
     }
   }

@@ -83,7 +83,9 @@ class Repository {
 
   // User:---------------------------------------------------------------------
   Future<User> getUserByToken() async {
-    log.e('>>>> Repository getUserByToken()');
+    log.e('>>>>> Repository getUserByToken()');
+    var token = await authToken;
+    log.e('authToken = $token');
 
     return await _userApi.getUserByToken().then((res) {
         User user = User.fromBackEndUser(res['data']);
@@ -96,7 +98,7 @@ class Repository {
   }
 
   Future<User> emailSignin(dynamic data) async {
-    log.e('>>>> Repository emailSignin()');
+    log.e('>>>>> emailSignin()');
     return await _userApi.emailSignIn(data).then((res) {
         User user = User.fromBackEndUser(res['data']);
         log.e('user = $user');
@@ -107,9 +109,9 @@ class Repository {
     });
   }
 
-  Future<bool> signup(User user) async {
-    return await _userApi.createUser(user).then((res) {
-      return true;
+  Future<dynamic> signup(dynamic data) async {
+    return await _userApi.createUser(data).then((data) {
+      return data;
     }).catchError((error) => throw error);
   }
 
@@ -164,9 +166,9 @@ class Repository {
   // Private xxx -----------------------------------------------------------------
 
   // Reference: -----------------------------------------------------------------
-  Future<AccountTypeList> getAccountTypeList() async {
+  Future<AccountTypeList> getAccountTypes() async {
     log.e('>>>> getAccountTypes()');
-    return await _referenceApi.getAccountTypeList().then((res) {
+    return await _referenceApi.getAccountTypes().then((res) {
         AccountTypeList accountTypeList = AccountTypeList.fromJson(res['data']);
         log.e('getAccountTypes() accountTypeList = $accountTypeList');
         return accountTypeList;  //res['data'];
@@ -175,7 +177,7 @@ class Repository {
 
   Future<AccountCodeList> getAccountCodeList() async {
     log.e('>>>> getAccountCodes()');
-    return await _referenceApi.getAccountCodeList().then((res) {
+    return await _referenceApi.getAccountCodes().then((res) {
         AccountCodeList accountCodeList = AccountCodeList.fromJson(res['data']);
         log.e('getAccountCodes() accountCodeList = $accountCodeList');
         return accountCodeList;  //res['data'];

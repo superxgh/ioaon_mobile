@@ -67,19 +67,6 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
     );
   }
 
-  Future<void> load(bool first) async {
-    log.w(">>> load");
-    await _accountStore.getAccountItemList(first: first, group: AccountGroup.Personal);
-  }
-
-  Widget itemViewer(int index) {
-    log.w(">>> itemViewer");
-    return Text(
-      '$index = ${_accountStore.accountItemList[index].amount.toString()}',
-      style: TextStyle(fontSize: 40.0),
-    );
-  }
-
   Widget _buildAccountItemList() {
     log.w('_buildAccountItemList()');
 
@@ -88,11 +75,26 @@ class _AccountPersonalScreenState extends State<AccountPersonalScreen> {
       log.w('_accountStore.isLoading = ${_accountStore.isLoading}');
       log.w('_accountStore.nextPage = ${_accountStore.nextPage}');
       return LoadMoreWidget(
-              loadMore: load,
+              loadMore: accountLoader,
               count: _accountStore.accountItemList.length,
               isLoading: _accountStore.isLoading,
               nextPage: _accountStore.nextPage,
-              itemViewer: itemViewer);
+              itemViewer: accountItemViewer);
     });
   }
+
+  Future<void> accountLoader(bool first) async {
+    log.w(">>> load");
+    await _accountStore.getAccountItemList(first: first, group: AccountGroup.Personal);
+  }
+
+  Widget accountItemViewer(int index) {
+    log.w(">>> itemViewer");
+    return Text(
+      '$index = ${_accountStore.accountItemList[index].amount.toString()}',
+      style: TextStyle(fontSize: 40.0),
+    );
+  }
+
+
 }

@@ -63,12 +63,15 @@ class _AccountMenuScreenState extends State<AccountMenuScreen> {
             crossAxisCount: 3,
           ),
           children: [
-            ...accountMenu.map((e) => MenuButton(
-                text: AppLocalizations.of(context).translate(e['code']),
-                onPressed: () {
-                  log.d('_buildBody() goto ${e['route']}');
-                  gotoRoute(context, e['route']);
-                })).toList()
+            ...accountMenu.map((e) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MenuButton(
+                  text: AppLocalizations.of(context).translate(e['code']),
+                  onPressed: () {
+                    log.d('_buildBody() goto ${e['route']}');
+                    gotoRoute(context, e['route']);
+                  }),
+            )).toList()
           ],
         );
   }

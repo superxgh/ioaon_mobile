@@ -41,4 +41,6 @@ class AccountCodeList {
   String toString() {
     return 'AccountCodeList{_accountCodes: $_accountCodes}';
   }
+
+  List<AccountCode>? get accountCodes => _accountCodes;
 }

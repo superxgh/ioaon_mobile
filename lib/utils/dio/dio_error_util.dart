@@ -4,7 +4,7 @@ class DioErrorUtil {
   // general methods:------------------------------------------------------------
   static String handleError(DioError error) {
     String errorDescription = "";
-    if (error is DioError) {
+    // if (error is DioError) {
       switch (error.type) {
         case DioErrorType.cancel:
           errorDescription = "Request to API server was cancelled";
@@ -27,9 +27,9 @@ class DioErrorUtil {
           errorDescription = "Send timeout in connection with API server";
           break;
       }
-    } else {
-      errorDescription = "Unexpected error occured";
-    }
+    // } else {
+    //   errorDescription = "Unexpected error occurred";
+    // }
     return errorDescription;
   }
 }

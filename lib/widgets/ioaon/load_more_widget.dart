@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/errors/error_tools.dart';
 import '../../utils/tools/logging.dart';
 
 class LoadMoreWidget extends StatelessWidget {
@@ -15,6 +16,7 @@ class LoadMoreWidget extends StatelessWidget {
     required this.nextPage, 
     required this.isLoading,
     required this.loadMore,
+
     required this.itemViewer}) : super(key: key);
   
   
@@ -23,7 +25,7 @@ class LoadMoreWidget extends StatelessWidget {
     final log = logger(LoadMoreWidget);
     log.w('count = $count, isLoading = $isLoading');
     return Container(
-                height: 400.0,
+                  height: 400.0 ,
                   child: Stack(
                     children: [
                       (count < 1 && isLoading)
@@ -34,21 +36,14 @@ class LoadMoreWidget extends StatelessWidget {
                         itemBuilder: (_, int index) {
 
                           if ((index + 1) >= count && nextPage && isLoading == false ) _loadMore();
-                          // if (isLoading) {
-                          //   log.w('index = $index, length = $count, nextPage = $nextPage, isLoading = $isLoading');
-                          //   // return Center(child:  CircularProgressIndicator());
-                          //   return Container();
-                          // } else
-                            if (count > 0)
+                          if (count > 0) {
                             return itemViewer(index);
-                          else
+                          } else {
                             return Container();
+                          }
                         },
                       ),
-
-                      // loadmin
                       if (count > 1 && isLoading) Center(child: CircularProgressIndicator())
-
                     ],
                   ),
               );

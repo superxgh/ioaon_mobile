@@ -61,7 +61,7 @@ class User {
           password: json["password"]
       );
 
-  Map<String, dynamic> toCreateUserByEmailMap() =>
+  dynamic toCreateUserByEmailMap() =>
       {
         "fullName": _fullName,
         "mobileNumber": _mobileNumber,

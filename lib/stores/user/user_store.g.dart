@@ -61,11 +61,20 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  final _$initIsLoggedInAndAuthTokenAsyncAction =
+      AsyncAction('_UserStore.initIsLoggedInAndAuthToken');
+
+  @override
+  Future<void> initIsLoggedInAndAuthToken() {
+    return _$initIsLoggedInAndAuthTokenAsyncAction
+        .run(() => super.initIsLoggedInAndAuthToken());
+  }
+
   final _$signupAsyncAction = AsyncAction('_UserStore.signup');
 
   @override
-  Future<void> signup(User user) {
-    return _$signupAsyncAction.run(() => super.signup(user));
+  Future<void> signup(dynamic data) {
+    return _$signupAsyncAction.run(() => super.signup(data));
   }
 
   final _$signinAsyncAction = AsyncAction('_UserStore.signin');

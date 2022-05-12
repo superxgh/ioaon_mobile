@@ -263,7 +263,7 @@ class _SignUpScreenState extends State<SignUpScreen>  {
               log.d('_form.userData = ${_form.userData}');
               User user = User.fromCreateUserByEmailMap(_form.userData);
               log.d('user.toCreateUserByEmailMap() = ${user.toCreateUserByEmailMap()}');
-              await _userStore.signup(user).catchError((e) {
+              await _userStore.signup(user.toCreateUserByEmailMap()).catchError((e) {
                 displayErrorMessage(context, _userStore.errorStore.errorMessage);
               });
             } else {
