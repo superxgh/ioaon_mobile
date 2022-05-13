@@ -31,13 +31,11 @@ abstract class NetworkModule {
             // getting token
             var token = await sharedPrefHelper.authToken;
             // var token = "CREATE USER";
-            log.e('Auth token is $token');
+
             if (token != null) {
               options.headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
-            } else {
-              log.e('Auth token is null');
             }
-
+            log.e('token =  $token');
             return handler.next(options);
           },
         ),

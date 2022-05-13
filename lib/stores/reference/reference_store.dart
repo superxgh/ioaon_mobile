@@ -1,8 +1,8 @@
 import 'package:ioaon_mobile/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
 import '../../data/repository.dart';
-import '../../models/reference/account_code_list.dart';
-import '../../models/reference/account_type_list.dart';
+import '../../models/reference/account_code.dart';
+import '../../models/reference/account_type.dart';
 import '../../utils/dio/dio_error_util.dart';
 import '../../utils/tools/logging.dart';
 
@@ -28,8 +28,6 @@ abstract class _ReferenceStore with Store {
     // setting up disposers
     _setupDisposers();
 
-    // _loadReferenceData();
-
   }
 
   // disposers:-----------------------------------------------------------------
@@ -41,13 +39,6 @@ abstract class _ReferenceStore with Store {
     ];
   }
 
-  Future<void> _loadReferenceData() async {
-    log.i('_loadReferenceData()');
-
-    await getAccountTypes();
-    await getAccountCodes();
-
-  }
 
   // empty responses:-----------------------------------------------------------
   static ObservableFuture<dynamic> emptySigninResponse = ObservableFuture.value(null);
@@ -63,18 +54,18 @@ abstract class _ReferenceStore with Store {
   bool get isLoading => fetchFuture.status == FutureStatus.pending;
 
   @observable
-  AccountTypeList accountTypeList = AccountTypeList.empty();
+  List<AccountType> accountTypeList = [];
 
   @observable
-  AccountCodeList accountCodeList = AccountCodeList.empty();
+  List<AccountCode> accountCodeList = [];
 
   // business logic:-------------------------------------------------------------------
   @action
-  Future getAccountTypes() async {
-    log.i('>>>>> getAccountTypes()');
-    final future = _repository.getAccountTypes();
+  Future<void> getAccountTypeList() async {
+    log.i('>>>>> getAccountTypeList()');
+    final future = _repository.getAccountTypeList();
     fetchFuture = ObservableFuture(future);
-    future.then((accountTypeList) {
+    await future.then((accountTypeList) {
       this.accountTypeList = accountTypeList;
       log.w('this.accountTypeList = ${this.accountTypeList}');
     }).catchError((error) {
@@ -83,11 +74,11 @@ abstract class _ReferenceStore with Store {
   }
 
   @action
-  Future getAccountCodes() async {
-    log.i('>>>>> getAccountCodes()');
+  Future<void> getAccountCodeList() async {
+    log.i('>>>>> getAccountCodeList()');
     final future = _repository.getAccountCodeList();
     fetchFuture = ObservableFuture(future);
-    future.then((accountCodeList) {
+    await future.then((accountCodeList) {
       this.accountCodeList = accountCodeList;
       log.w('this.accountCodeList = ${this.accountCodeList}');
     }).catchError((error) {

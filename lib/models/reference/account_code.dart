@@ -23,6 +23,14 @@ class AccountCode {
     "nameEn": _nameEn,
   };
 
+  Map<String, dynamic> toDropdown(String? language) => {
+    "code": _code,
+    "name":  ((language ?? 'th_TH') == 'th_TH') ? _nameTh : _nameEn
+  };
+
+
+
+
   int? get code => _code;
 
   String? get nameEn => _nameEn;

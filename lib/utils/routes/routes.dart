@@ -3,14 +3,14 @@ import 'package:ioaon_mobile/ui/account/family.dart';
 import 'package:ioaon_mobile/ui/account/personal.dart';
 import 'package:ioaon_mobile/ui/menu/account.dart';
 import 'package:ioaon_mobile/ui/menu/main.dart';
-import 'package:ioaon_mobile/ui/setting/user/user.dart';
-import 'package:ioaon_mobile/ui/setting/user/forgot_password.dart';
-import 'package:ioaon_mobile/ui/setting/user/signin.dart';
+import 'package:ioaon_mobile/ui/system/user/user.dart';
+import 'package:ioaon_mobile/ui/system/user/forgot_password.dart';
+import 'package:ioaon_mobile/ui/system/user/signin.dart';
 import 'package:ioaon_mobile/ui/splash.dart';
 import 'package:flutter/material.dart';
 
 import '../../ui/menu/setting.dart';
-import '../../ui/setting/user/signup.dart';
+import '../../ui/system/user/signup.dart';
 
 class Routes {
   Routes._();

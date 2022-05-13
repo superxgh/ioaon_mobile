@@ -5,12 +5,10 @@ import 'package:ioaon_mobile/data/sharedpref/shared_preference_helper.dart';
 import 'package:ioaon_mobile/models/post/post.dart';
 import 'package:ioaon_mobile/models/post/post_list.dart';
 import 'package:sembast/sembast.dart';
-
 import '../constants/ioaon_global.dart';
 import '../models/account/account.dart';
-import '../models/account/account_list.dart';
-import '../models/reference/account_code_list.dart';
-import '../models/reference/account_type_list.dart';
+import '../models/reference/account_code.dart';
+import '../models/reference/account_type.dart';
 import '../utils/tools/logging.dart';
 import '../models/user/user.dart';
 import 'local/constants/db_constants.dart';
@@ -166,20 +164,20 @@ class Repository {
   // Private xxx -----------------------------------------------------------------
 
   // Reference: -----------------------------------------------------------------
-  Future<AccountTypeList> getAccountTypes() async {
-    log.e('>>>> getAccountTypes()');
-    return await _referenceApi.getAccountTypes().then((res) {
-        AccountTypeList accountTypeList = AccountTypeList.fromJson(res['data']);
-        log.e('getAccountTypes() accountTypeList = $accountTypeList');
+  Future<List<AccountType>> getAccountTypeList() async {
+    log.e('>>>> getAccountTypeList()');
+    return await _referenceApi.getAccountTypeList().then((res) {
+      List<AccountType> accountTypeList = List.from(res['data']).map((e) => AccountType.fromMap(e)).toList();
+        log.e('accountTypeList = $accountTypeList');
         return accountTypeList;  //res['data'];
     }).catchError((error) => throw error);
   }
 
-  Future<AccountCodeList> getAccountCodeList() async {
-    log.e('>>>> getAccountCodes()');
-    return await _referenceApi.getAccountCodes().then((res) {
-        AccountCodeList accountCodeList = AccountCodeList.fromJson(res['data']);
-        log.e('getAccountCodes() accountCodeList = $accountCodeList');
+  Future<List<AccountCode>> getAccountCodeList() async {
+    log.e('>>>> getAccountCodeList()');
+    return await _referenceApi.getAccountCodeList().then((res) {
+      List<AccountCode> accountCodeList = List.from(res).map((e) => AccountCode.fromMap(e)).toList();
+        log.e('accountCodeList = $accountCodeList');
         return accountCodeList;  //res['data'];
     }).catchError((error) => throw error);
   }

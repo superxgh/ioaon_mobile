@@ -21,6 +21,11 @@ class DioClient {
         ProgressCallback? onReceiveProgress,
       }) async {
     try {
+      log.i('>>>>> get()');
+      log.i('uri = $uri');
+      log.i('queryParameters = $queryParameters');
+      log.i('options = $options');
+      log.i('cancelToken = $cancelToken');
       final Response response = await _dio.get(
         uri,
         queryParameters: queryParameters,
@@ -28,7 +33,9 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+      log.i('response = $response');
       var res = responseFilter(response);
+      log.i('res = $res');
       return res;
     } catch (e) {
       throw e;
@@ -81,7 +88,8 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      return responseFilter(response);
+      var res = responseFilter(response);
+      return res;
     } catch (e) {
       throw e;
     }

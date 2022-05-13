@@ -15,21 +15,13 @@ void main() {
   late final UserStore _userStore;
 
   setUp(() async {
-    // Set shared preferences variable
-    // SharedPreferences pref = await SharedPreferences.getInstance();
-    // pref.setBool(Preferences.is_logged_in, true);
-    // pref.setString(Preferences.auth_token, "847db030-92b3-4db7-8bf7-9206b2d37e53");
 
     // Set getit
     await GetIt.I.reset();
     getIt = await regisGetIt();
     _userStore = UserStore(getIt<Repository>());
-  });
+    _referenceStore = ReferenceStore(getIt<Repository>());
 
-  test('SignUp user -> Should have to success', () async {
-    var data = {"fullName": 'mr.b', "mobileNumber": '0901238001', "email": 'b@b.com', "password": "123456"};
-    await _userStore.signup(data);
-    expect(true, _userStore.success);
   });
 
   test('SignIn user -> Should have to success', () async {
@@ -38,9 +30,16 @@ void main() {
     expect(true, 0 < (_userStore.currentUser.authToken ?? '').length);
   });
 
-  test('Get getUserByToken -> Should have authToken', () async {
-    await _userStore.initIsLoggedInAndAuthToken();
-    await _userStore.getUserByToken();
-    expect(true, 0 < (_userStore.currentUser.authToken ?? '').length);
+  test('getAccountTypeList -> Should have authToken', () async {
+    await _referenceStore.getAccountTypeList();
+    expect(true, 0 < _referenceStore.accountTypeList.length);
   });
+
+  test('getAccountCodeList -> Should have authToken', () async {
+    await _referenceStore.getAccountCodeList();
+    expect(true, 0 < _referenceStore.accountCodeList.length);
+  });
+
+
+
 }

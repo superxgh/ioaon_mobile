@@ -50,13 +50,13 @@ mixin _$ReferenceStore on _ReferenceStore, Store {
   final _$accountTypeListAtom = Atom(name: '_ReferenceStore.accountTypeList');
 
   @override
-  AccountTypeList get accountTypeList {
+  List<AccountType> get accountTypeList {
     _$accountTypeListAtom.reportRead();
     return super.accountTypeList;
   }
 
   @override
-  set accountTypeList(AccountTypeList value) {
+  set accountTypeList(List<AccountType> value) {
     _$accountTypeListAtom.reportWrite(value, super.accountTypeList, () {
       super.accountTypeList = value;
     });
@@ -65,32 +65,34 @@ mixin _$ReferenceStore on _ReferenceStore, Store {
   final _$accountCodeListAtom = Atom(name: '_ReferenceStore.accountCodeList');
 
   @override
-  AccountCodeList get accountCodeList {
+  List<AccountCode> get accountCodeList {
     _$accountCodeListAtom.reportRead();
     return super.accountCodeList;
   }
 
   @override
-  set accountCodeList(AccountCodeList value) {
+  set accountCodeList(List<AccountCode> value) {
     _$accountCodeListAtom.reportWrite(value, super.accountCodeList, () {
       super.accountCodeList = value;
     });
   }
 
-  final _$getAccountTypesAsyncAction =
-      AsyncAction('_ReferenceStore.getAccountTypes');
+  final _$getAccountTypeListAsyncAction =
+      AsyncAction('_ReferenceStore.getAccountTypeList');
 
   @override
-  Future<dynamic> getAccountTypes() {
-    return _$getAccountTypesAsyncAction.run(() => super.getAccountTypes());
+  Future<void> getAccountTypeList() {
+    return _$getAccountTypeListAsyncAction
+        .run(() => super.getAccountTypeList());
   }
 
-  final _$getAccountCodesAsyncAction =
-      AsyncAction('_ReferenceStore.getAccountCodes');
+  final _$getAccountCodeListAsyncAction =
+      AsyncAction('_ReferenceStore.getAccountCodeList');
 
   @override
-  Future<dynamic> getAccountCodes() {
-    return _$getAccountCodesAsyncAction.run(() => super.getAccountCodes());
+  Future<void> getAccountCodeList() {
+    return _$getAccountCodeListAsyncAction
+        .run(() => super.getAccountCodeList());
   }
 
   @override

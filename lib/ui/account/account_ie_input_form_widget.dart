@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/ioaon_global.dart';
+import '../../models/reference/account_code.dart';
 import '../../stores/account/account_store.dart';
 import '../../stores/account/input_account_form.dart';
 import '../../stores/reference/reference_store.dart';
@@ -90,7 +91,7 @@ class _AccountIEInputFormWidgetState extends State<AccountIEInputFormWidget> {
     log.i('_buildAccountType()');
     return RadioDisplayWidget(
       // initValue: _referenceStore.accountTypeList.accountTypes!.first,
-      list: _referenceStore.accountTypeList.accountTypes,
+      list: _referenceStore.accountTypeList,
       onChange: ( dynamic data) {
         log.w('RadioDisplayWidget onChange data.id = ${data.id}');
         _formStore.setAccountType(data.id);
@@ -100,9 +101,11 @@ class _AccountIEInputFormWidgetState extends State<AccountIEInputFormWidget> {
 
   Widget _buildAccountCode() {
     log.i('_buildAccountType()');
+    String language = AppLocalizations.of(context).locale.toString();
+    List<Map<String,dynamic>> ddList = _referenceStore.accountCodeList.map((e) => e.toDropdown(language)).toList();
     return DropdownWidget(
       label: AppLocalizations.of(context).translate('account_input_acc_type'),
-      list: _referenceStore.accountCodeList.toDropDownList(AppLocalizations.of(context).locale.toString()),
+      list: ddList,
       onChanged: (dynamic data) {
         log.w('data = $data');
         _formStore.setAccountCode(data['code']);
