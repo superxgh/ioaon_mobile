@@ -52,4 +52,25 @@ class Routes {
 }
 
 
+Route<dynamic>? routeSettings(RouteSettings settings) {
 
+  if (settings.name == Routes.mainMenu) {
+    // Cast the arguments to the correct
+    // type: ScreenArguments.
+    final args = settings.arguments as MainMenuScreenArguments;
+
+    // Then, extract the required data from
+    // the arguments and pass the data to the
+    // correct screen.
+    return MaterialPageRoute(
+      builder: (context) {
+        return MainMenuScreen(
+          title: args.title,
+        );
+      },
+    );
+  }
+
+  return null;
+
+}

@@ -1,39 +1,49 @@
-import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ioaon_mobile/constants/app_theme.dart';
 import 'package:ioaon_mobile/constants/strings.dart';
 import 'package:ioaon_mobile/data/repository.dart';
-import 'package:ioaon_mobile/di/components/service_locator.dart';
+import 'package:ioaon_mobile/data/sharedpref/constants/preferences.dart';
+import 'package:ioaon_mobile/stores/account/account_store.dart';
 import 'package:ioaon_mobile/stores/language/language_store.dart';
 import 'package:ioaon_mobile/stores/post/post_store.dart';
+import 'package:ioaon_mobile/stores/reference/reference_store.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:ioaon_mobile/stores/user/user_store.dart';
-import 'package:ioaon_mobile/ui/menu/main.dart';
 import 'package:ioaon_mobile/ui/system/user/signin.dart';
 import 'package:ioaon_mobile/utils/locale/app_localization.dart';
 import 'package:ioaon_mobile/utils/routes/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../stores/reference/reference_store.dart';
-import '../utils/tools/logging.dart';
-import '../stores/account/account_store.dart';
-import 'layout/display_text_message.dart';
+import '../global_function.dart';
 
-class MyApp extends StatelessWidget {
-  final log = logger(MyApp);
-  final ThemeStore _themeStore = ThemeStore(getIt<Repository>());
-  final PostStore _postStore = PostStore(getIt<Repository>());
-  final LanguageStore _languageStore = LanguageStore(getIt<Repository>());
-  final UserStore _userStore = UserStore(getIt<Repository>());
-  final AccountStore _accountStore = AccountStore(getIt<Repository>());
-  final ReferenceStore _referenceStore = ReferenceStore(getIt<Repository>());
+void main() {
+  // This method provided by `flutter_test` is called before each test.
+  var getIt;
+  late ReferenceStore _referenceStore;
+  late UserStore _userStore;
+  late ThemeStore _themeStore;
+  late PostStore _postStore;
+  late LanguageStore _languageStore;
+  late AccountStore _accountStore;
 
-  @override
-  Widget build(BuildContext context) {
-    log.i('build()');
+  setUp(() async {
+    // Set getit
+    await GetIt.I.reset();
+    getIt = await regisGetIt();
+    _userStore = UserStore(getIt<Repository>());
+    _themeStore = ThemeStore(getIt<Repository>());
+    _postStore = PostStore(getIt<Repository>());
+    _languageStore = LanguageStore(getIt<Repository>());
+    _accountStore = AccountStore(getIt<Repository>());
+    _referenceStore = ReferenceStore(getIt<Repository>());
+  });
+
+  Widget makeTestableWidget({ required Widget child }) {
     return MultiProvider(
       providers: [
         Provider<ThemeStore>(create: (_) => _themeStore),
@@ -43,11 +53,8 @@ class MyApp extends StatelessWidget {
         Provider<UserStore>(create: (_) => _userStore),
         Provider<ReferenceStore>(create: (_) => _referenceStore),
       ],
-      child: Observer(
-        name: 'global-observer',
-        builder: (context) {
-          return MaterialApp(
-            onGenerateRoute: routeSettings ,
+      child: Builder(
+        builder: (_) => MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
             theme: _themeStore.darkMode
@@ -68,32 +75,28 @@ class MyApp extends StatelessWidget {
               // Built-in localization of basic text for Cupertino widgets
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: gotoTarget(
-                _userStore.isLoading,
-                _userStore.currentUser.mobileNumber,
-                _userStore.isLoggedIn)
-          );
-        },
+            home: child
+        ),
       ),
     );
-  }
+  };
 
-  Widget gotoTarget(bool isLoading, String? mobileNumber, bool isLoggedIn) {
-    log.i('gotoTarget()');
-    log.i('isLoading = $isLoading');
-    log.i('mobileNumber = $mobileNumber');
-    log.i('isLoggedIn = $isLoggedIn');
 
-    if (isLoading)
-      return DisplayTextScreen(text: 'Loading');
-    else if (mobileNumber == null)
-      return SignInScreen();
-    else if (mobileNumber == '')
-      return DisplayTextScreen(text: 'Can\'t connect to backend.', isShowLogo: true);
-    else if(isLoggedIn)
-      return  MainMenuScreen();
-    else
-      return SignInScreen();
-  }
+  testWidgets('Display SignInScreen -> Should have to success', (WidgetTester tester) async {
+    await tester.pumpWidget(makeTestableWidget(child: SignInScreen(key: Key('K'))));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(Key('K')), findsOneWidget);
+    expect(find.byKey(Key('user_email')), findsOneWidget);
+
+  });
+
+
+  test('SignIn user -> Should have to success', () async {
+    var data = {"email": 'a@a.com', "password": '123456'};
+    await _userStore.signin(data);
+    expect(true, 0 < (_userStore.currentUser.authToken ?? '').length);
+  });
+
 
 }

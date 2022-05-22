@@ -1,5 +1,6 @@
 import 'package:ioaon_mobile/data/sharedpref/constants/preferences.dart';
 import 'package:ioaon_mobile/stores/user/user_store.dart';
+import 'package:ioaon_mobile/ui/menu/main.dart';
 import 'package:ioaon_mobile/utils/navigator/navigator_tools.dart';
 import 'package:ioaon_mobile/utils/routes/routes.dart';
 import 'package:ioaon_mobile/stores/theme/theme_store.dart';
@@ -21,12 +22,22 @@ import '../../../widgets/ioaon/ioaon_logo.dart';
 import '../../../widgets/progress_indicator_widget.dart';
 
 class SignInScreen extends StatefulWidget {
+
+  final log = logger(SignInScreen);
+  
+  SignInScreen({Key? key}): super(key: key) {
+    log.w('>>>>> Constructor');
+    log.w('key = $key');
+  }
+
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _SignInScreenState createState() {
+    log.w('>>>>> createState()');
+    return _SignInScreenState();
+  }
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final log = logger(SignInScreen);
   //text controllers:-----------------------------------------------------------
   TextEditingController _userEmailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -44,13 +55,13 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    log.i('initState()');
+    widget.log.i('initState()');
     _passwordFocusNode = FocusNode();
   }
 
   @override
   void didChangeDependencies() {
-    log.i('didChangeDependencies()');
+    widget.log.i('didChangeDependencies()');
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
     _userStore = Provider.of<UserStore>(context);
@@ -58,7 +69,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log.i('build()');
+    widget.log.i('build()');
     return Scaffold(
       primary: true,
       appBar: EmptyAppBar(),
@@ -68,7 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   // body methods:--------------------------------------------------------------
   Widget _buildBody() {
-    log.i('_buildBody()');
+    widget.log.i('_buildBody()');
     return Material(
       child: Stack(
         children: <Widget>[
@@ -94,7 +105,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildMobileLayout() {
-    log.i('_buildMobileLayout()');
+    widget.log.i('_buildMobileLayout()');
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -126,10 +137,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildUserIdField() {
-    log.i('_buildUserIdField()');
+    widget.log.i('_buildUserIdField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
+              key: Key('input_user_email'),
               hint: AppLocalizations.of(context).translate('signin_et_user_email'),
               inputType: TextInputType.emailAddress,
               icon: Icons.person,
@@ -148,10 +160,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildPasswordField() {
-    log.i('_buildPasswordField()');
+    widget.log.i('_buildPasswordField()');
     return Observer(
       builder: (context) {
         return TextInputWidget(
+            key: Key('input_user_password'),
             hint: AppLocalizations.of(context).translate('signin_et_user_password'),
             inputType: TextInputType.emailAddress,
             icon: Icons.lock,
@@ -168,8 +181,9 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildSignUpButton() {
-    log.i('_buildSignUpButton()');
+    widget.log.i('_buildSignUpButton()');
     return TextLinkWidget(
+        key: Key('link_signup'),
         text: AppLocalizations.of(context).translate('signin_btn_signup'),
         alignment: FractionalOffset.center,
         onPressed: () {
@@ -179,8 +193,9 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildForgotPasswordButton() {
-    log.i('_buildForgotPasswordButton()');
+    widget.log.i('_buildForgotPasswordButton()');
     return TextLinkWidget(
+        key: Key('link_password'),
         text: AppLocalizations.of(context).translate('signin_btn_forgot_password'),
         alignment: FractionalOffset.center,
         onPressed: () {
@@ -190,21 +205,22 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildSignInButton() {
-    log.i('_buildSignInButton()');
+    widget.log.i('_buildSignInButton()');
     return ButtonOkWidget(
+      key: Key('button_signin'),
       text: AppLocalizations.of(context).translate('signin_btn_sign_in'),
       onPressed: () async {
         // gotoRoute(context, Routes.mainMenu);
-        log.w('_buildSignInButton() _form.canSignin = ${_form.canSignin}');
+        widget.log.w('_buildSignInButton() _form.canSignin = ${_form.canSignin}');
         if (_form.canSignin) {
           DeviceUtils.hideKeyboard(context);
-          log.w('_buildSignInButton() _form.userEmailAndPassword = ${_form.userEmailAndPassword}');
+          widget.log.w('_buildSignInButton() _form.userEmailAndPassword = ${_form.userEmailAndPassword}');
           await _userStore.signin(_form.userEmailAndPassword)
               .then((res) {
-                log.w('_buildSignInButton() signin - success');
+                widget.log.w('_buildSignInButton() signin - success');
               })
               .catchError((e) {
-                log.w('_buildSignInButton() error = ${_userStore.errorStore.errorMessage}');
+                widget.log.w('_buildSignInButton() error = ${_userStore.errorStore.errorMessage}');
                 displayErrorMessage(context,_userStore.errorStore.errorMessage);
               });
         } else {
@@ -215,8 +231,9 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildGoogleSignInButton() {
-    log.i('_buildGoogleSignInButton()');
+    widget.log.i('_buildGoogleSignInButton()');
     return ButtonOkWidget(
+      key: Key('button_google_signin'),
       text: AppLocalizations.of(context).translate('common_google'),
       onPressed: () async {
         if (_form.canSignin) {
@@ -230,8 +247,9 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildFacebookSignInButton() {
-    log.i('_buildFacebookSignInButton()');
+    widget.log.i('_buildFacebookSignInButton()');
     return ButtonOkWidget(
+      key: Key('button_facebook_signin'),
       text: AppLocalizations.of(context).translate('common_facebook'),
       onPressed: () async {
         if (_form.canSignin) {
@@ -245,15 +263,17 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget navigate(BuildContext context) {
-    log.i('navigate()');
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
-    });
+    widget.log.i('navigate()');
+    // SharedPreferences.getInstance().then((prefs) {
+    //   prefs.setBool(Preferences.is_logged_in, true);
+    // });
 
-    log.w('goto main menu');
+    widget.log.w('goto main menu');
     Future.delayed(Duration(milliseconds: 0), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.mainMenu, (Route<dynamic> route) => false);
+          Routes.mainMenu,
+          (Route<dynamic> route) => false,
+          arguments: MainMenuScreenArguments.name(title: "Test argument"));
     });
 
     return Container();

@@ -12,9 +12,9 @@ class Endpoints {
   static const int connectionTimeout = 30000;
 
   // users
-  static const String createUser = baseUrl + "/users";
-  static const String emailSignInUser = baseUrl + "/users/emailsignin";
-  static const String getUserByAuthToken = baseUrl + "/users/authToken";
+  static const String createUser = baseUrl + "/api/v1/users";
+  static const String emailSignInUser = baseUrl + "/api/v1/users/emailsignin";
+  static const String getUserByAuthToken = baseUrl + "/api/v1/users/authToken";
 
   // reference
   static const String getAccountTypes = baseUrl + "/referenceData/getAllSmallAccountType";

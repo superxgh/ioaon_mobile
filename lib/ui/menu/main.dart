@@ -1,7 +1,4 @@
 import 'package:ioaon_mobile/constants/ioaon_global.dart';
-import 'package:ioaon_mobile/stores/language/language_store.dart';
-import 'package:ioaon_mobile/stores/post/post_store.dart';
-import 'package:ioaon_mobile/stores/theme/theme_store.dart';
 import 'package:ioaon_mobile/ui/layout/app_layout.dart';
 import 'package:ioaon_mobile/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +8,22 @@ import '../../stores/user/user_store.dart';
 import '../../utils/tools/logging.dart';
 import '../../widgets/ioaon/button/menu_button.dart';
 
+class MainMenuScreenArguments {
+  late String title;
+
+  MainMenuScreenArguments.name({
+    required this.title
+  });
+}
+
+
 class MainMenuScreen extends StatefulWidget {
+  final String? title;
+
+  const MainMenuScreen({
+    Key? key,
+    this.title}) : super(key: key);
+
   @override
   _MainMenuScreenState createState() => _MainMenuScreenState();
 }
@@ -19,7 +31,6 @@ class MainMenuScreen extends StatefulWidget {
 class _MainMenuScreenState extends State<MainMenuScreen> {
 
   final log = logger(MainMenuScreen);
-  late UserStore _userStore;
 
   @override
   void initState() {
@@ -30,7 +41,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     log.i('didChangeDependencies()');
-    _userStore = Provider.of<UserStore>(context);
+    log.i('title = ${widget.title}');
   }
 
   @override
